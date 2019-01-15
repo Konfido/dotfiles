@@ -1,0 +1,471 @@
+{:templates {:launch "osascript -e 'tell application \"Alfred 3\" to run trigger \"launch%s\" in workflow \"yqrashawn.workflow.launcher\" with argument \"\"'"
+             :alf "osascript -e 'tell application \"Alfred 3\" to run trigger \"%s\" in workflow \"%s\" with argument \"\"'"
+             :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
+             :2do "open 'twodo://x-callback-url/%s'"
+             :kb-maestro "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
+             :open "open \"%s\""}
+ :layers {:space-mode {:key :spacebar :afterup [{:set ["space-mode" 0]}]}
+         ;:tab-mode {:key :tab :afterup [{:set ["chunkwm-move-mode" 0]}
+          ;                               {:set ["chunkwm-scale-mode" 0]}]}
+          ;:chunkwm-move-mode {:key :f :condi :tab-mode}
+          ;:chunkwm-scale-mode {:key :c :condi :tab-mode}
+          ;:chunkwm-insert-mode {:key :i :condi :tab-mode}
+          ;:period-mode {:key :period :afterup {:set ["period-comma-mode" 0]}}}
+          ;:caps_lock-mode {:key :caps_lock :afterup ["caps_lock-mode" 0]}
+          :symbol-mode {:key :period}}
+
+ :simlayers {:launch-mode {:key :w}
+             :hyper-mode {:key :q}
+             :vi-mode {:key :v}
+             :caps_lock-mode {:key :caps_lock}
+             ;:vi-visual-mode {:key :v :condi :!vim-mode-disabled-application}
+             ;:capital-mode {:key :semicolon}
+             :i-mode {:key :i :condi [:!space-mode]}      ; avoid influence the reaction speed under mouse-mode
+             :alfred-mode {:key :z}
+
+             :2do-mode {:key :t}
+             :2do-space-mode {:key :spacebar :condi :2do}
+
+             ;:emacs-s-mode {:key :s :condi :Emacs}
+             ;:emacs-windmove-mode {:key :q :condi :Emacs}
+             ;:tmux-windmove-mode {:key :q :condi :Terminals}
+             ;:q-mode {:key :q}
+             ;:finder-alfred-mode {:key :z :condi :Finder}
+             ;:browsers-alwfred-mode {:key :z :condi :Browsers}
+             ;:e-mode {:key :e}
+             }
+ ; Rule 1: Using a-z as trigger key of the simlayers will cause its reaction delaying under input.
+ ; Rule 2: Use "whether alone" as little as possible
+ :main [
+
+        {:des "whether alone?"
+         :rules [[:##left_shift :left_shift nil {:alone :!Tspacebar}]   ; switch input source
+                 ;[:##caps_lock :left_control nil {:alone :escape}]      ; caps_lock -> ⌃/esc
+                 ;[:##tab [:left_control :left_option :left_command :left_shift] nil {:alone :tab}]     ; tab/hyper(⌘⌥⌃⇧)
+                ]}
+        {:des "test"           ; This rule MUST be placed before "system-wide vimium"!!!
+         :rules [:caps_lock-mode
+                 [:i ["vimium" 1]]      ; enter vimium mode
+                 [:a :!Ta]              ; ctrl A
+                 [:e :!Te]              ; ctrl E
+                 [:c :!Tc]              ; ctrl C
+         ]}
+        {:des "system-wide vimium"
+         :rules [
+                 [:caps_lock ["vimium" 0] ["vimium" 1]]         ; exit vimium mode
+                 [:caps_lock :escape ["vimium" 0]]              ; caps_lock -> escape
+                 [:caps_lock ["vimium" 1]]
+                 [:i [:up_arrow :up_arrow :up_arrow :up_arrow :up_arrow] ["vimium" 1]]
+                 [:k [:down_arrow :down_arrow :down_arrow :down_arrow :down_arrow] ["vimium" 1]]
+                 [:j [:left_arrow :left_arrow :left_arrow :left_arrow :left_arrow] ["vimium" 1]]
+                 [:l [:right_arrow :right_arrow :right_arrow :right_arrow :right_arrow] ["vimium" 1]]
+                 ;[{:key :l :modi {:optional :caps_lock}} :right_arrow ["vimium" 1]]
+
+                ]}
+        {:des "Quit application by pressing command-q twice"
+         :rules [[:!C#Pq [:!Cq ["command-q" 0]] ["command-q" 1]]
+                 [:!C#Pq ["command-q" 1] nil {:delayed {:invoked ["command-q" 0] :canceled ["commandq" 0]}}]]}
+        {:des "simultaneous keys"
+         :rules [
+                 [[:s :semicolon] :!Ssemicolon]         ; type :
+                 [[:s :quote] :!Squote]                 ; type "
+                 [[:v :left_command] :!Ov]      ; in Alfred, show clipboard history
+                 [[:h :l] [:alf "m" "com.folded-paper.menu-bar-search"]]
+                 ;[[:j :l] [:f19 ["in-alfred" 1]]]
+                 ]}
+        #_{:des "i-mode (input symbols)"
+         :rules [:i-mode
+                 [:d :!Sopen_bracket]   ; 大括号 {
+                 [:z :open_bracket]     ; 中括号 [
+                 [:x :!S9]              ; 小括号 (
+
+                 [:t :!S1]              ; 叹号 ！
+                 [:w :!Sslash]          ; 问号 ?
+                 [:f :semicolon]        ; 分号 ;
+                 [:p :slash]            ; 撇号 /
+                 ;[:f :backslash]        ; 反撇 \
+                 [:b :!Sgrave_accent_and_tilde] ; 波浪 ~
+                 [:m :!Ssemicolon]      ; 冒号 :
+                 [:j :hyphen]           ; 减号 -
+                 [:!Sj :!Sequal_sign]   ; 加号
+
+                 [:a :!S7]              ; and &
+                 [:e :equal_sign]       ; equal =
+                 [:q :quote]            ; quote '
+                 [:h :!S3]              ; harsh #
+                 [:s :!S8]              ; star *
+                 [:l :!Scomma ]          ; less <
+                 [:g :!Speriod]         ; greater >
+                 [:u :!Shyphen]         ; underline _
+                 [:r :!Squote]
+
+                 [:x :!Sbackslash]
+                 [:l [:hyphen :!Speriod :spacebar]] ; -> arrow
+                 #_[:n [:slash :slash :spacebar :!St :!So :!Sd :!So :!Ssemicolon :spacebar]] ; // TODO:
+                 ;冗余按键
+                 [:1 :!S1]
+                 [:2 :!S2]
+                 [:3 :!S3]
+                 [:4 :!S4]
+                 [:5 :!S5]
+                 [:6 :!S6]
+                 [:7 :!S7]
+                 ]}
+        {:des "symbol mode[period as trigger key]"
+         :rules [:symbol-mode
+                 ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
+                 [:e :!Sopen_bracket]           ; {
+                 [:r :!Sclose_bracket]          ; }
+                 [:d :open_bracket]             ; [
+                 [:f :close_bracket]            ; ]
+                 [:c :!S9]                      ; (
+                 [:v :!S0]                      ; )
+
+                 [:h [:!Sgrave_accent_and_tilde :slash]]        ; ~/  home
+                 [:s [:period :!S8]]            ; * star
+
+
+                 [:q :hyphen]
+                 [:w :equal_sign]
+
+                 ]}
+        {:des "launcher-mode (W as trigger key)"
+         :rules [:launch-mode
+                 [:b [:open "/Applications/MWeb.app"]]
+                 [:c [:open "/Applications/Visual Studio Code.app"]]
+                 ;[:d :!!d]
+                 [:f [:open "/System/Library/CoreServices/Finder.app"]]
+                 [:g [:open "/Applications/Google Chrome.app"]]
+                 [:i [:open "/Applications/iTerm.app"]]
+                 [:k [:open "/Applications/Karabiner-EventViewer.app"]]
+                 [:m [:open "/Applications/Mail.app"]]
+                 [:p [:open "/Applications/Preview.app"]]
+                 [:t [:open "/Applications/2Do.app"]]
+                 [:v [:open "/Applications/WeChat.app"]]
+                 [:y [:open "/Applications/Nutstore.app"]]
+                 [:comma [:open "/Applications/System Preferences.app"]]
+                 [:semicolon [:open "/Applications/Safari.app"]]
+
+                 #_[:equal_sign [:open "/Applications/Textual.app"]]    ; IRC chat
+                 #_[:period [:open "/Applications/Paw.app"]]            ; API tool
+                 #_[:k [:open "/Applications/Emacs.app"]]
+                 #_[:j [:open "/Applications/Alacritty.app"]]
+                 #_[:b [:open "/Applications/Bee.app"]]                 ; issue tracker
+                 ]}
+        {:des "hyper-mode (Q as trigger key)"
+         :rules [:hyper-mode     ; related to plugins
+                [:j :!!j]       ; 番茄时钟开始计时 Hyper j
+                [:b :!!b]       ; Bartender
+                ]}
+        {:des "space-mode: mouse mode & system buttons [Spacebar as trigger key]"
+         :rules [:space-mode
+                 [:j {:mkey {:hwheel 50}}]      ; mouse-scroll
+                 [:l {:mkey {:hwheel -50}}]
+                 [:i {:mkey {:vwheel 50}}]
+                 [:k {:mkey {:vwheel -50}}]
+                 [:!Sj {:mkey {:x -1546}}]      ; mouse-cursor
+                 [:!Sl {:mkey {:x 1546}}]
+                 [:!Si {:mkey {:y -1546}} ]
+                 [:!Sk {:mkey {:y 1546}}]
+                 [:#Ss {:mkey {:speed 0.5}}]    ; slower
+                 [:#Sa {:mkey {:speed 2.0}}]    ; faster
+                 [:#Sh {:pkey :button1}]        ; left click
+                 [:#Sn {:pkey :button2}]        ; right click
+                 [:d :delete_or_backspace]      ; delete
+                 [:u :home]                     ; home
+                 [:o :end]                      ; end
+                 ;[:u :!Chome]
+                 ;[:o :!Cend]
+                 [:!Sd :!OCd]                   ; hide/show dock
+                 [:return_or_enter :mission_control]
+                 [:comma [:open "/Applications/System Preferences.app"]]
+                 [:p :mute]
+                 [:open_bracket :volume_decrement]
+                 [:close_bracket :volume_increment]
+                 [:!Oclose_bracket :!OSvolume_increment]
+                 [:f :!TCf]                     ; full screen
+                 ;; next/previous tab page
+                 [:1 :!SCopen_bracket :MWeb3]
+                 [:2 :!SCclose_bracket :MWeb3]
+                 [:3 :!SCclose_bracket :MWeb3]  ; make robust
+                 [:1 :!Tpage_up]
+                 [:2 :!Tpage_down]
+                 [:3 :!Tpage_down]              ; make robust
+                 ]}
+        {:des "Vi Mode [V as Trigger Key]"
+         :rules [:vi-mode
+                 [:k :down_arrow {:held ["vimium" 0]}]
+                 [:i :up_arrow {:held ["vimium" 0]}]
+                 [:j :left_arrow ]
+                 [:l :right_arrow ]
+                 [:h :!Oleft_arrow]
+                 [:semicolon :!Oright_arrow]
+                 [:u :!Ta]
+                 [:o :!Te]
+                 [:d :delete_or_backspace]
+                 ]}
+        #_{:des "Vi Visual Mode [V as Trigger Key]"
+         :rules [:vi-visual-mode
+                 [:d :delete_or_backspace]
+                 [:##j :!Sdown_arrow]
+                 [:##k :!Sup_arrow]
+                 [:##h :!Sleft_arrow]
+                 [:##l :!Sright_arrow]
+                 [:##b :!SOleft_arrow]
+                 [:##w :!SOright_arrow]
+                 [:##0 :!SCleft_arrow]
+                 [:##4 :!SCright_arrow]
+                 [:##open_bracket :!SOup_arrow ]
+                 [:##close_bracket :!SOdown_arrow]
+                 ]}
+        {:des "2do mode [T as Triger Key]"
+         :rules [:2do-mode
+                 [:spacebar  [:2do "showToday"]]; universal
+
+                 :2do-space-mode    ; inside 2do
+                 [:i [:!Cdown_arrow]]
+                 [:k [:!Cup_arrow]]
+                 [:l [:j]]      ; list jump bar
+                 [:spacebar [:!Ck]]             ; hide/show scheduled
+                 [:i [:!C0]]    ; inbox
+                 [:a [:!C1]]    ; all
+                 [:t [:!C2]]    ; today
+                 [:h [:!C3]]    ; stared
+                 [:v [:!C4]]    ; scheduled
+                 [:d [:!C5]]]}  ; done
+        #_{:des "window move"
+         :rules [:emacs-windmove-mode
+                 [:h [:!Tx :7 :w :h]]
+                 [:j [:!Tx :7 :w :j]]
+                 [:k [:!Tx :7 :w :k]]
+                 [:l [:!Tx :7 :w :l]]
+                 [:u [:!Tx :7 :w :u]]
+                 [:r [:!Tx :7 :w :r]]
+                 [:v [:!Tx :3]]
+                 [:s [:!Tx :2]]
+                 [:m [:!Tx :1]]
+                 [:b [:!Tx :0]]
+                 :tmux-windmove-mode
+                 [:comma [:!Tq :comma]]
+                 [:open_bracket [:!Tq :open_bracket]]
+                 [:y [:!Tq :y]]
+                 [:f [:!Tq :f]]
+                 [:e [:!Tq :e]]
+                 [:w [:!Tq :w]]
+                 [:h [:!Tq :h]]
+                 [:j [:!Tq :j]]
+                 [:k [:!Tq :k]]
+                 [:l [:!Tq :l]]
+                 [:v [:!Tq :v]]
+                 [:s [:!Tq :s]]
+                 [:m [:!Tq :z]]
+                 [:b [:!Tq :x]]
+                 [:c [:!Tq :c]]
+                 [:1 [:!Tq :1]]
+                 [:2 [:!Tq :2]]
+                 [:3 [:!Tq :3]]
+                 [:4 [:!Tq :4]]
+                 [:5 [:!Tq :5]]]}
+        #_{:des "chunkwm mode"
+         :rules [[:!COSf "/usr/local/bin/chunkc tiling::window --toggle native-fullscreen"]
+                 :chunkwm-insert-mode
+                 [:spacebar "/usr/local/bin/chunkc tiling::window --use-insertion-point cancel"]
+                 [:h "/usr/local/bin/chunkc tiling::window --use-insertion-point west"]
+                 [:j "/usr/local/bin/chunkc tiling::window --use-insertion-point south"]
+                 [:k "/usr/local/bin/chunkc tiling::window --use-insertion-point north"]
+                 [:l "/usr/local/bin/chunkc tiling::window --use-insertion-point east"]
+                 :chunkwm-move-mode
+                 ;; move windows
+                 [:h "/usr/local/bin/chunkc tiling::window --warp west"]
+                 [:j "/usr/local/bin/chunkc tiling::window --warp south"]
+                 [:k "/usr/local/bin/chunkc tiling::window --warp north"]
+                 [:l "/usr/local/bin/chunkc tiling::window --warp east"]
+                 :chunkwm-scale-mode
+                 ;; scale windows
+                 [:h "~/local/bin/chunkwm-resize left"]
+                 [:j "~/local/bin/chunkwm-resize down"]
+                 [:k "~/local/bin/chunkwm-resize up"]
+                 [:l "~/local/bin/chunkwm-resize right"]
+                 ;; equalize size of windows
+                 [:spacebar "/usr/local/bin/chunkc tiling::desktop --equalize"]
+                 :tab-mode
+                 [:return_or_enter "~/local/bin/chunkwm-change-mode"]
+                 [:grave_accent_and_tilde "/usr/local/bin/brew services restart chunkwm"]
+                 ;; change gap setting, reload chunkwmrc
+                 [:backslash "~/local/bin/chunkwm-gaps 10 10 5 5 7.5"]
+                 [:h "/usr/local/bin/chunkc tiling::window --focus west"]
+                 [:j "/usr/local/bin/chunkc tiling::window --focus south"]
+                 [:k "/usr/local/bin/chunkc tiling::window --focus north"]
+                 [:l "/usr/local/bin/chunkc tiling::window --focus east"]
+                 [:n "/usr/local/bin/chunkc tiling::window --focus next"]
+                 [:p "/usr/local/bin/chunkc tiling::window --focus prev"]
+                 ;; rotate windows clockwise and anticlockwise
+                 [:r "/usr/local/bin/chunkc tiling::desktop --rotate 90"]
+                 [:!Sr "/usr/local/bin/chunkc tiling::desktop --rotate 270"]
+                 ;; rotate on x and y axis
+                 [:y "/usr/local/bin/chunkc tiling::desktop --mirror vertical"]
+                 [:!Sy "/usr/local/bin/chunkc tiling::desktop --mirror horizontal"]
+                 [:spacebar "/usr/local/bin/chunkc tiling::window --toggle fullscreen"]
+                 [:a "/usr/local/bin/chunkc tiling::window --toggle float"]
+                 [:b "/usr/local/bin/chunkc tiling::desktop --layout bsp"]
+                 [:m "/usr/local/bin/chunkc tiling::desktop --layout monocle"]
+                 [:x "/usr/local/bin/chunkc tiling::window --close"]
+                 [:delete_or_backspace "/usr/local/bin/chunkc tiling::window --close"]
+                 [:open_bracket "/usr/local/bin/chunkc tiling::window --send-to-monitor prev"]
+                 [:close_bracket "/usr/local/bin/chunkc tiling::window --send-to-monitor next"]]}
+
+        ;; Not used for now
+        #_{:des "alfred mode"
+         :rules [
+                 :alfred-mode
+                 [:k [[:alf "chromeHistory" "thomasupton.chrome-history"] ["in-alfred" 1]]]
+                 #_[:k [[:alf "history" "net.deanishe.alfred.safari"] ["in-alfred" 1]]]
+                 #_[:m [:alf "tab" "net.deanishe.alfred.safari"]]
+                 #_[:h [[:alf "search repos" "me.lachlan.githubjump"] ["in-alfred" 1]]]
+                 #_[:j [:alf "searchGithub" "nikivi.search-the-web"]]
+                 #_[:q "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"Quick Macro 1\"'"]
+                 #_[:t [:alf "repos" "net.deanishe.alfred-git-repos"]]
+                 ]}
+        #_{:des "s-mode in emacs, awesome-tab"
+         :rules [:emacs-s-mode
+                 ;; [:h [:!Tx :!T9 {:key :h :repeat false}]]
+                 ;; [:j [:!Tx :!T9 {:key :j :repeat false}]]
+                 ;; [:k [:!Tx :!T9 {:key :k :repeat false}]]
+                 ;; [:l [:!Tx :!T9 {:key :l :repeat false}]]
+                 ;; [:n [:!Tx :!T9 {:key :n :repeat false}]]
+                 ;; [:p [:!Tx :!T9 {:key :p :repeat false}]]
+                 [:h :!!h]
+                 [:j :!!j]
+                 [:k :!!k]
+                 [:l :!!l]
+                 [:n :!!n]
+                 [:p :!!p]
+                 [:comma [:!Tx :!T8 :open_bracket]]
+                 [:period [:!Tx :!T8 :close_bracket]]
+                 [:delete_or_backspace [:!Tx :!T9 :!Sk]]
+                 [:open_bracket [:!Tx :!T9 :open_bracket]]
+                 [:close_bracket [:!Tx :!T9 :close_bracket]]]} 
+        #_{:des "Emacs switch buffer"
+         :rules [:Emacs
+                 [:tab :!Ttab :period-mode]
+                 [:tab :!TStab :comma-mode]]}
+        #_{:des "Emacs key bindings [control+keys] (rev 10)"
+         :rules [[:!T#Sy :!Cv :!Emacs]
+                 :!emacs-mode-disable-app
+                 [:!T#Od :delete_forward]
+                 [:!T#Oh :delete_or_backspace]
+                 [:!T#SOw :!Odelete_or_backspace]
+                 [:!T#Oi :tab]
+                 [:!T#Oopen_bracket :escape]
+                 [:!T#OSm :return_or_enter]
+                 [:!T#OSb :left_arrow]
+                 [:!T#OSf :right_arrow]
+                 [:!T#OSb :left_arrow]
+                 [:!T#OSn :down_arrow]
+                 [:!T#OSp :up_arrow]
+                 [:!T#Sv :page_down]
+                 [:!T#Sa :!Cleft_arrow]
+                 [:!T#Se :!Cright_arrow]]}
+        #_{:des "capital mode/;->right_shift [semicolon as trigger key]"
+         :rules [:capital-mode
+                 [:q :!Sq]
+                 [:w :!Sw]
+                 [:e :!Se]
+                 [:r :!Sr]
+                 [:t :!St]
+                 [:y :!Sy]
+                 [:u :!Su]
+                 [:i :!Si]
+                 [:o :!So]
+                 [:p :!Sp]
+                 [:a :!Sa]
+                 [:s :!Ss]
+                 [:d :!Sd]
+                 [:f :!Sf]
+                 [:g :!Sg]
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 [:k :!Sk]
+                 [:l :!Sl]
+                 [:z :!Sz]
+                 [:x :!Sx]
+                 [:c :!Sc]
+                 [:v :!Sv]
+                 [:b :!Sb]
+                 [:n :!Sn]
+                 [:m :!Sm]]}]
+
+ :devices {:macbook-internal [{:product_id 635 :vendor_id 1452}]
+           :filco-minila [{:product_id 34050 :vendor_id 2652}]
+           :ikbc [{:vendor_id 394 :product_id 1241}]}
+ :applications {
+                :emacs-mode-disable-app ["^org\\.gnu\\.Emacs$",
+                                         "^org\\.gnu\\.AquamacsEmacs$",
+                                         "^org\\.gnu\\.Aquamacs$",
+                                         "^org\\.pqrs\\.unknownapp.conkeror$",
+                                         "^com\\.microsoft\\.rdc$",
+                                         "^com\\.microsoft\\.rdc\\.mac$",
+                                         "^com\\.microsoft\\.rdc\\.macos$",
+                                         "^com\\.microsoft\\.rdc\\.osx\\.beta$",
+                                         "^net\\.sf\\.cord$",
+                                         "^com\\.thinomenon\\.RemoteDesktopConnection$",
+                                         "^com\\.itap-mobile\\.qmote$",
+                                         "^com\\.nulana\\.remotixmac$",
+                                         "^com\\.p5sys\\.jump\\.mac\\.viewer$",
+                                         "^com\\.p5sys\\.jump\\.mac\\.viewer\\.web$",
+                                         "^com\\.teamviewer\\.TeamViewer$",
+                                         "^com\\.vmware\\.horizon$",
+                                         "^com\\.2X\\.Client\\.Mac$",
+                                         "^com\\.apple\\.Terminal$",
+                                         "^com\\.googlecode\\.iterm2$",
+                                         "^co\\.zeit\\.hyperterm$",
+                                         "^co\\.zeit\\.hyper$",
+                                         "^io\\.alacritty$",
+                                         "^net\\.kovidgoyal\\.kitty$",
+                                         "^org\\.vim\\.",
+                                         "^com\\.qvacua\\.VimR$",
+                                         "^com\\.vmware\\.fusion$",
+                                         "^com\\.vmware\\.horizon$",
+                                         "^com\\.vmware\\.view$",
+                                         "^com\\.parallels\\.desktop$",
+                                         "^com\\.parallels\\.vm$",
+                                         "^com\\.parallels\\.desktop\\.console$",
+                                         "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                         "^com\\.vmware\\.proxyApp\\.",
+                                         "^com\\.parallels\\.winapp\\.",
+                                         "^org\\.x\\.X11$",
+                                         "^com\\.apple\\.x11$",
+                                         "^org\\.macosforge\\.xquartz\\.X11$",
+                                         "^org\\.macports\\.X11$",
+                                         "^com\\.sublimetext\\.",
+                                         "^com\\.microsoft\\.VSCode$"]
+                :Emacs ["^org\\.gnu\\.Emacs$"
+                        "^org\\.gnu\\.AquamacsEmacs$"
+                        "^org\\.gnu\\.Aquamacs$"]
+                :Terminals ["^com\\.apple\\.Terminal$"
+                            "^com\\.googlecode\\.iterm2$"
+                            "^co\\.zeit\\.hyperterm$"
+                            "^co\\.zeit\\.hyper$"
+                            "^io\\.alacritty$"
+                            "^net\\.kovidgoyal\\.kitty$"]
+                :vim-mode-disabled-application ["^com\\.apple\\.Terminal$"
+                                                "^com\\.googlecode\\.iterm2$"
+                                                "^co\\.zeit\\.hyperterm$"
+                                                "^co\\.zeit\\.hyper$"
+                                                "^io\\.alacritty$"
+                                                "^net\\.kovidgoyal\\.kitty$"
+                                                "^org\\.vim\\."
+                                                "^com\\.qvacua\\.VimR$"]
+                :Finder ["^com\\.apple\\.finder$"]
+                :Browsers ["^org\\.mozilla\\.firefox$"
+                           "^com\\.google\\.Chrome$"
+                           "^com\\.google\\.Chrome\\.canary$"
+                           "^com\\.apple\\.Safari$"]
+                :2do ["^com\\.guidedways\\.TodoMac.*"]
+                :MWeb3 ["^com\\.coderforart\\.MWeb3$"]}
+ :input-sources {:squirrel {:input_mode_id "com.googlecode.rimeime.inputmethod.Squirrel"
+                            :input_source_id "com.googlecode.rimeime.inputmethod.Squirrel.Rime"
+                            :language "zh-Hans"}
+                 :us {:input_mode_id ""
+                      :input_source_id "com.apple.keylayout.US"
+                      :language "en"}}}
