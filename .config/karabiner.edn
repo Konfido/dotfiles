@@ -12,45 +12,47 @@
           ;:chunkwm-insert-mode {:key :i :condi :tab-mode}
           ;:period-mode {:key :period :afterup {:set ["period-comma-mode" 0]}}}
           ;:caps_lock-mode {:key :caps_lock :afterup ["caps_lock-mode" 0]}
-          :symbol-mode {:key :period}}
+          ;:symbol-mode {:key :p}
+          }
 
- :simlayers {:launch-mode {:key :w}
-             :hyper-mode {:key :q}
-             :vi-mode {:key :v}
-             :caps_lock-mode {:key :caps_lock}
-             ;:vi-visual-mode {:key :v :condi :!vim-mode-disabled-application}
-             ;:capital-mode {:key :semicolon}
-             :i-mode {:key :i :condi [:!space-mode]}      ; avoid influence the reaction speed under mouse-mode
-             :alfred-mode {:key :z}
+ :simlayers {   :launch-mode {:key :w}
+                :hyper-mode {:key :q}
+                :vi-mode {:key :v}
+                :c-mode {:key :c}                  ;  used in v-mode paste
+                :caps_lock-mode {:key :caps_lock}
+                ;:vi-visual-mode {:key :v :condi :!vim-mode-disabled-application}
+                ;:capital-mode {:key :semicolon}
+                :symbol-s-mode {:key :s}
+                :symbol-p-mode {:key :p}
+                :alfred-mode {:key :z}
+                ;:search-mode {:key :i}
+                :2do-mode {:key :t}
+                :2do-space-mode {:key :spacebar :condi :2do}
 
-             :2do-mode {:key :t}
-             :2do-space-mode {:key :spacebar :condi :2do}
-
-             ;:emacs-s-mode {:key :s :condi :Emacs}
-             ;:emacs-windmove-mode {:key :q :condi :Emacs}
-             ;:tmux-windmove-mode {:key :q :condi :Terminals}
-             ;:q-mode {:key :q}
-             ;:finder-alfred-mode {:key :z :condi :Finder}
-             ;:browsers-alwfred-mode {:key :z :condi :Browsers}
-             ;:e-mode {:key :e}
-             }
+                ;:emacs-s-mode {:key :s :condi :Emacs}
+                ;:emacs-windmove-mode {:key :q :condi :Emacs}
+                ;:tmux-windmove-mode {:key :q :condi :Terminals}
+                ;:q-mode {:key :q}
+                ;:finder-alfred-mode {:key :z :condi :Finder}
+                ;:browsers-alwfred-mode {:key :z :condi :Browsers}
+                ;:e-mode {:key :e}
+                }
  ; Rule 1: Using a-z as trigger key of the simlayers will cause its reaction delaying under input.
  ; Rule 2: Use "whether alone" as little as possible
+ ; Rule 3: No vowel after consonant (avoid typing delay)
  :main [
-
         {:des "whether alone?"
          :rules [[:##left_shift :left_shift nil {:alone :!Tspacebar}]   ; switch input source
                  ;[:##caps_lock :left_control nil {:alone :escape}]      ; caps_lock -> ⌃/esc
                  ;[:##tab [:left_control :left_option :left_command :left_shift] nil {:alone :tab}]     ; tab/hyper(⌘⌥⌃⇧)
                 ]}
-        {:des "test"           ; This rule MUST be placed before "system-wide vimium"!!!
+        {:des "caps_lock-mode"          ; This rule MUST be placed before "system-wide vimium"!!!
          :rules [:caps_lock-mode
                  [:i ["vimium" 1]]      ; enter vimium mode
                  [:a :!Ta]              ; ctrl A
                  [:e :!Te]              ; ctrl E
-                 [:c :!Tc]              ; ctrl C
          ]}
-        {:des "system-wide vimium"
+        {:des "system-wide vimium [(caps_lock + i)-> enter; escape -> exit]"
          :rules [
                  [:caps_lock ["vimium" 0] ["vimium" 1]]         ; exit vimium mode
                  [:caps_lock :escape ["vimium" 0]]              ; caps_lock -> escape
@@ -60,59 +62,44 @@
                  [:j [:left_arrow :left_arrow :left_arrow :left_arrow :left_arrow] ["vimium" 1]]
                  [:l [:right_arrow :right_arrow :right_arrow :right_arrow :right_arrow] ["vimium" 1]]
                  ;[{:key :l :modi {:optional :caps_lock}} :right_arrow ["vimium" 1]]
-
                 ]}
         {:des "Quit application by pressing command-q twice"
          :rules [[:!C#Pq [:!Cq ["command-q" 0]] ["command-q" 1]]
                  [:!C#Pq ["command-q" 1] nil {:delayed {:invoked ["command-q" 0] :canceled ["commandq" 0]}}]]}
         {:des "simultaneous keys"
          :rules [
-                 [[:s :semicolon] :!Ssemicolon]         ; type :
-                 [[:s :quote] :!Squote]                 ; type "
+                 [[:s :semicolon] :!Ssemicolon] ; :
+                 [[:s :quote] :!Squote]         ; "
                  [[:v :left_command] :!Ov]      ; in Alfred, show clipboard history
                  [[:h :l] [:alf "m" "com.folded-paper.menu-bar-search"]]
                  ;[[:j :l] [:f19 ["in-alfred" 1]]]
                  ]}
-        #_{:des "i-mode (input symbols)"
-         :rules [:i-mode
-                 [:d :!Sopen_bracket]   ; 大括号 {
-                 [:z :open_bracket]     ; 中括号 [
-                 [:x :!S9]              ; 小括号 (
-
-                 [:t :!S1]              ; 叹号 ！
-                 [:w :!Sslash]          ; 问号 ?
-                 [:f :semicolon]        ; 分号 ;
-                 [:p :slash]            ; 撇号 /
-                 ;[:f :backslash]        ; 反撇 \
-                 [:b :!Sgrave_accent_and_tilde] ; 波浪 ~
-                 [:m :!Ssemicolon]      ; 冒号 :
-                 [:j :hyphen]           ; 减号 -
-                 [:!Sj :!Sequal_sign]   ; 加号
-
-                 [:a :!S7]              ; and &
-                 [:e :equal_sign]       ; equal =
-                 [:q :quote]            ; quote '
-                 [:h :!S3]              ; harsh #
-                 [:s :!S8]              ; star *
-                 [:l :!Scomma ]          ; less <
-                 [:g :!Speriod]         ; greater >
-                 [:u :!Shyphen]         ; underline _
-                 [:r :!Squote]
-
-                 [:x :!Sbackslash]
-                 [:l [:hyphen :!Speriod :spacebar]] ; -> arrow
-                 #_[:n [:slash :slash :spacebar :!St :!So :!Sd :!So :!Ssemicolon :spacebar]] ; // TODO:
-                 ;冗余按键
-                 [:1 :!S1]
-                 [:2 :!S2]
-                 [:3 :!S3]
-                 [:4 :!S4]
-                 [:5 :!S5]
-                 [:6 :!S6]
-                 [:7 :!S7]
+        {:des "symbol-s-mode [S as trigger key]"
+         :rules [:symbol-s-mode
+                 [:t :!S1]                      ; !
+                 [:slash :!Sslash]              ; ?
+                 [:semicolon :!Ssemicolon]      ; :
+                 [:p :slash]                    ; /
+                 [:d :open_bracket]             ; [
+                 [:f :close_bracket]            ; ]
+                 [:9 :!S9]                      ; (
+                 [:0 :!S0]                      ; )
+                 [:b :!Sgrave_accent_and_tilde] ; ~
+                 [:j :hyphen]                   ; -
+                 [:k :!Sequal_sign]             ; +
+                 [:6 :!S6]                      ; ^
+                 [:8 :!S8]                      ; *
+                 [:a :!S7]                      ; & and
+                 [:e :equal_sign]               ; = equal
+                 [:q :quote]                    ; ' quote
+                 [:quote :!Squote]              ; "
+                 [:h :!S3]                      ; # harsh
+                 [:l :!Scomma ]                 ; < less
+                 [:g :!Speriod]                 ; > greater
+                 [:u :!Shyphen]                 ; _ underline
                  ]}
-        {:des "symbol mode[period as trigger key]"
-         :rules [:symbol-mode
+        {:des "symbol-p-mode [P as trigger key]"
+         :rules [:symbol-p-mode
                  ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
                  [:e :!Sopen_bracket]           ; {
                  [:r :!Sclose_bracket]          ; }
@@ -120,16 +107,16 @@
                  [:f :close_bracket]            ; ]
                  [:c :!S9]                      ; (
                  [:v :!S0]                      ; )
-
                  [:h [:!Sgrave_accent_and_tilde :slash]]        ; ~/  home
+                 [:t [:slash :slash :spacebar :!St :!So :!Sd :!So :!Ssemicolon :spacebar]] ; // TODO:
                  [:s [:period :!S8]]            ; * star
-
-
-                 [:q :hyphen]
-                 [:w :equal_sign]
-
+                 [:1 :!S1]                      ;
+                 [:2 :!S2]
+                 [:3 :!S3]
+                 [:4 :!S4]
+                 [:5 :!S5]
                  ]}
-        {:des "launcher-mode (W as trigger key)"
+        {:des "launcher-mode [W as trigger key]"
          :rules [:launch-mode
                  [:b [:open "/Applications/MWeb.app"]]
                  [:c [:open "/Applications/Visual Studio Code.app"]]
@@ -152,7 +139,7 @@
                  #_[:j [:open "/Applications/Alacritty.app"]]
                  #_[:b [:open "/Applications/Bee.app"]]                 ; issue tracker
                  ]}
-        {:des "hyper-mode (Q as trigger key)"
+        {:des "hyper-mode [Q as trigger key]"
          :rules [:hyper-mode     ; related to plugins
                 [:j :!!j]       ; 番茄时钟开始计时 Hyper j
                 [:b :!!b]       ; Bartender
@@ -165,7 +152,7 @@
                  [:k {:mkey {:vwheel -50}}]
                  [:!Sj {:mkey {:x -1546}}]      ; mouse-cursor
                  [:!Sl {:mkey {:x 1546}}]
-                 [:!Si {:mkey {:y -1546}} ]
+                 [:!Si {:mkey {:y -1546}}]
                  [:!Sk {:mkey {:y 1546}}]
                  [:#Ss {:mkey {:speed 0.5}}]    ; slower
                  [:#Sa {:mkey {:speed 2.0}}]    ; faster
@@ -177,13 +164,14 @@
                  ;[:u :!Chome]
                  ;[:o :!Cend]
                  [:!Sd :!OCd]                   ; hide/show dock
+                 [:f :!TCf]                     ; full screen
                  [:return_or_enter :mission_control]
                  [:comma [:open "/Applications/System Preferences.app"]]
-                 [:p :mute]
-                 [:open_bracket :volume_decrement]
-                 [:close_bracket :volume_increment]
-                 [:!Oclose_bracket :!OSvolume_increment]
-                 [:f :!TCf]                     ; full screen
+                 [:p :mute]                     ; mute
+                 [:open_bracket :volume_down]
+                 [:close_bracket :volume_up]
+                 [:!Oclose_bracket :!OSvolume_up]
+                 ;[:!Oopen_bracket :!OSvolume_down]     ; why not work?
                  ;; next/previous tab page
                  [:1 :!SCopen_bracket :MWeb3]
                  [:2 :!SCclose_bracket :MWeb3]
@@ -193,7 +181,12 @@
                  [:3 :!Tpage_down]              ; make robust
                  ]}
         {:des "Vi Mode [V as Trigger Key]"
-         :rules [:vi-mode
+         :rules [[:v :!Cv :c-mode]              ; paste
+                 :vi-mode
+                 [:c :!Cc]                      ; copy
+                 [:x :!Cx]                      ; cut
+                 [:z :!Cz]                      ; undo
+                 [:d :delete_or_backspace]      ; delete
                  [:k :down_arrow {:held ["vimium" 0]}]
                  [:i :up_arrow {:held ["vimium" 0]}]
                  [:j :left_arrow ]
@@ -202,7 +195,6 @@
                  [:semicolon :!Oright_arrow]
                  [:u :!Ta]
                  [:o :!Te]
-                 [:d :delete_or_backspace]
                  ]}
         #_{:des "Vi Visual Mode [V as Trigger Key]"
          :rules [:vi-visual-mode
