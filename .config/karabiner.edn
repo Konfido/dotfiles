@@ -6,7 +6,7 @@
              :2do "open 'twodo://x-callback-url/%s'"
              :kb-maestro "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
              :open "open \"%s\""}
- :layers {:navi-spacebar-mode {:key :spacebar :afterup [{:set ["space-mode" 0]}]}
+ :layers {:spacebar-mode {:key :spacebar :afterup [{:set ["spacebar-mode" 0]}]}
          ;:tab-mode {:key :tab :afterup [{:set ["chunkwm-move-mode" 0]}
           ;                               {:set ["chunkwm-scale-mode" 0]}]}
           ;:chunkwm-move-mode {:key :f :condi :tab-mode}
@@ -41,8 +41,9 @@
  ; Rule 2: Use "whether alone" as little as possible
  ; Rule 3: Lay app-specific settings ahead universal ones when using same trigger key
  :main [
-        {:des "test"
-         :rules [;[:d :d nil {:held :delete_or_backspace}]
+        {:des "simple change"
+         :rules [[:f20 :launchpad]
+                 ;[:d :d nil {:held :delete_or_backspace}]
                  ;[:##tab :tab nil {:alone :escape :held :mission_control :paras {:alone :50 :held :250}}]
                  ;[[:d :f] :delete_or_backspace nil {:lazy :true}]
                 ]}
@@ -145,7 +146,6 @@
                 [:t :!Oa]                       ; Add item to 2Do
                 [:spacebar :!!spacebar]         ; Activate "Recents"
                 ]}
-
         {:des "text edit"
          :rules [[:h :!TCh :Preview]            ; highlight
                 ]}
@@ -217,14 +217,14 @@
                  [:g :!Speriod]                 ; > greater
                  [:u :!Shyphen]                 ; _ underline
                  ]}
-        {:des "navigation within apps"
+        #_{:des "navigation within apps"
          :rules [[:j :k :irreader]              ; previous item
                  [:l :j :irreader]              ; next item
                  [:i :up_arrow :irreader]       ; scroll up
                  [:k :down_arrow :irreader]     ; scroll down
                 ]}
-        {:des "navi-spacebar-mode: mouse & system settings"
-         :rules [:navi-spacebar-mode
+        {:des "spacebar-mode: mouse & system settings"
+         :rules [:spacebar-mode
                  [:j {:mkey {:hwheel 50}}]      ; mouse-scroll
                  [:l {:mkey {:hwheel -50}}]
                  [:i {:mkey {:vwheel 50}}]
@@ -242,7 +242,7 @@
                  [:f :!TCf]                     ; full screen
                  [:b :!SCb :Browsers]           ; hide/show bookmark bar
                  [:return_or_enter :mission_control]
-                 ;[:e :launchpad]        ; launchpad
+                 [:tab :launchpad]              ; launchpad
                  [:comma [:open "/Applications/System Preferences.app"]]
                  [:p :mute]                     ; mute
                  [:open_bracket :volume_down]

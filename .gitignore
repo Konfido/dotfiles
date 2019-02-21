@@ -1,0 +1,11 @@
+.DS_Store
+Thumb.db
+
+*.bak
+*.tem
+*.temp
+
+# Generated files
+*/bin/
+*/gen/
+*/out/
