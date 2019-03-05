@@ -1,4 +1,5 @@
-; Ref-> https://github.com/yqrashawn/GokuRakuJoudo
+; Ref 1 -> https://github.com/yqrashawn/GokuRakuJoudo
+; Ref 2 -> https://pqrs.org/osx/karabiner/json.html
 
 {:templates {:launch "osascript -e 'tell application \"Alfred 3\" to run trigger \"launch%s\" in workflow \"yqrashawn.workflow.launcher\" with argument \"\"'"
              :alf "osascript -e 'tell application \"Alfred 3\" to run trigger \"%s\" in workflow \"%s\" with argument \"\"'"
@@ -49,6 +50,9 @@
                 ]}
         {:des "whether alone?"
          :rules [[:##left_shift :left_shift nil {:alone :!Tspacebar}]   ; switch input source
+                 [:grave_accent_and_tilde {:grave_accent_and_tilde :lazy} nil {:alone :!SOgrave_accent_and_tilde}]
+                                                                        ; force inputting accent sign under chinese input methods
+                                                                        ; The lazy modifier does not send own key events until another key is pressed together.
                  ;[:##caps_lock :left_control nil {:alone :escape}]      ; caps_lock -> ⌃/esc
                  ;[:##tab [:left_control :left_option :left_command :left_shift] nil {:alone :tab}]     ; tab/hyper(⌘⌥⌃⇧)
                 ]}
@@ -114,17 +118,19 @@
                  [:e [:open "/Applications/Mail.app"]]
                  [:f [:open "/System/Library/CoreServices/Finder.app"]]
                  [:g [:open "/Applications/Google Chrome.app"]]
-                 [:i [:open "/Applications/iTerm.app"]]
+
                  [:k [:open "/Applications/Karabiner-EventViewer.app"]]
                  ;[:m [:open "/Applications/Mail.app"]]
                  [:p [:open "/Applications/Preview.app"]]
                  [:r [:open "/Applications/irreader.app"]]
-                 [:t [:2do "showToday"]]                                ; 2do
+                 [:t [:open "/Applications/iTerm.app"]]
                  [:v [:open "/Applications/WeChat.app"]]
                  [:y [:open "/Applications/Nutstore.app"]]
+                 [:tab [:2do "showToday"]]                              ; 2do
                  [:comma [:open "/Applications/System Preferences.app"]]
                  [:semicolon [:open "/Applications/Safari.app"]]
                  [:spacebar [:open "/Applications/Zotero.app"]]         ; Zotero
+                 [:left_command [:open "/Applications/Typora.app"]]     ; Typora
 
                  #_[:equal_sign [:open "/Applications/Textual.app"]]    ; IRC chat
                  #_[:period [:open "/Applications/Paw.app"]]            ; API tool
@@ -143,8 +149,8 @@
                 [:b :!!b]                       ; Bartender
                 [:j :!!j]                       ; Tomato Clock, Hyper j
                 [:r :!SOr :Browsers]            ; Toggle "Clearly" (ReadMode)
-                [:t :!Oa]                       ; Add item to 2Do
-                [:spacebar :!!spacebar]         ; Activate "Recents"
+                #_[:t :!Oa]                       ; Add item to 2Do
+                [:t :!!t]                       ; Show/Hide iTerm2
                 ]}
         {:des "text edit"
          :rules [[:h :!TCh :Preview]            ; highlight
@@ -164,8 +170,8 @@
                  [:l :right_arrow ]
                  [:h :!Oleft_arrow]
                  [:semicolon :!Oright_arrow]
-                 [:u :!Ta]
-                 [:o :!Te]
+                 [:u :!Ta]                      ; beginning of sentence
+                 [:o :!Te]                      ; end of sentence
                  ]}
         #_{:des "Vi Visual Mode [V as Trigger Key]"
          :rules [:vi-visual-mode
@@ -225,6 +231,7 @@
                 ]}
         {:des "spacebar-mode: mouse & system settings"
          :rules [:spacebar-mode
+                 ; ### mouse scroll and pointer ###
                  [:j {:mkey {:hwheel 50}}]      ; mouse-scroll
                  [:l {:mkey {:hwheel -50}}]
                  [:i {:mkey {:vwheel 50}}]
@@ -237,24 +244,23 @@
                  [:#Sa {:mkey {:speed 2.0}}]    ; faster
                  [:#Sh {:pkey :button1}]        ; left click
                  [:#Sn {:pkey :button2}]        ; right click
-                 ; system settings
+                 ; ### system settings ###
                  [:d :!OCd]                     ; hide/show dock
+                 [:b :!SCb :Browsers]           ; hide/show browser's bookmark bar
                  [:f :!TCf]                     ; full screen
-                 [:b :!SCb :Browsers]           ; hide/show bookmark bar
+                 ;[:t [:!Ot [:open "/Applications/iTerm.app"]]]  ; open terminal in ubuntu
                  [:return_or_enter :mission_control]
                  [:tab :launchpad]              ; launchpad
                  [:comma [:open "/Applications/System Preferences.app"]]
-                 [:p :mute]                     ; mute
-                 [:open_bracket :volume_down]
-                 [:close_bracket :volume_up]
-                 [:!Oclose_bracket :!OSvolume_up]
-                 ;[:!Oopen_bracket :!OSvolume_down]; why not work?
-                 [:1 :!SCopen_bracket :MWeb3]   ; previous tab page
-                 [:2 :!SCclose_bracket :MWeb3]  ; next tab page
-                 [:1 :!Tpage_up]                ; page up
-                 [:2 :!Tpage_down]              ; page down
-                 ;[:grave_accent_and_tilde :!]   ;
-                 ;[:3 :!Tpage_down]
+                 [:backslash :mute]             ; mute
+                 [:open_bracket :volume_down]   ; volume down
+                 [:close_bracket :volume_up]    ; volume up
+                 [:!Oopen_bracket :!OSvolume_down]      ; 1/4 volume down
+                 [:!Oclose_bracket :!OSvolume_up]       ; 1/4 volume up
+                 [:1 :!TStab :Finder]           ; previous tab in Finder
+                 [:2 :!Ttab :Finder]            ; next tab in Finder
+                 [:1 :!Tpage_up]                ; Previous tab
+                 [:2 :!Tpage_down]              ; Next tab
                  ]}
         #_{:des "window move"
          :rules [:emacs-windmove-mode

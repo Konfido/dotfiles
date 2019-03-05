@@ -4,6 +4,7 @@ Thumb.db
 *.bak
 *.tem
 *.temp
+*.log
 
 # Generated files
 */bin/
