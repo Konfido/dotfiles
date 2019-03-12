@@ -1,6 +1,15 @@
 ; Ref 1 -> https://github.com/yqrashawn/GokuRakuJoudo
 ; Ref 2 -> https://pqrs.org/osx/karabiner/json.html
 
+; Rule 1: Aviod vowels in simlayer (causing typing delay)
+; Rule 2: Use "whether alone" as little as possible
+; Rule 3: Lay app-specific settings ahead universal ones when using same trigger key
+; Rule 4: Put "Whether alone" at the end of all the rules
+
+; Note 1: f20 means doing nothing
+; Note 2: The lazy modifier does not send own key events until another key is pressed together.
+; Note 3: CS(Command+Shift) relates to systems or brower settings.
+
 { :templates  { :launch "osascript -e 'tell application \"Alfred 3\" to run trigger \"launch%s\" in workflow \"yqrashawn.workflow.launcher\" with argument \"\"'"
                 :2do    "open 'twodo://x-callback-url/%s'"
                 ;:km     "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
@@ -28,37 +37,30 @@
                 ;:vi-visual-mode {:key :v :condi :!vim-mode-disabled-application}
                 }
 
-  ; Rule 1: Aviod vowels in simlayer (causing typing delay)
-  ; Rule 2: Use "whether alone" as little as possible
-  ; Rule 3: Lay app-specific settings ahead universal ones when using same trigger key
-
   :main [
-          { :des "App-specific customization"
+          { :des "test"
             :rules  [
-                      [:h :!TCh :Preview]             ; highlight
-                      [:!Cw :!Cm :Music]              ; Command+W not quit
-                      ]}
-          { :des "Simple change"
-            :rules  [ [:f20 :launchpad]
                       ;[:d :d nil {:held :delete_or_backspace}]
                       ;[:##tab :tab nil {:alone :escape :held :mission_control :paras {:alone :50 :held :250}}]
-                      ;[[:d :f] :delete_or_backspace nil {:lazy :true}]
-                      ]}
-          { :des "Simultaneous keys"
-            :rules  [
-                      [[:j :k] :return_or_enter]
-                      ;[[:d :f] :delete_or_backspace]
                       ;[[:h :l] [:alf "m" "com.folded-paper.menu-bar-search"]]
                       ;[[:j :l] [:f19 ["in-alfred" 1]]]
                       ]}
-          { :des "Whether alone?"
+          { :des "Simple app-specific customization"
             :rules  [
-                      [:##left_shift :left_shift nil {:alone :!Tspacebar}]   ; switch input source
-                      [:grave_accent_and_tilde {:grave_accent_and_tilde :lazy} nil {:alone :!SOgrave_accent_and_tilde}]
-                                                                        ; force inputting accent sign under chinese input methods
-                                                                        ; The lazy modifier does not send own key events until another key is pressed together.
-                      ;[:##caps_lock :left_control nil {:alone :escape}]      ; caps_lock -> ⌃/esc
-                      ;[:##tab [:left_control :left_option :left_command :left_shift] nil {:alone :tab}]     ; tab/hyper(⌘⌥⌃⇧)
+                      [:h :!TCh :Preview]               ; highlight
+                      [:caps_lock [:escape :escape :escape] :Safari]  ; Jump out of address bar
+                      [:!Sx :!CSt :Safari]              ; reopen closed tab in Safari
+                      [:!Sj :!CSopen_bracket :Safari]   ; previous tab in Safari
+                      [:!Sk :!CSclose_bracket :Safari]  ; next tab in Safari
+                      ;[:!Cw :!Cm :Music]               ; Command+W to hide instead of quitting
+                      [:!O1 :!TC3 :Typora]              ; File Tree
+                      [:!O2 :!TC1 :Typora]              ; TOC
+                      ]}
+          { :des "Complex & Simultaneous keys"
+            :rules  [
+                      [:!CSl :!CTq]                    ; Command+L to Lock
+                      [[:j :k] :return_or_enter]
+                      ;[[:d :f] :delete_or_backspace]
                       ]}
           { :des "Quit application only when tapping command-q twice"
             :rules  [
@@ -69,11 +71,9 @@
             :rules  [ :Launch-W-Mode
                       [:b [:open "/Applications/MWeb.app"]]                  ; Blog
                       [:c [:open "/Applications/Visual Studio Code.app"]]    ; code
-                      ;[:d :!!d]
                       [:e [:open "/Applications/Mail.app"]]
                       [:f [:open "/System/Library/CoreServices/Finder.app"]]
-                      [:g [:open "/Applications/Google Chrome.app"]]
-
+                      [:g [:open "/Applications/Safari.app"]]
                       [:k [:open "/Applications/Karabiner-EventViewer.app"]]
                       [:m [:open "/Users/dhh/Applications/Chrome Apps.localized/豆瓣FM.app"]]; music
                       [:p [:open "/Applications/Preview.app"]]
@@ -93,37 +93,37 @@
                       ]}
           { :des "Hyper-Q-Mode"
             :rules  [ :Hyper-Q-Mode
-                      [:b :!!b]                       ; Bartender
-                      [:j :!!j]                       ; Tomato Clock, Hyper j
-                      [:r :!SOr :Browsers]            ; Toggle "Clearly" (ReadMode)
-                      #_[:t :!Oa]                     ; Add item to 2Do
-                      [:t :!!t]                       ; Show/Hide iTerm2
+                      [:b :!!b]                     ; Bartender
+                      [:f :!TSf]                    ; Change input source to Traditional Chinese
+                      [:j :!!j]                     ; Tomato Clock, Hyper j
+                      [:r :!SOr :Chrome]            ; Toggle "Clearly" (ReadMode)
+                      #_[:t :!Oa]                   ; Add item to 2Do
+                      [:t :!!t]                     ; Show/Hide iTerm2
                       ]}
           { :des "Search-0-Mode"
             :rules  [ :Search-0-Mode
-                      [:b :!OSf]              ; global search of blog
-                      [:f :!Of]               ; call Alfred to search selected word in google translation
-                      [:v :!Ov]               ; call Alfred to show clipboard history in Alfred
+                      [:b :!OSf]                    ; Global search of blog
+                      [:f :!Of]                     ; call Alfred to search selected word in google translation
+                      [:v :!Ov]                     ; call Alfred to show clipboard history in Alfred
                       ]}
-          { :des "caps_lock-mode [map to ctrl]"          ; This rule MUST be placed before "system-wide vimium"!!!
+          { :des "caps_lock-mode [map to ctrl]"
             :rules  [ :caps_lock-mode
-                      [:i ["vimium" 1]]      ; enter vimium mode
-                      [:a :!Ta]              ; ctrl a, start of sentence
-                      [:e :!Te]              ; ctrl e, end of sentence
-                      [:k :!Tk]              ; ctrl k, delete to the end
-                      [:c :!Tc]              ; ctrl c
-                      [:d :!Td]              ; ctrl d
+                      [:a :!Ta]                     ; ctrl a, start of sentence
+                      [:c :!Tc]                     ; ctrl c
+                      [:d :!Td]                     ; ctrl d
+                      [:e :!Te]                     ; ctrl e, end of sentence
+                      [:k :!Tk]                     ; ctrl k, delete to the end
+                      [:w :!Tw]                     ; ctrl w, delete the word before cursor
                       ]}
-          { :des "System-Wide Vimium [(caps_lock + i)-> enter; escape -> exit]"
+          { :des "Vimium-Mode"
             :rules  [
-                      [:caps_lock ["vimium" 0] ["vimium" 1]]         ; exit vimium mode
-                      [:caps_lock :escape ["vimium" 0]]              ; caps_lock -> escape
-                      [:caps_lock ["vimium" 1]]
-                      [:i [:up_arrow :up_arrow :up_arrow :up_arrow :up_arrow] ["vimium" 1]]
-                      [:k [:down_arrow :down_arrow :down_arrow :down_arrow :down_arrow] ["vimium" 1]]
-                      [:j [:left_arrow :left_arrow :left_arrow :left_arrow :left_arrow] ["vimium" 1]]
-                      [:l [:right_arrow :right_arrow :right_arrow :right_arrow :right_arrow] ["vimium" 1]]
-                      ;[{:key :l :modi {:optional :caps_lock}} :right_arrow ["vimium" 1]]
+                      [:!CSi ["vimium" 1]]                            ; enter Vimium mode
+                      [:tab [:escape ["vimium" 0]] ["vimium" 1]]      ; exit Vimium mode
+                      ;[:button1 [:button1 ["vimium" 0]] ["vimium" 1]]   ; TODO: Why this don't work?
+                      [:j :up_arrow ["vimium" 1]]
+                      [:k :down_arrow ["vimium" 1]]
+                      [:h :left_arrow ["vimium" 1]]
+                      [:l :right_arrow ["vimium" 1]]
                       ]}
           { :des "Vi-V-Mode"
             :rules  [ :Vi-V-Mode
@@ -155,23 +155,29 @@
                       [:!Sk {:mkey {:y 1546}}]
                       [:#Ss {:mkey {:speed 0.5}}]    ; slower
                       [:#Sa {:mkey {:speed 2.0}}]    ; faster
-                      [:#Sh {:pkey :button1}]        ; left click
-                      [:#Sn {:pkey :button2}]        ; right click
+                      ;[:#Sh {:pkey :button1}]        ; left click
+                      [:#Sh :button1]                 ; left click
+                      [:#Sn :button2]                 ; right click
                       ; ### system settings ###
                       [:d :!OCd]                     ; hide/show dock
-                      [:b :!SCb :Browsers]           ; hide/show browser's bookmark bar
+                      [:b :!SCb :Chrome]              ; hide/show Chrome's bookmark bar
                       [:f :!TCf]                     ; full screen
+                      [:w :!Ow]                       ; move windows by Moom
                       ;[:t [:!Ot [:open "/Applications/iTerm.app"]]]  ; open terminal in ubuntu
-                      [:return_or_enter :mission_control]
-                      [:tab :launchpad]              ; launchpad
+                      [:grave_accent_and_tilde :launchpad]            ; mission control
+                      [:tab :mission_control]                         ; launchpad
                       [:comma [:open "/Applications/System Preferences.app"]]
                       [:backslash :mute]             ; mute
                       [:open_bracket :volume_down]   ; volume down
                       [:close_bracket :volume_up]    ; volume up
                       [:!Oopen_bracket :!OSvolume_down]      ; 1/4 volume down
                       [:!Oclose_bracket :!OSvolume_up]       ; 1/4 volume up
+                      [:3 :!CS3]                     ; screen shot
+                      [:4 :!CS4]                     ; screen shot
                       [:1 :!TStab :Finder]           ; previous tab in Finder
                       [:2 :!Ttab :Finder]            ; next tab in Finder
+                      [:1 :!CSopen_bracket :Safari]   ; previous tab in Safari
+                      [:2 :!CSclose_bracket :Safari]  ; next tab in Safari
                       [:1 :!Tpage_up]                ; Previous tab
                       [:2 :!Tpage_down]              ; Next tab
                       ]}
@@ -344,7 +350,18 @@
                       [:b :!Sb]
                       [:n :!Sn]
                       [:m :!Sm]
-                      ]}]
+                      ]}
+          { :des "Whether alone?"
+            :rules  [
+                      [:##right_shift :right_shift nil {:alone :!Tspacebar}]   ; switch input source
+                      [:grave_accent_and_tilde {:grave_accent_and_tilde :lazy} nil {:alone :!SOgrave_accent_and_tilde}]
+                                                                            ; force inputting accent sign under chinese input methods
+                      ;[:tab {:tab :lazy} nil {:alone :escape}]             ; tab -> escape/hyper(⌘⌥⌃⇧)
+                      ;[:caps_lock {:f20 :lazy} nil {:alone :escape}]        ; caps_lock -> ⌃/escape; under effect of caps_lock-mode
+                      [:caps_lock {:f20 :lazy} nil {:alone [:escape ["vimium" 0]]}] ; jump out of inputting
+                      ;[:##tab [:left_control :left_option :left_command :left_shift] nil {:alone :escape}]     ; escape/hyper(⌘⌥⌃⇧)
+                      ]}
+                      ]
 
   :devices        {
                     :macbook-internal [{:product_id 635 :vendor_id 1452}]
@@ -352,13 +369,14 @@
                     }
   :applications   {
                     :2do        [ "^com\\.guidedways\\.TodoMac.*" ]
+                    :Safari     [ "^com\\.apple\\.Safari$"  ]
+                    :Chrome     [ "^com\\.google\\.Chrome$"]
                     :Browsers   [ "^org\\.mozilla\\.firefox$"
                                   "^com\\.google\\.Chrome$"
-                                  "^com\\.google\\.Chrome\\.canary$"
                                   "^com\\.apple\\.Safari$"  ]
                     :Finder     [ "^com\\.apple\\.finder$"  ]
                     :irreader   [ "^com\\.netqon\\.likefeeder$" ]
-                    :Music      [ "^com.\\google\\.Chrome\\.app\\.Default-hcnmcnkcapjmodbajnmaonhjpmhedold"]
+                    ;:Music      [ "^com.\\google\\.Chrome\\.app\\.Default-hcnmcnkcapjmodbajnmaonhjpmhedold"]
                     :Preview    [ "^com\\.apple\\.Preview"  ]
                     :Terminals  [ "^com\\.apple\\.Terminal$"
                                   "^com\\.googlecode\\.iterm2$"
@@ -366,6 +384,7 @@
                                   "^co\\.zeit\\.hyper$"
                                   "^io\\.alacritty$"
                                   "^net\\.kovidgoyal\\.kitty$"  ]
+                    :Typora     [ "^abnerworks\\.Typora"]
                     :vim-mode-disabled-application
                                 [ "^com\\.apple\\.Terminal$"
                                   "^com\\.googlecode\\.iterm2$"
