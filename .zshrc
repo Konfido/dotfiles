@@ -86,7 +86,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
+alias hw="cd /Users/dhh/Documents/Sync/Blog/; hexo --config _config_wiki.yml"
+alias ip="ifconfig | grep 'inet '"
 
 # added by Anaconda3 5.3.0 installer
 # >>> conda init >>>
