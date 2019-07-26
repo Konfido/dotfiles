@@ -1,6 +1,9 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# keep env variables in .bash_profile
+source ~/.bash_profile
+
 # Path to oh-my-zsh installation.
 export ZSH="/Users/dhh/.oh-my-zsh"
 
@@ -53,12 +56,18 @@ ZSH_THEME="spaceship"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git zsh-syntax-highlighting
+  git zsh-syntax-highlighting autojump
 )
+
+# autojump
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+
+# enables the vi editing mode in ZSH
+# set -o vi
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -86,33 +95,16 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias hw="cd /Users/dhh/Documents/Sync/Blog/; hexo --config _config_wiki.yml"
-alias ip="ifconfig | grep 'inet '"
+alias vim='mvim'
+alias hw="cd /Users/dhh/Documents/Sync/Blog/;hexo --config _config_wiki.yml"
+alias hws="cd /Users/dhh/Documents/Sync/Blog/;hw clean;hw g --debug;rm db.json;hw s --debug"
 
-# added by Anaconda3 5.3.0 installer
-# >>> conda init >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$(CONDA_REPORT_ERRORS=false '/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    \eval "$__conda_setup"
-else
-    if [ -f "/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/anaconda3/etc/profile.d/conda.sh"
-        CONDA_CHANGEPS1=false conda activate base
-    else
-        \export PATH="/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda init <<<
-
-where() { type -a "$@" ; }
-
-# Java
-export JAVA_HOME=$(/usr/libexec/java_home)
-
-# global npm, for hexo
-export PATH=~/.npm-global/bin:$PATH
 
 # in order to make goku
 export PATH=/usr/local/lib/graalvm/bin:$PATH
+
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

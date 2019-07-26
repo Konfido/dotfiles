@@ -14,7 +14,7 @@
 ; Note 4: "#" deactivate its nearby modifiers, while "##" pass through the modifiers to the results!
 ;         Which means, if you want "shift-x" works differently to "x" in a simlayer, "##" should be attached ahead.
 
-{ :templates  { :2do    "open 'twodo://x-callback-url/%s'"
+{ :templates  { ;:2do    "open 'twodo://x-callback-url/%s'"
                 ;:km     "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
                 :open   "open \"%s\""
                 }
@@ -29,8 +29,8 @@
                 :Symbol-P-Mode  {:key :p :upwhen :any}
                 :Search-Alt-Mode  {:key :left_option}
                 ; :caps_lock-mode {:key :caps_lock}
-                :2do-Space-mode {:key :spacebar :condi :2do}
-                :2do-d-mode     {:key :d :condi :2do}
+                ; :2do-Space-mode {:key :spacebar :condi :2do}
+                ; :2do-d-mode     {:key :d :condi :2do}
                 ; :tmux-windmove-mode {:key :q :condi :Terminals}
                 ; :vi-visual-mode {:key :v :condi :!vim-mode-disabled-application}
                 }
@@ -45,18 +45,21 @@
                       ]}
           { :des "App-Specific customization"
             :rules  [
-                      [:h :!TCh :Preview]               ; highlight
                       ;[:caps_lock [:escape :escape :escape] :Browsers]  ; Jump out of address bar
                       ;[:return_or_enter [:return_or_enter :escape :escape :escape] :Safari]
                       [:!Sx :!CSt :Browsers]            ; reopen closed tab in browsers
-                      [:!Cw :!Cm  :Spotify]             ; Command+W to hide instead of quitting
+                      [:!Cescape :!C9 :Browsers]        ; navigate to last tab
+                      [:!O2 :!COp :ForkLift]            ; Toggle dual panel
                       [:!Cw :!Cq  :iCal]                ; Command+W to quit
-                      [:!O1 :!TC3 :Typora]              ; File Tree
-                      [:!O2 :!TC1 :Typora]              ; TOC
-                      [:!Chyphen :!TSgrave_accent_and_tilde :Typora]
                       [:!O1 :!Copen_bracket :iTerm2]    ; next split tab
                       [:!O2 :!Cclose_bracket :iTerm2]   ; previous split tab
-                      [:!O2 :!COp :ForkLift]            ; Toggle dual panel
+                      [:v :!TCh :Preview]               ; highlight
+                      [:!Cw :!Cm  :Spotify]             ; Command+W to hide instead of quitting
+                      [:!T1 :!TC3 :Typora]              ; File Tree
+                      [:!T2 :!TC1 :Typora]              ; Toggle TOC
+                      [:!Tr :!COr :Typora]              ; Footnote (注脚，引用，Reference)
+                      [:!Cescape :!C0 :Typora]          ; Change to plain text
+                      [:!Chyphen :!TSgrave_accent_and_tilde :Typora]
                       ]}
           { :des "Complex & Simultaneous keys"
             :rules  [
@@ -100,10 +103,11 @@
                       [:r :!SOc :Browsers]          ; Toggle "Read Mode" (Extension: Clearly)
                       [:d :!OSa :Browsers]          ; Toggle "Dark Reader" extension
                       ; Universal
-                      [:f :!TSf]                    ; Change input source to Traditional Chinese
+                      ; [:f :!TSf]                    ; Toggle Traditional Chinese in Sougou
+                      [:f :!TS4]                    ; Toggle Traditional Chinese in Squirrel
                       [:j :!!j]                     ; Tomato Clock, Hyper j
                       [:t [:open "/Applications/Transmit.app"]]
-                      [:spacebar [:2do "showAll"]]  ; Show all tasks (2do)
+                      ; [:spacebar [:2do "showAll"]]  ; Show all tasks (2do)
                       ]}
           { :des "Search-Alt-Mode"
             :rules  [ :Search-Alt-Mode
@@ -163,13 +167,13 @@
 
                       [:1 :!CSopen_bracket :iTerm2]   ; show previous tab
                       [:2 :!CSclose_bracket :iTerm2]  ; show next tab
-                      [:s :!CSl :Typora]              ; Toggle Sidebar
+                      [:s :!CSl :Typora]              ; Toggle Sidebar  (Typora)
                       [:s :!COs :ForkLift]            ; Toggle Sidebar (ForkLift)
+                      [:s :!Cslash :Things]           ; Toggle Sidebar (Things)
 
                       ; Universal
                       [:1 :!TStab]                    ; show previous tab
                       [:2 :!Ttab]                     ; show next tab
-                      [:a :!!a]                       ; Add item to 2Do (2Do)
                       [:d :!OCd]                      ; hide/show dock
                       [:f :!TCf]                      ; full screen
                       [:m :!COm]                      ; Autotype password (MacPass)
@@ -186,19 +190,6 @@
                       [:!Oopen_bracket :!OSvolume_down]               ; 1/4 volume down
                       [:!Oclose_bracket :!OSvolume_up]                ; 1/4 volume up
                       ]}
-          { :des "2do-Space-mode [inside 2do]"
-            :rules  [ :2do-Space-mode
-                      [:i [:!Cup_arrow]]             ; list up
-                      [:k [:!Cdown_arrow]]           ; list down
-                      [:h [:!Ck]]                    ; hide/show scheduled
-                      ;[:i [:!C0]]                   ; inbox
-                      [:l [:!TSCn]]                  ; add selection to checklist
-                      [:a [:!C1]]                    ; all
-                      [:t [:!C2]]                    ; today
-                      [:s [:!C3]]                    ; stared
-                      [:v [:!C4]]                    ; scheduled
-                      [:d [:!C5]]                    ; done
-                      ]}
           { :des "Symbol-P-Mode"
             :rules  [ :Symbol-P-Mode
                       ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
@@ -214,6 +205,19 @@
                       ; [:c :!S9]                      ; (
                       ; [:v :!S0]                      ; )
                       ]}
+          #_{ :des "2do-Space-mode [inside 2do]"
+            :rules  [ :2do-Space-mode
+                      [:i [:!Cup_arrow]]             ; list up
+                      [:k [:!Cdown_arrow]]           ; list down
+                      [:h [:!Ck]]                    ; hide/show scheduled
+                      ;[:i [:!C0]]                   ; inbox
+                      [:l [:!TSCn]]                  ; add selection to checklist
+                      [:a [:!C1]]                    ; all
+                      [:t [:!C2]]                    ; today
+                      [:s [:!C3]]                    ; stared
+                      [:v [:!C4]]                    ; scheduled
+                      [:d [:!C5]]                    ; done
+                      ]}
           #_{ :des "caps_lock-mode [map to ctrl]"
             :rules  [ :caps_lock-mode
                       [:a :!Ta]                     ; ctrl a, start of sentence
@@ -228,7 +232,7 @@
             :rules  [
                       [:!CSi ["vimium" 1]]                            ; enter Vimium mode
                       [:tab [:escape ["vimium" 0]] ["vimium" 1]]      ; exit Vimium mode
-                      ;[:button1 [:button1 ["vimium" 0]] ["vimium" 1]]   ; TODO: Why this doesn't work?
+                      ; [:button1 [:button1 ["vimium" 0]] ["vimium" 1]]   ; TODO: Why this doesn't work?
                       [:j :up_arrow ["vimium" 1]]
                       [:k :down_arrow ["vimium" 1]]
                       [:h :left_arrow ["vimium" 1]]
@@ -272,7 +276,7 @@
                       [:5 [:!Tq :5]]]}
           { :des "Whether pressed alone?"
             :rules  [
-                      [:##left_shift :##left_shift nil {:alone :right_shift}]   ; switch input source
+                      ; [:##left_shift :##left_shift nil {:alone :right_shift}]   ; switch input source
                       ; [:grave_accent_and_tilde {:grave_accent_and_tilde :lazy} nil {:alone :!SOgrave_accent_and_tilde}]
                       ;[:##grave_accent_and_tilde :##grave_accent_and_tilde nil {:alone :!SOgrave_accent_and_tilde}]
                                                                             ; force inputting accent sign under chinese input methods
@@ -309,6 +313,7 @@
                                   "^io\\.alacritty$"
                                   "^net\\.kovidgoyal\\.kitty$"  ]
                     :Typora     [ "^abnerworks\\.Typora$"]
+                    :Things     [ "com.culturedcode.ThingsMac"]
                     :VSCode     [ "^com\\.microsoft\\.VSCode$"]
                     :vim-mode-disabled-application
                                 [ "^com\\.apple\\.Terminal$"
