@@ -1,51 +1,40 @@
 ; References
 ; intro:      https://github.com/yqrashawn/GokuRakuJoudo
 ; keys_info:  https://github.com/yqrashawn/GokuRakuJoudo/blob/master/src/karabiner_configurator/keys_info.clj
-; karabiner:  https://pqrs.org/osx/karabiner/json.html
+; karabiner:  https://karabiner-elements.pqrs.org/docs/
 
 
 
-{ :profiles   { :Goku {:default true :sim 50 :delay 500 :alone 300 :held 300}}
+{ :profiles   { :Goku {:default true :sim 50 :delay 150 :alone 250 :held 250}}
   :templates  { ;:2do    "open 'twodo://x-callback-url/%s'"
                 ;:km     "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
                 :open   "open \"%s\""
+                :type   "osascript -e 'tell application \"System Events\" to keystroke \"%s\" as text'"
+                :delay  "osascript -e 'delay \"%f\"'"
                 }
   :layers     { :Spacebar-Mode  {:key :spacebar :afterup [{:set ["Spacebar-Mode" 0]}]}
-                ;:2do-Space-mode {:key :spacebar :condi :2do :afterup [{:set ["2do-Space-Mode" 0]}]}
                 ;:caps_lock-mode {:key :caps_lock :afterup ["caps_lock-mode" 0]}
                 }
   :simlayers  { :Launch-W-Mode  {:key :w}
                 :Hyper-Q-Mode   {:key :q}
                 :Vi-V-Mode      {:key :v}
                 ;:Spacebar-Mode  {:key :spacebar :upwhen :any}
-                ; :Symbol-S-Mode  {:key :s}
-                :Symbol-Z-Mode  {:key :z :upwhen :any}
+                :Symbol-X-Mode  {:key :x :upwhen :any}
                 :Search-Semicolon-Mode  {:key :semicolon}
-                ; :caps_lock-mode {:key :caps_lock}
-                ; :2do-Space-mode {:key :spacebar :condi :2do}
+                :caps_lock-mode {:key :caps_lock}
                 ; :2do-d-mode     {:key :d :condi :2do}
                 ; :tmux-windmove-mode {:key :q :condi :Terminals}
-                ; :vi-visual-mode {:key :v :condi :!vim-mode-disabled-application}
                 }
+  :simlayer-threshold 200
   :main [ { :des "test"
-            :rules  [ [:!Oe :!OSe]
-                      ;[:d :d nil {:held :delete_or_backspace}]
+            :rules  [
                       ;[:##tab :tab nil {:alone :escape :held :mission_control :paras {:alone :50 :held :250}}]
-                      ;[[:h :l] [:alf "m" "com.folded-paper.menu-bar-search"]]
-                      ;[[:j :l] [:f19 ["in-alfred" 1]]]
                       ]}
-          { :des "Simple swaping"
+          { :des "App-Specific customization" ; Execute with the highest priority!
             :rules  [
-                      [:##right_shift :right_shift]
-                      [:##left_command :left_option :tmp]
-                      [:##left_option :left_command :tmp]
-                    ]}
-          { :des "App-Specific customization"
-            :rules  [
-                      ;[:caps_lock [:escape :escape :escape] :Browsers]  ; Jump out of address bar
                       ;[:return_or_enter [:return_or_enter :escape :escape :escape] :Safari]
                       ; [:!Sx :!CSt :Browsers]            ; reopen closed tab in browsers
-                      [:!Cescape :!C9 :Browsers]        ; navigate to last tab
+                      ;; [:!Cescape :!C9 :Browsers]        ; navigate to last tab
                       [:!O2 :!COp :ForkLift]            ; Toggle dual panel
                       [:!Cw :!Cq  :iCal]                ; Command+W to quit
                       [:!Cw :!Cm  :Reminders]           ; Command+W to hide instead of quitting
@@ -55,11 +44,26 @@
                       [:!Cescape :!C0 :Typora]          ; Change to plain text
                       [:!Chyphen :!TSgrave_accent_and_tilde :Typora]
                       ]}
-          { :des "Complex & Simultaneous keys"
-            :rules  [
-                      ;[:!CSl :!CTq]                    ; Lock Screen
+          { :des "Swaping OR Simultaneous"
+            :rules  [ ;; Swaping
+                                              ; arrow -> jlik
+                      [:!Oh :!Oleft_arrow]              ; move cursor by word
+                      [:!Ol :!Oright_arrow]
+                      [:!Th :!Tleft_arrow]              ; swith screen
+                      [:!Tl :!Tright_arrow]
+                      [:!SOh :!SOleft_arrow]            ; select by word
+                      [:!SOl :!SOright_arrow]
+                      [:!CSh :!CSleft_arrow]            ; select from the beginning of sentence
+                      [:!CSl :!CSright_arrow]
+                                              ; others
+                      [:##left_command :left_option :tmp_keyboard]
+                      [:##left_option :left_command :tmp_keyboard]
+                      [:grave_accent_and_tilde [:!COspacebar :grave_accent_and_tilde :!COspacebar] :cn] ; Symbol Mapping for Pinyin Input
+                      ; [:grave_accent_and_tilde [:!COspacebar :grave_accent_and_tilde [:delay 0.1] :!COspacebar] :cn] ; Symbol Mapping for Pinyin Input
+
+                      ;; Simultaneous keys
                       ;[[:d :f] :delete_or_backspace]
-                      ]}
+                    ]}
           { :des "Quit application only when tapping command-q twice"
             :rules  [
                       [:!C#Pq [:!Cq ["command-q" 0]] ["command-q" 1]]
@@ -69,95 +73,72 @@
                       ]}
           { :des "Launch-W-Mode"
             :rules  [ :Launch-W-Mode
-                      [:b [:open "/Applications/MWeb.app"]]                  ; Blog
-                      [:c [:open "/Applications/Visual Studio Code.app"]]    ; code
-                      [:e [:open "System/Applications/Mail.app"]]
+                      [:c [:open "/Applications/Visual Studio Code.app"]]     ; Code
+                      ;; [:e [:open "/Applications/Pycharm.app"]]          ; Editor
+                      [:e [:open "/Applications/Edison Mail.app"]]
                       [:f [:open "/Applications/ForkLift.app"]]
-                      ;[:f [:open "/System/Library/CoreServices/Finder.app"]]
-                      [:g [:open "/Applications/Safari.app"]]
+                      [:g [:open "/System/Library/CoreServices/Finder.app"]]
+                      ;; [:g [:open "/Applications/Safari.app"]]
                       [:k [:open "/Applications/Karabiner-EventViewer.app"]]
-                      [:m [:open "/Applications/itunes.app"]]; music
-                      [:p [:open "/Applications/Preview.app"]]
-                      ; [:q [:open "/Applications/Google Chrome.app"]]
-                      ; [:r [:open "/Users/dhh/Applications/Chrome Apps.localized/Inoreader.app"]]
-                      [:r [:open "/Applications/Reeder4.app"]]
-                      [:t [:open "/Applications/iTerm.app"]]
-                      ; [:t [:open "/Applications/Wunderlist.app"]]
+                      ;; [:m [:open "/Applications/Obsidian.app"]]
+                      [:r [:open "/Applications/Reeder.app"]]
+                      ;; [:t [:open "/Applications/iTerm.app"]]
+                      [:t [:open "/Applications/Things3.app"]]
                       [:v [:open "/Applications/WeChat.app"]]
                       [:y [:open "/Applications/Nutstore.app"]]
 
                       [:tab [:open "/Applications/Google Chrome.app"]]
                       [:caps_lock [:open "/Applications/Firefox.app"]]
                       [:comma [:open "/Applications/System Preferences.app"]]
-                      [:semicolon [:open "/Applications/Safari.app"]]
+                      ;; [:semicolon [:open "/Applications/Safari.app"]]
                       [:left_option [:open "/Applications/Zotero.app"]]
-                      [:left_command [:open "/Applications/DEVONthink 3.app"]]
-                      [:spacebar [:open "/Applications/Typora.app"]]
+                      [:left_command [:open "/Applications/Typora.app"]]
+                      [:spacebar [:open "/Applications/Obsidian.app"]]
                       [:right_command [:open "/System/Applications/Reminders.app"]]
-                      [:right_option [:open "/System/Applications/Reminders.app"] :tmp]
+                      ;; [:right_option [:open "/System/Applications/Reminders.app"] :tmp_keyboard]
                       #_[:period [:open "/Applications/Paw.app"]]            ; API tool
                       #_[:b [:open "/Applications/Bee.app"]]                 ; issue tracker
                       ]}
           { :des "Hyper-Q-Mode"
             :rules  [ :Hyper-Q-Mode
                       ; App-specific
-                      [:r :!SOc :Browsers]          ; Toggle "Read Mode" (Extension: Clearly)
+                      [:c :!TCc :Finder]            ;
                       [:d :!OSa :Browsers]          ; Toggle "Dark Reader" extension
+                      [:r :!SOc :Browsers]          ; Toggle "Read Mode" (Extension: Clearly)
                       ; Universal
                       ; [:f :!TSf]                    ; Toggle Traditional Chinese in Sougou
                       [:f :!TS4]                    ; Toggle Traditional Chinese in Squirrel
                       [:j :!!j]                     ; Tomato Clock, Hyper j
                       [:k :!!k]                     ; Toggle Unclutter
+                      [:l :!!l]                     ; Drawing window (Detexify)
                       [:m :!!m]                     ; Hide/Show menubar icons (Dozer)
                       [:p :!!p]                     ; Upload pics using PicGo, Hyper p
-                      [:t [:open "/Applications/Things3.app"]]
                       ; [:spacebar [:2do "showAll"]]  ; Show all tasks (2do)
-                      [:spacebar :!!spacebar]       ; Start/Pause timing (Klokki)
                       ]}
           { :des "Search-Semicolon-Mode"
             :rules  [ :Search-Semicolon-Mode
-                      ; Shift-Cmd-Ctrl
-                      [:d :!STCd]                     ; Search in Dash
-                      [:e :!STCe]
+                      [:e :!STCe]                     ; translate
                       [:f :!STCf]                     ; translate selected words in Alfred
-                      [:m :!STCm]                     ; search pass
+                      [:m :!STCm]                     ; search passwrod
                       ; [:v :!Ov]                     ; search clipboard history in Alfred
                       ; [:s :!OCs]                    ; search snippet (Snippetslab)
-                      [:b [[:open "/Applications/Typora.app"] :!CSf]]
-                      ]}
-          { :des "Vi-V-Mode"
-            :rules  [ :Vi-V-Mode
-                      [:z :!Cz]                       ; undo
-                      [:d :delete_or_backspace]       ; delete
-                      [:w :!Cdelete_or_backspace]     ; command delete
-                      [:spacebar :return_or_enter]    ; enter
-                      ;[:##i :f20]                     ; avoid mistake
-                      [:##j :down_arrow]              ; down
-                      [:##k :up_arrow]                ; up
-                      [:##h :left_arrow ]             ; left
-                      [:##l :right_arrow ]            ; right
-                      ;[:!Si :page_up]                 ; page up
-                      ;[:!Sk :page_down]               ; page down
-                      ;[:h :!Oleft_arrow :VSCode]                  ; left word
-                      ;[:semicolon :!Oright_arrow :VSCode]         ; right word
-                      [:u :!Ta]                       ; beginning of sentence
-                      [:o :!Te]                       ; end of sentence
                       ]}
           { :des "Spacebar-Mode: mouse & system settings"
             :rules  [ :Spacebar-Mode
 
                       ; App-specific
+                                              ; Browsers
                       [:d :!Cd :Alfred]                 ; Toggle debugging mode
                       [:s :!TSs :Browsers]              ; Toggle Octotree
                       [:1 :!CSopen_bracket :Browsers]   ; go previous
                       [:2 :!CSclose_bracket :Browsers]  ; go next
                       [:3 :!Copen_bracket :Browsers]    ; go backward
                       [:4 :!Cclose_bracket :Browsers]   ; go forward
-                      [:b :!SCb :Browsers]            ; hide/show bookmark bar
-
+                      [:b :!SCb :Browsers]              ; hide/show bookmark bar
+                                              ; VSCode
                       [:b :!Cb :VSCode]               ; Toggle Activity Bar
                       [:d :!TCp :VSCode]              ; Toggle panel
-                      [:f :!CSe :VSCode]
+                      [:f :!CSe :VSCode]              ; Toggle focus on Explorer
                       [:s :!Cbackslash :VSCode]       ; Toggle sidebar
                       [:1 :!Tpage_up :VSCode]         ; show previous tab
                       [:2 :!Tpage_down :VSCode]       ; show next tab
@@ -165,18 +146,33 @@
                       [:4 :!Oequal_sign :VSCode]      ; forward
                       [:!S3 :!CS7 :VSCode]            ; Toogle Line Comments
                       [:return_or_enter [:end :!Ssemicolon :return_or_enter] :VSCode]
-
+                                              ; Pycharm
+                      [:s :!C1 :Pycharm]                ; Toggle File Tree
+                      [:d :!Of12 :Pycharm]              ; Toggle Terminal
+                                              ; iTerm2
                       [:1 :!CSopen_bracket :iTerm2]   ; show previous tab
                       [:2 :!CSclose_bracket :iTerm2]  ; show next tab
-                      [:d :!SCd :iTerm2]               ; Split Vertically
-                      [:k :down_arrow :Preview]
-                      [:j :up_arrow :Preview]
-                      [:v :!TCh :Preview]             ; highlight
-                      [:s :!CSl :Typora]              ; Toggle Sidebar  (Typora)
-                      [:s :!COs :ForkLift]            ; Toggle Sidebar (ForkLift)
-                      [:s :!Cslash :Things]           ; Toggle Sidebar (Things)
-                      [:s :!OSl :Obsidian]            ; Toggle left Sidebar  (Obsidian)
+                      [:d :!SCd :iTerm2]              ; Split Vertically
+                                              ; Preview
+                      [:k :down_arrow :Preview]       ; Down
+                      [:j :up_arrow :Preview]         ; Up
+                      [:v :!TCh :Preview]             ; Highlight
+                                              ; Typora:
+                      [:s :!CSl :Typora]              ; Toggle Sidebar
+                      [:u :!OCu :Typora]              ; Unordered list
+                      [:v :!CSh :Typora]              ; Highlight
+                      [:x :!Tx :Typora]               ; Toggle Task Status
+                                              ; Obsidian
+                      [:s :!OSl :Obsidian]            ; Toggle left Sidebar
                       [:d :!OSr :Obsidian]            ; Toggle right Sidebar
+                      [:3 :!COopen_bracket :Obsidian] ; Backward
+                      [:4 :!COclose_bracket :Obsidian]; Forward
+                                              ; Others
+                      [:s :!COs :ForkLift]            ; Toggle Sidebar
+                      [:s :!CSOs :inna]               ; Rotate 0°
+                      [:d :!CSOd :inna]               ; Rotate 90°
+                      [:f :!CSOf :inna]               ; Rotate 270°
+                      [:s :!Cslash :Things]           ; Toggle Sidebar
 
                       ; Universal
                           ; mouse scroll and pointer
@@ -198,7 +194,8 @@
                       [:2 :!Ttab]                     ; show next tab
                       [:3 :!Copen_bracket]            ; Backward
                       [:4 :!Cclose_bracket]           ; Foreward
-                      [:d :!OCd]                    ; hide/show dock
+                      ;; [:e "open ~/Downloads"]
+                      [:!Sd :!OCd]                      ; hide/show dock
                       [:f :!TCf]                      ; full screen
                       ; [:m :!COm]                      ; Autotype password (MacPass)
                       [:p :!CTSp]                     ; Show picker (Sip)
@@ -206,6 +203,9 @@
                       ;[:t [:!Ot [:open "/Applications/iTerm.app"]]]  ; open terminal in ubuntu
                       [:w :!Ow]                       ; resize & move windows (Moom)
                       [:m :!Cm]                       ; minimize windows
+                      [:n :!!a]                       ; Activate Scroll Mode (Vimac)
+                      [:v :!!v]                       ; Vimium-like hint mode (Vimac)
+                      ;; [:x :!Ccomma]                   ; Preferences
                       [:z :!TS2]                      ; Toggle ascii-mode (Squirrel)
                       [:caps_lock :!COspacebar]       ; Switch input methods
                       [:grave_accent_and_tilde :launchpad]            ; launchpad
@@ -217,103 +217,67 @@
                       [:!Oopen_bracket :!OSvolume_down]               ; 1/4 volume down
                       [:!Oclose_bracket :!OSvolume_up]                ; 1/4 volume up
                       ]}
-          { :des "Symbol-Z-Mode"
-            :rules  [ :Symbol-Z-Mode
+          { :des "Symbol-X-Mode"
+            :rules  [ :Symbol-X-Mode
                       ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
-                      ; [:h [:!Sgrave_accent_and_tilde :slash]]         ; ~/  home
-                      [:j :!Sequal_sign]  ; +
-                      [:h :hyphen] ; -
-                      [:k :equal_sign]  ; =
-                      [:n :!Shyphen]  ; _
-                      ; [:j [:spacebar :hyphen :!Speriod :spacebar]]    ; ->  right arrow
-                      ; [:t [:spacebar :!St :!So :!Sd :!So :!Ssemicolon :spacebar]] ; TODO:
-                      ; [:s [:period :!S8]]            ; *
-                      ; [:w [:!Sslash]]                ; ?
-                      ; [:e :!Sopen_bracket]           ; {
-                      ; [:r :!Sclose_bracket]          ; }
-                      ; [:d :open_bracket]             ; [
-                      ; [:f :close_bracket]            ; ]
-                      ; [:c :!S9]                      ; (
-                      ; [:v :!S0]                      ; )
+                      [:h [:!Sgrave_accent_and_tilde :slash]]         ; ~/  home
+                      [:i [:!St :!So :!Sd :!So :!Ssemicolon :spacebar]] ; Insert TODO:
+                      [:j [:hyphen :!Speriod]]          ; -> (right arrow)
+                      [:u :!S6]                         ; ^ (Up)
                       ]}
-          #_{ :des "2do-Space-mode [inside 2do]"
-            :rules  [ :2do-Space-mode
-                      [:i [:!Cup_arrow]]             ; list up
-                      [:k [:!Cdown_arrow]]           ; list down
-                      [:h [:!Ck]]                    ; hide/show scheduled
-                      ;[:i [:!C0]]                   ; inbox
-                      [:l [:!TSCn]]                  ; add selection to checklist
-                      [:a [:!C1]]                    ; all
-                      [:t [:!C2]]                    ; today
-                      [:s [:!C3]]                    ; stared
-                      [:v [:!C4]]                    ; scheduled
-                      [:d [:!C5]]                    ; done
-                      ]}
-          #_{ :des "caps_lock-mode [map to ctrl]"
+          { :des "caps_lock-mode [mapped to ctrl]"
             :rules  [ :caps_lock-mode
+                      [:r :!Tr :Terminals]          ; ctrl r, search history
+                      [:w :!Tw :Terminals]          ; ctrl w, delete the word before cursor
+                      ; Universal
                       [:a :!Ta]                     ; ctrl a, start of sentence
-                      [:c :!Tc]                     ; ctrl c
-                      [:d :!Td]                     ; ctrl d
                       [:e :!Te]                     ; ctrl e, end of sentence
+                      ;; [:c :!Tc]                     ; ctrl c
+                      ;; [:d :!Td]                     ; ctrl d
+                      [:h :!Tleft_arrow]            ; ctrl ←, switch screen
+                      [:l :!Tright_arrow]           ; ctrl →
                       [:k :!Tk]                     ; ctrl k, delete to the end
-                      [:w :!Tw]                     ; ctrl w, delete the word before cursor
-                      [:r :!Tr]                     ; ctrl r, search history
+                      [:w :!Odelete_or_backspace]   ; ctrl w, delete a word
+                    ]}
+          { :des "Vi-V-Mode"
+            :rules  [ :Vi-V-Mode
+                      [:z :!Cz]                       ; undo
+                      [:d :delete_or_backspace]       ; delete
+                      [:w :!Cdelete_or_backspace]     ; command delete
+                      [:spacebar :return_or_enter]    ; enter
+                      ;[:##i :f20]                     ; avoid mistake
+                      [:j :down_arrow]                ; down
+                      [:k :up_arrow]                  ; up
+                      [:h :left_arrow ]               ; left
+                      [:l :right_arrow ]              ; right
+                      [:a :!Ta]                       ; beginning of sentence
+                      [:e :!Te]                       ; end of sentence
                       ]}
-          #_{ :des "Vimium-Mode"
+          { :des "Vi Visual Mode"
             :rules  [
-                      [:!CSi ["vimium" 1]]                            ; enter Vimium mode
-                      [:tab [:escape ["vimium" 0]] ["vimium" 1]]      ; exit Vimium mode
-                      ; [:button1 [:button1 ["vimium" 0]] ["vimium" 1]]   ; TODO: Why this doesn't work?
-                      [:j :up_arrow ["vimium" 1]]
-                      [:k :down_arrow ["vimium" 1]]
-                      [:h :left_arrow ["vimium" 1]]
-                      [:l :right_arrow ["vimium" 1]]
+                      [:!CSi ["viv" 1]]                         ; enter vi visual mode
+                      [:tab [:escape ["viv" 0]] ["viv" 1]]      ; exit vi visual mode
+                      [:caps_lock [:escape ["viv" 0]] ["viv" 1]]
+                      ;; [:button1 [:escape ["viv" 0]] ["viv" 1]]
+                      [:d :delete_or_backspace ["viv" 1]]
+                      [:j :!Sdown_arrow ["viv" 1]]
+                      [:k :!Sup_arrow ["viv" 1]]
+                      [:h :!Sleft_arrow ["viv" 1]]
+                      [:l :!Sright_arrow ["viv" 1]]
+                      [:b :!SOleft_arrow ["viv" 1]]
+                      [:w :!SOright_arrow ["viv" 1]]
+                      [:0 :!SCleft_arrow ["viv" 1]]
+                      [:4 :!SCright_arrow ["viv" 1]]
                       ]}
-          #_{ :des "Vi Visual Mode [V as Trigger Key]"
-            :rules  [ :vi-visual-mode
-                      [:d :delete_or_backspace]
-                      [:##j :!Sdown_arrow]
-                      [:##k :!Sup_arrow]
-                      [:##h :!Sleft_arrow]
-                      [:##l :!Sright_arrow]
-                      [:##b :!SOleft_arrow]
-                      [:##w :!SOright_arrow]
-                      [:##0 :!SCleft_arrow]
-                      [:##4 :!SCright_arrow]
-                      [:##open_bracket :!SOup_arrow ]
-                      [:##close_bracket :!SOdown_arrow]
-                      ]}
-          #_{ :des "window move"
-            :rules  [ :tmux-windmove-mode
-                      [:comma [:!Tq :comma]]
-                      [:open_bracket [:!Tq :open_bracket]]
-                      [:y [:!Tq :y]]
-                      [:f [:!Tq :f]]
-                      [:e [:!Tq :e]]
-                      [:w [:!Tq :w]]
-                      [:h [:!Tq :h]]
-                      [:j [:!Tq :j]]
-                      [:k [:!Tq :k]]
-                      [:l [:!Tq :l]]
-                      [:v [:!Tq :v]]
-                      [:s [:!Tq :s]]
-                      [:m [:!Tq :z]]
-                      [:b [:!Tq :x]]
-                      [:c [:!Tq :c]]
-                      [:1 [:!Tq :1]]
-                      [:2 [:!Tq :2]]
-                      [:3 [:!Tq :3]]
-                      [:4 [:!Tq :4]]
-                      [:5 [:!Tq :5]]]}
           { :des "Whether pressed alone?"
             :rules  [
-                      ; [:##left_shift :##left_shift nil {:alone :right_shift}]   ; switch input source
+                      ; [:left_shift :left_shift nil {:alone :!COspacebar}]   ; switch input source
                       ; [:grave_accent_and_tilde {:grave_accent_and_tilde :lazy} nil {:alone :!SOgrave_accent_and_tilde}]
                       ;[:##grave_accent_and_tilde :##grave_accent_and_tilde nil {:alone :!SOgrave_accent_and_tilde}]
                                                                             ; force inputting accent sign under chinese input method
-                      ; [:caps_lock {:f20 :lazy} nil {:alone :escape}]        ; caps_lock -> ⌃/escape; under effect of caps_lock-mode
-                      ; [:caps_lock :left_control nil {:alone [:escape ["vimium" 0]]}] ; escape && jump out of inputting
-                      [:caps_lock :left_control nil {:alone :escape}] ; escape && jump out of inputting
+                      ; [:caps_lock :f20 nil {:alone :escape}]                ; caps_lock -> ⌃/escape; under effect of "caps_lock-mode"
+                      [:caps_lock :left_control nil {:alone :escape}]       ; escape && jump out of inputting
+                      [:left_command :left_command nil {:alone :!Ow}]       ; Moom
                       ]}
                       ]
   :applications   {
@@ -327,47 +291,44 @@
                                   "^com\\.google\\.Chrome\\.canary$"]
                     :Finder     [ "^com\\.apple\\.finder$"  ]
                     :ForkLift   [ "^com\\.binarynights\\.ForkLift-3"]
-                    ;:irreader   [ "^com\\.netqon\\.likefeeder$" ]
+                    ;; :FSNotes    [ "co.fluder.FSNotes"]
                     :iCal       [ "^com\\.apple\\.iCal"]
+                    :inna       [ "com.colliderli.iina"]
                     :iTerm2     [ "^com\\.googlecode\\.iterm2"]
                     :Obsidian   [ "md.obsidian"]
                     :Preview    [ "^com\\.apple\\.Preview"  ]
+                    :Pycharm    [ "com\\.jetbrains\\.pycharm"]
                     :Reminders  [ "com\\.apple\\.reminders"]
                     :Safari     [ "^com\\.apple\\.Safari$"  ]
                     :Spotify    [ "^com\\.google\\.Chrome\\.app\\.Default-pjibgclleladliembfgfagdaldikeohf"]
+                    :Typora     [ "^abnerworks\\.Typora$"]
+                    :Things     [ "com.culturedcode.ThingsMac"]
+                    :VSCode     [ "^com\\.microsoft\\.VSCode$"]
                     :Terminals  [ "^com\\.apple\\.Terminal$"
                                   "^com\\.googlecode\\.iterm2$"
                                   "^co\\.zeit\\.hyperterm$"
                                   "^co\\.zeit\\.hyper$"
                                   "^io\\.alacritty$"
                                   "^net\\.kovidgoyal\\.kitty$"  ]
-                    :Typora     [ "^abnerworks\\.Typora$"]
-                    :Things     [ "com.culturedcode.ThingsMac"]
-                    :VSCode     [ "^com\\.microsoft\\.VSCode$"]
-                    :vim-mode-disabled-application
-                                [ "^com\\.apple\\.Terminal$"
-                                  "^com\\.googlecode\\.iterm2$"
-                                  "^co\\.zeit\\.hyperterm$"
-                                  "^co\\.zeit\\.hyper$"
-                                  "^io\\.alacritty$"
-                                  "^net\\.kovidgoyal\\.kitty$"
-                                  "^org\\.vim\\."
+                    :Vims       [ "^org\\.vim\\.MacVim$"
                                   "^com\\.qvacua\\.VimR$" ]
                     }
-  :input-sources  {
-                    :sogou  { :input_mode_id "com.sogou.inputmethod.pinyin"
-                              :input_source_id "com.sogou.inputmethod.sogou.pinyin"
-                              :language "zh-Hans"}
-                    :squirrel {:input_mode_id   "^com\\.googlecode\\.rimeime\\.inputmethod\\.Squirrel$"
-                                 :input_source_id "^com\\.googlecode\\.rimeime\\.inputmethod\\.Squirrel\\.Rime$"}
-                    :us     { :input_mode_id ""
-                              :input_source_id "com.apple.keylayout.ABC"
-                              :language "en"}
+  :input-sources  { ; can be used as to's condition
+                    :sogou    { :input_mode_id    "com.sogou.inputmethod.pinyin"
+                                :input_source_id  "com.sogou.inputmethod.sogou.pinyin"
+                                :language         "zh-Hans"}
+                    :squirrel { :input_mode_id    "^com\\.googlecode\\.rimeime\\.inputmethod\\.Squirrel$"
+                                :input_source_id  "^com\\.googlecode\\.rimeime\\.inputmethod\\.Squirrel\\.Rime$"}
+                    :us       { :input_mode_id    ""
+                                :input_source_id  "com.apple.keylayout.ABC"
+                                :language         "en"}
+                    :cn       { :input_mode_id    "com.apple.inputmethod.SCIM.ITABC"
+                                :input_source_id  "com.apple.inputmethod.SCIM.ITABC"
+                                :language         "zh-Hans"}
                     }
   :devices        {
                     :macbook-internal [{:vendor_id 1452 :product_id 635 }]
                     :ikbc             [{:vendor_id 1241 :product_id 394 }]
-                    :tmp              [{:vendor_id 621  :product_id 2 }]
+                    :tmp_keyboard              [{:vendor_id 621  :product_id 2 }]
                     }
-  :simlayer-threshold 210
 }
