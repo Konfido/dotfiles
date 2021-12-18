@@ -1,5 +1,6 @@
 ; References
 ; intro:      https://github.com/yqrashawn/GokuRakuJoudo
+; tutorial:   https://github.com/yqrashawn/GokuRakuJoudo/blob/master/tutorial.md
 ; keys_info:  https://github.com/yqrashawn/GokuRakuJoudo/blob/master/src/karabiner_configurator/keys_info.clj
 ; karabiner:  https://karabiner-elements.pqrs.org/docs/
 
@@ -12,26 +13,33 @@
                 :type   "osascript -e 'tell application \"System Events\" to keystroke \"%s\" as text'"
                 :delay  "osascript -e 'delay \"%f\"'"
                 }
-  :layers     { ;; :Spacebar-Mode  {:key :spacebar}
-                :window-tab-mode {:key :tab
-                                 :afterup [{:set ["window-move-mode" 0]}]
-                                 :condi   [:!Spacebar-Mode]}
-                :window-move-mode {:key :v :condi :window-tab-mode}
+  :layers     {
+                ;; :Spacebar-Mode  {:key :spacebar}
+                :window-tab-mode {:key :tab :condi [:!Spacebar-Mode]}
                 }
-  :simlayers  { :Launch-W-Mode  {:key :w}
+  :simlayers  {
+                :Launch-W-Mode  {:key :w}
                 :Hyper-Q-Mode   {:key :q}
-                :Vi-V-Mode      {:key :v}
-                :Symbol-X-Mode  {:key :x :upwhen :any}
+                :Vi-V-Cursor    {:key :v}
+                :Vi-S-Select    {:key :s :condi :!Vi-A-Arrow}
+                :Vi-A-Arrow     {:key :a}
+                :Symbol-X-Mode  {:key :x}
                 :Search-Semicolon-Mode  {:key :semicolon}
                 :caps_lock-mode {:key :caps_lock}
-                ; :2do-d-mode     {:key :d :condi :2do}
-                ; :tmux-windmove-mode {:key :q :condi :Terminals}
                 :Spacebar-Mode  {:key :spacebar :upwhen :any}
                 }
   :simlayer-threshold 200   ; exit simlayer after this
-  :main [ { :des "test"
+  :main [
+          { :des "test"
             :rules  [
                     ;[:##tab :tab nil {:alone :escape :held :mission_control :paras {:alone :50 :held :250}}]
+                    ;; [:j :up_arrow :vv]
+                    ;; [{:sim [:v :j]
+                    ;;   :simo {:interrupt true
+                    ;;          :dorder :strict
+                    ;;          :uorder :strict_inverse
+                    ;;          :afterup {:set ["vv" 0]} }}
+                    ;;   [["vv" 1] :up_arrow] nil {:params {:sim 200}}]
                     ]}
           { :des "App-Specific customization" ; Execute with the highest priority!
             :rules  [
@@ -50,18 +58,6 @@
                       ]}
           { :des "Swaping OR Simultaneous"
             :rules  [ ;; Swaping
-                                              ; arrow -> jlik
-                      [:!Oh :!Oleft_arrow]              ; move cursor by word
-                      [:!Ol :!Oright_arrow]
-                      [:!Oj :down_arrow]
-                      [:!Ok :up_arrow]
-                      [:!SOh :!SOleft_arrow]            ; select by word
-                      [:!SOl :!SOright_arrow]
-                      [:!SOj :!Sdown_arrow]
-                      [:!SOk :!Sup_arrow]
-                      [:!CSh :!CSleft_arrow]            ; select from the beginning of sentence
-                      [:!CSl :!CSright_arrow]
-                                              ; others
                       [:grave_accent_and_tilde [:!COspacebar :grave_accent_and_tilde :!COspacebar] [:cn :!nj68]] ; Pinyin Input
                       [:escape                 [:!COspacebar :grave_accent_and_tilde :!COspacebar] [:cn :nj68]]
                       [:grave_accent_and_tilde :escape :nj68]       ; Swap escape with grave accent
@@ -144,6 +140,7 @@
                       [:grave_accent_and_tilde  :launchpad]         ; launchpad
                       [:escape                  :launchpad  :nj68]
                       [:tab                     :mission_control]   ; mission control
+                      [:left_control [:!CO8 ["zoom-display" 1]]]   ; Zoom
                       [:comma [:open "/System/Applications/System Preferences.app"]]
                       [:backslash               :mute]              ; mute
                       [:open_bracket            :volume_down]       ; volume down
@@ -239,12 +236,6 @@
                     ]}
           { :des "Window-Manage-tab-Mode"
            :rules   [
-                      :window-move-mode     ; tab-v
-                      [:j :!CTOright_arrow] ; move to next screen
-                      [:l :!CTOleft_arrow]  ; move to previous screen
-                      [:i [:!TOequal_sign :!TOequal_sign :!TOequal_sign :!TOequal_sign]]   ; bigger
-                      [:k [:!TOhyphen :!TOhyphen :!TOhyphen :!TOhyphen]]  ; smaller
-
                       :window-tab-mode
                       [:i :!TOi]            ; up
                       [:k :!TOk]            ; down
@@ -254,12 +245,17 @@
                       [:o :!TOo]            ; right up
                       [:h :!TOh]            ; left down
                       [:semicolon :!TOsemicolon] [:period :!TOsemicolon] ; right down
+                      [:open_bracket  :!CTOleft_arrow]  ; move to previous screen
+                      [:close_bracket :!CTOright_arrow] ; move to next screen
 
                       [:c :!TOc]            ; center
                       [:f :!TOf]            ; full
                       [:r :!TOr]            ; nearly full
                       [:spacebar :!TOspacebar]      ; middle
-                      [:e :!TOdelete_or_backspace]  ; original
+                      [:q :!TOdelete_or_backspace]  ; original
+
+                      [:hyphen [:!TOhyphen :!TOhyphen :!TOhyphen :!TOhyphen]]  ; smaller
+                      [:equal_sign [:!TOequal_sign :!TOequal_sign :!TOequal_sign :!TOequal_sign]]   ; bigger
 
                       ;; navigate to space
                       [:n :!!n]             ; next space
@@ -267,56 +263,53 @@
                       [:1 :!TO1] [:2 :!TO2] [:3 :!TO3] [:4 :!TO4] [:5 :!TO5] [:6 :!TO6]
                       [:t :!!t]             ; Show/Hide iTerm2
                       ]}
-          { :des "Vi-V-Mode"
-            :rules  [ :Vi-V-Mode
-                      [:z :!Cz]                       ; undo
-                      [:d :delete_or_backspace]       ; delete
-                      [:w :!Cdelete_or_backspace]     ; command delete
-                      [:spacebar :return_or_enter]    ; enter
-                      ;[:##i :f20]                     ; avoid mistake
+          { :des "Vi-Mode"
+            :rules  [
+                      :Vi-V-Cursor
+                      [:i :f20]                       ; avoid mistake
                       [:j :down_arrow]                ; down
                       [:k :up_arrow]                  ; up
-                      [:h :left_arrow ]               ; left
-                      [:l :right_arrow ]              ; right
+                      [:h :left_arrow]                ; left
+                      [:l :right_arrow]               ; right
                       [:b :!Oleft_arrow]              ; beginning of word
-                      [:semicolon :!Oright_arrow]     ; end of word
+                      [:w :!Oright_arrow]             ; end of word
                       [:u :!Ta]                       ; beginning of sentence
                       [:o :!Te]                       ; end of sentence
-                      ;; cursor move
-                      [:!Sj {:mkey {:y 1546}}]        ; mouse-cursor
-                      [:!Sk {:mkey {:y -1546}}]
-                      [:!Sh {:mkey {:x -1546}}]
-                      [:!Sl {:mkey {:x 1546}}]
-                      [:!Ss {:mkey {:speed 0.5}}]     ; slower
-                      [:!Sd {:mkey {:speed 2.0}}]     ; faster
-                      [:!Sb :button1]                 ; left click
-                      [:!Sn :button2]                 ; right click
-                      ]}
-          { :des "Vi Visual Mode"
-            :rules  [
-                      [:!CSi ["viv" 1]]                         ; enter vi visual mode
-                      [:tab [:escape ["viv" 0]] ["viv" 1]]      ; exit vi visual mode
-                      [:caps_lock [:escape ["viv" 0]] ["viv" 1]]
-                      ;; [:button1 [:escape ["viv" 0]] ["viv" 1]]
-                      [:d :delete_or_backspace ["viv" 1]]
-                      [:j :!Sdown_arrow ["viv" 1]]
-                      [:k :!Sup_arrow ["viv" 1]]
-                      [:h :!Sleft_arrow ["viv" 1]]
-                      [:l :!Sright_arrow ["viv" 1]]
-                      [:b :!SOleft_arrow ["viv" 1]]
-                      [:w :!SOright_arrow ["viv" 1]]
-                      [:0 :!SCleft_arrow ["viv" 1]]
-                      [:4 :!SCright_arrow ["viv" 1]]
-                      ]}
+                      [:z :!Cz]                       ; undo
+                      [:d :delete_or_backspace]       ; delete
+                      [:x :!Cdelete_or_backspace]     ; delete to the bingining
+                      [:spacebar :return_or_enter]    ; enter
+
+                      :Vi-S-Select
+                      [:i :f20]                       ; avoid mistake
+                      [:j :!Sdown_arrow]              ; down
+                      [:k :!Sup_arrow]                ; up
+                      [:h :!Sleft_arrow]              ; left
+                      [:l :!Sright_arrow]             ; right
+                      [:b :!SOleft_arrow]             ; beginning of word
+                      [:w :!SOright_arrow]            ; end of word
+                      [:u :!CSleft_arrow]             ; beginning of sentence
+                      [:o :!CSright_arrow]            ; end of sentence
+                      [:d :!Odelete_or_backspace]
+
+                      :Vi-A-Arrow
+                      [:i :f20]
+                      [:j {:mkey {:y 1546}}]          ; mouse-cursor
+                      [:k {:mkey {:y -1546}}]
+                      [:h {:mkey {:x -1546}}]
+                      [:l {:mkey {:x 1546}}]
+                      [:s {:mkey {:speed 0.5}}]       ; slower
+                      [:d {:mkey {:speed 2.0}}]       ; faster
+                      [:u :button1]                   ; left click
+                      [:o :button2]                   ; right click
+                    ]}
           { :des "Whether pressed alone?"
             :rules  [
-                      ; [:left_shift :left_shift nil {:alone :!COspacebar}]   ; switch input source
-                      ; [:grave_accent_and_tilde {:grave_accent_and_tilde :lazy} nil {:alone :!SOgrave_accent_and_tilde}]
-                      ;[:##grave_accent_and_tilde :##grave_accent_and_tilde nil {:alone :!SOgrave_accent_and_tilde}]
-                                                                            ; force inputting accent sign under chinese input method
-                      ; [:caps_lock :f20 nil {:alone :escape}]                ; caps_lock -> ⌃/escape; under effect of "caps_lock-mode"
+                      ;; [:left_shift :left_shift :squirrel {:alone :TS2}]
+                      ;; [:left_shift :left_shift nil {:alone :!COspacebar}]  ; switch input source
+                      [:caps_lock :left_control :zoom-display {:afterup ["zoom-display" 0] :alone :!CO8}]
                       [:caps_lock :left_control nil {:alone :escape}]       ; escape && jump out of inputting
-                      [:left_command :left_command nil {:alone :!Ow}]       ; Moom
+                      ;; [:left_command :left_command nil {:alone :!Ow}]       ; Moom
                       ]}
                       ]
   :applications   {
@@ -358,8 +351,8 @@
                     :sogou    { :input_mode_id    "com.sogou.inputmethod.pinyin"
                                 :input_source_id  "com.sogou.inputmethod.sogou.pinyin"
                                 :language         "zh-Hans"}
-                    :squirrel { :input_mode_id    "^com\\.googlecode\\.rimeime\\.inputmethod\\.Squirrel$"
-                                :input_source_id  "^com\\.googlecode\\.rimeime\\.inputmethod\\.Squirrel\\.Rime$"}
+                    :squirrel { :input_mode_id    "im.rime.inputmethod.Squirrel"
+                                :input_source_id  "im.rime.inputmethod.Squirrel.Rime"}
                     :us       { :input_mode_id    ""
                                 :input_source_id  "com.apple.keylayout.ABC"
                                 :language         "en"}
