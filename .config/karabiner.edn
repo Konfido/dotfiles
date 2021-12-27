@@ -21,12 +21,12 @@
                 :Launch-W-Mode  {:key :w}
                 :Hyper-Q-Mode   {:key :q}
                 :Vi-V-Cursor    {:key :v}
-                :Vi-S-Select    {:key :s :condi :!Vi-A-Arrow}
-                :Vi-A-Arrow     {:key :a}
-                :Symbol-X-Mode  {:key :x}
+                :Vi-X-Select    {:key :x}
+                :Vi-3-Arrow     {:key :3}
+                ;; :Symbol-X-Mode  {:key :x}
                 :Search-Semicolon-Mode  {:key :semicolon}
                 :caps_lock-mode {:key :caps_lock}
-                :Spacebar-Mode  {:key :spacebar :upwhen :any}
+                :Spacebar-Mode  {:key :spacebar}
                 }
   :simlayer-threshold 200   ; exit simlayer after this
   :main [
@@ -135,18 +135,18 @@
                       [:n :!STCn]     ; Activate Scroll Mode (Vimac)
                       [:v :!STCv]     ; Vimium-like hint mode (Vimac)
                       [:z :!TS2 ]     ; Toggle ascii-mode (Squirrel)
-                      [:g :f11 ]                                    ; Show desktop
+                      [:g :f11  ]                                   ; Show desktop
                       [:caps_lock               :!COspacebar]       ; Switch input methods
                       [:grave_accent_and_tilde  :launchpad]         ; launchpad
                       [:escape                  :launchpad  :nj68]
                       [:tab                     :mission_control]   ; mission control
-                      [:left_control [:!CO8 ["zoom-display" 1]]]   ; Zoom
-                      [:comma [:open "/System/Applications/System Preferences.app"]]
                       [:backslash               :mute]              ; mute
                       [:open_bracket            :volume_down]       ; volume down
                       [:close_bracket           :volume_up]         ; volume up
                       [:!Oopen_bracket          :!OSvolume_down]    ; 1/4 volume down
                       [:!Oclose_bracket         :!OSvolume_up]      ; 1/4 volume up
+                      [:left_control  [:!CO8 ["zoom-display" 1]]]   ; Zoom
+                      [:comma         [:open "/System/Applications/System Preferences.app"]]
 
                       ; App-specific
                       [:s :!TSs             :Browsers]  ; Toggle Octotree
@@ -160,7 +160,6 @@
                       [:4 :!Oequal_sign     :VSCode]    ; forward
                       [:5 :!CTj             :VSCode]    ; left editor
                       [:6 :!CTk             :VSCode]    ; right editor
-                      [:!S3 :!CS7           :VSCode]    ; Toogle Line Comments
 
                       [:s :!C1              :Pycharm]   ; Toggle File Tree
                       [:d :!Of12            :Pycharm]   ; Toggle Terminal
@@ -205,14 +204,13 @@
                       [:4 :!Cclose_bracket  ]           ; Foreward
                       [:f :!TCf]                        ; full screen
                       [:m :!Cm ]                        ; minimize windows
-                      [:!Sd :!OCd]                      ; hide/show dock
-
+                      ;; [:!Sd :!OCd]                      ; hide/show dock
                       [:h   {:mkey {:hwheel -50}}]      ; mouse-scroll
                       [:l   {:mkey {:hwheel 50}}]
                       [:j   {:mkey {:vwheel -50}}]
                       [:k   {:mkey {:vwheel 50}}]
                       ]}
-          { :des "Symbol-X-Mode"
+          #_{ :des "Symbol-X-Mode"
             :rules  [ :Symbol-X-Mode
                       [:return_or_enter [:end :!Ssemicolon :return_or_enter] :VSCode]
                       ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
@@ -247,6 +245,7 @@
                       [:semicolon :!TOsemicolon] [:period :!TOsemicolon] ; right down
                       [:open_bracket  :!CTOleft_arrow]  ; move to previous screen
                       [:close_bracket :!CTOright_arrow] ; move to next screen
+                      [:left_command  :!Ctab]
 
                       [:c :!TOc]            ; center
                       [:f :!TOf]            ; full
@@ -277,10 +276,11 @@
                       [:o :!Te]                       ; end of sentence
                       [:z :!Cz]                       ; undo
                       [:d :delete_or_backspace]       ; delete
-                      [:x :!Cdelete_or_backspace]     ; delete to the bingining
+                      [:s :!Odelete_or_backspace]     ; delete to the bingining
+                      [:a :!Cdelete_or_backspace]     ; delete whole line
                       [:spacebar :return_or_enter]    ; enter
 
-                      :Vi-S-Select
+                      :Vi-X-Select
                       [:i :f20]                       ; avoid mistake
                       [:j :!Sdown_arrow]              ; down
                       [:k :!Sup_arrow]                ; up
@@ -292,14 +292,14 @@
                       [:o :!CSright_arrow]            ; end of sentence
                       [:d :!Odelete_or_backspace]
 
-                      :Vi-A-Arrow
-                      [:i :f20]
-                      [:j {:mkey {:y 1546}}]          ; mouse-cursor
-                      [:k {:mkey {:y -1546}}]
-                      [:h {:mkey {:x -1546}}]
-                      [:l {:mkey {:x 1546}}]
-                      [:s {:mkey {:speed 0.5}}]       ; slower
-                      [:d {:mkey {:speed 2.0}}]       ; faster
+                      :Vi-3-Arrow
+                      [:h :f20]
+                      [:k {:mkey {:y 1500}}]          ; mouse-cursor
+                      [:i {:mkey {:y -1500}}]
+                      [:j {:mkey {:x -1800}}]
+                      [:l {:mkey {:x 1800}}]
+                      [:2 {:mkey {:speed 0.5}}]       ; slower
+                      [:1 {:mkey {:speed 2.5}}]       ; faster
                       [:u :button1]                   ; left click
                       [:o :button2]                   ; right click
                     ]}
