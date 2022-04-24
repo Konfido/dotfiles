@@ -20,10 +20,10 @@
   :simlayers  {
                 :Launch-W-Mode  {:key :w}
                 :Hyper-Q-Mode   {:key :q}
-                :Vi-V-Cursor    {:key :v}
-                :Vi-X-Select    {:key :x}
-                :Vi-3-Arrow     {:key :3}
-                ;; :Symbol-X-Mode  {:key :x}
+                :Vi-Cursor-V    {:key :v}
+                :Vi-Select-2    {:key :2}
+                :Vi-Arrow-3     {:key :3}
+                :Symbol-Mode    {:key :z}
                 :Search-Semicolon-Mode  {:key :semicolon}
                 :caps_lock-mode {:key :caps_lock}
                 :Spacebar-Mode  {:key :spacebar}
@@ -60,7 +60,8 @@
             :rules  [ ;; Swaping
                       [:grave_accent_and_tilde [:!COspacebar :grave_accent_and_tilde :!COspacebar] [:cn :!nj68]] ; Pinyin Input
                       [:escape                 [:!COspacebar :grave_accent_and_tilde :!COspacebar] [:cn :nj68]]
-                      [:grave_accent_and_tilde :escape :nj68]       ; Swap escape with grave accent
+                      [:grave_accent_and_tilde  :escape :nj68]       ; Swap escape with grave accent
+                      [:right_option            :fn     :nj68]
                       [:##escape :grave_accent_and_tilde [:nj68 ["Spacebar-Mode" 0]]]
                       [:##left_command :left_option :tmp_keyboard]
                       [:##left_option :left_command :tmp_keyboard]
@@ -105,8 +106,7 @@
                       ]}
           { :des "Hyper-Q-Mode"
             :rules  [ :Hyper-Q-Mode
-                      ; App-specific
-                      [:c :!TCc :Finder]            ;
+                      ; App-specific            ;
                       [:d :!OSa :Browsers]          ; Toggle "Dark Reader" extension
                       [:r :!SOc :Browsers]          ; Toggle "Read Mode" (Extension: Clearly)
                       ; Universal
@@ -131,10 +131,8 @@
             :rules  [ :Spacebar-Mode
                       ; Universal
                       [:p :!CTSp]     ; Show picker (Sip)
-                      [:w :!Ow  ]     ; resize & move windows (Moom)
-                      [:n :!STCn]     ; Activate Scroll Mode (Vimac)
-                      [:v :!STCv]     ; Vimium-like hint mode (Vimac)
-                      [:z :!TS2 ]     ; Toggle ascii-mode (Squirrel)
+                      ;; [:w :!Ow  ]     ; resize & move windows (Moom)
+                      [:z :!T0  ]     ; Toggle ascii-mode (Squirrel)
                       [:g :f11  ]                                   ; Show desktop
                       [:caps_lock               :!COspacebar]       ; Switch input methods
                       [:grave_accent_and_tilde  :launchpad]         ; launchpad
@@ -151,10 +149,12 @@
                       ; App-specific
                       [:s :!TSs             :Browsers]  ; Toggle Octotree
                       [:b :!SCb             :Browsers]  ; hide/show bookmark bar
+                      [:d :!OSt             :Browsers]  ; Toggle TOC
 
-                      [:b :!Cb              :VSCode]    ; Toggle Activity Bar
+                      [:b [:!Ck :!Cn]       :VSCode]    ; Peek reference
                       [:d :!TCp             :VSCode]    ; Toggle panel
-                      [:f :!CSe             :VSCode]    ; Toggle focus on Explorer
+                      [:r :!TCslash         :VSCode]    ; Toggle side panel
+                      [:f :!TCe             :VSCode]    ; Toggle focus on Explorer
                       [:s :!Cbackslash      :VSCode]    ; Toggle sidebar
                       [:3 :!Ohyphen         :VSCode]    ; back
                       [:4 :!Oequal_sign     :VSCode]    ; forward
@@ -164,8 +164,8 @@
                       [:s :!C1              :Pycharm]   ; Toggle File Tree
                       [:d :!Of12            :Pycharm]   ; Toggle Terminal
 
-                      [:k :down_arrow       :Preview]   ; Down
-                      [:j :up_arrow         :Preview]   ; Up
+                      [:j :down_arrow       :Preview]   ; Down
+                      [:k :up_arrow         :Preview]   ; Up
                       [:s :!CO1             :Preview]   ; Hide the sidebar
                       [:v :!TCh             :Preview]   ; Highlight
 
@@ -181,6 +181,10 @@
 
                       [:s :!OSl             :Obsidian]  ; Toggle left Sidebar
                       [:d :!OSr             :Obsidian]  ; Toggle right Sidebar
+                      [:r :!CTr             :Obsidian]  ; Random note
+                      [:e :!CTOr            :Obsidian]  ; Random note from search
+                      [:v :!CTOv            :Obsidian]  ; Vimium-like: jump to link
+                      [:t :!CTOt            :Obsidian]  ; Vimium-like: jump to text
                       [:1 :!Ttab            :Obsidian]  ; go previous
                       [:2 :!TStab           :Obsidian]  ; go next
                       [:3 :!COopen_bracket  :Obsidian]  ; Backward
@@ -190,8 +194,13 @@
                       [:d :!CSOd            :inna]      ; Rotate 90°
                       [:f :!CSOf            :inna]      ; Rotate 270°
 
+                      [:d [:t :r]           :Logseq]
+                      [:s [:t :l]           :Logseq]
+
                       ; Others
                       [:d :!Cd              :Alfred]    ; Toggle debugging mode
+                      [:1 :!TStab           :Finder]
+                      [:2 :!Ttab            :Finder]
                       [:1 :!TStab           :WPS]       ; show previous tab
                       [:2 :!Ttab            :WPS]       ; show next tab
                       [:d :!SCd             :iTerm2]    ; Split Vertically
@@ -204,20 +213,24 @@
                       [:4 :!Cclose_bracket  ]           ; Foreward
                       [:f :!TCf]                        ; full screen
                       [:m :!Cm ]                        ; minimize windows
+                      [:n :!STCn]     ; Activate Scroll Mode (Vimac)
+                      [:v :!STCv]     ; Vimium-like hint mode (Vimac)
                       ;; [:!Sd :!OCd]                      ; hide/show dock
                       [:h   {:mkey {:hwheel -50}}]      ; mouse-scroll
                       [:l   {:mkey {:hwheel 50}}]
                       [:j   {:mkey {:vwheel -50}}]
                       [:k   {:mkey {:vwheel 50}}]
                       ]}
-          #_{ :des "Symbol-X-Mode"
-            :rules  [ :Symbol-X-Mode
+          { :des "Symbol-Mode"
+            :rules  [ :Symbol-Mode
                       [:return_or_enter [:end :!Ssemicolon :return_or_enter] :VSCode]
                       ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
                       [:h [:!Sgrave_accent_and_tilde :slash]]           ; ~/  home
                       [:t [:!St :!So :!Sd :!So :!Ssemicolon :spacebar]] ; Insert TODO:
                       [:l [:hyphen :!Speriod]]      ; -> (right arrow)
                       ;; [:u :!S6]                     ; ^ (Up)
+                      [:v :open_bracket]
+                      [:c [:c :r :e :a :t :e :d]]
                       ]}
           { :des "caps_lock-mode [mapped to ctrl]"
             :rules  [ :caps_lock-mode
@@ -230,6 +243,7 @@
                       [:l :!Tright_arrow]           ; ctrl →
                       [:k :!Tk]                     ; ctrl k, delete to the end
                       [:w :!Odelete_or_backspace]   ; ctrl w, delete a word
+                      [:delete_or_backspace :!Odelete_or_backspace]
                       [:period [:escape :period] :Terminals]
                     ]}
           { :des "Window-Manage-tab-Mode"
@@ -264,42 +278,41 @@
                       ]}
           { :des "Vi-Mode"
             :rules  [
-                      :Vi-V-Cursor
+                      :Vi-Cursor-V
                       [:i :f20]                       ; avoid mistake
                       [:j :down_arrow]                ; down
                       [:k :up_arrow]                  ; up
                       [:h :left_arrow]                ; left
                       [:l :right_arrow]               ; right
                       [:b :!Oleft_arrow]              ; beginning of word
-                      [:w :!Oright_arrow]             ; end of word
+                      [:n :!Oright_arrow]             ; end of word
                       [:u :!Ta]                       ; beginning of sentence
                       [:o :!Te]                       ; end of sentence
                       [:z :!Cz]                       ; undo
                       [:d :delete_or_backspace]       ; delete
                       [:s :!Odelete_or_backspace]     ; delete to the bingining
                       [:a :!Cdelete_or_backspace]     ; delete whole line
-                      [:spacebar :return_or_enter]    ; enter
+                      [:left_command :return_or_enter]; enter
 
-                      :Vi-X-Select
+                      :Vi-Select-2
                       [:i :f20]                       ; avoid mistake
                       [:j :!Sdown_arrow]              ; down
                       [:k :!Sup_arrow]                ; up
                       [:h :!Sleft_arrow]              ; left
                       [:l :!Sright_arrow]             ; right
                       [:b :!SOleft_arrow]             ; beginning of word
-                      [:w :!SOright_arrow]            ; end of word
+                      [:n :!SOright_arrow]            ; end of word
                       [:u :!CSleft_arrow]             ; beginning of sentence
                       [:o :!CSright_arrow]            ; end of sentence
-                      [:d :!Odelete_or_backspace]
 
-                      :Vi-3-Arrow
+                      :Vi-Arrow-3
                       [:h :f20]
                       [:k {:mkey {:y 1500}}]          ; mouse-cursor
                       [:i {:mkey {:y -1500}}]
                       [:j {:mkey {:x -1800}}]
                       [:l {:mkey {:x 1800}}]
-                      [:2 {:mkey {:speed 0.5}}]       ; slower
-                      [:1 {:mkey {:speed 2.5}}]       ; faster
+                      [:e {:mkey {:speed 0.5}}]       ; slower
+                      [:r {:mkey {:speed 2.5}}]       ; faster
                       [:u :button1]                   ; left click
                       [:o :button2]                   ; right click
                     ]}
@@ -319,7 +332,8 @@
                                   "^com\\.google\\.Chrome$"
                                   "^com\\.google\\.Chrome\\.canary$"
                                   "^com\\.apple\\.Safari$"
-                                  "^com\\.microsoft\\.edgemac"]
+                                  "^com\\.microsoft\\.edgemac"
+                                  "^com\\.vivaldi\\.Vivaldi"]
                     :Chrome     [ "^com\\.google\\.Chrome$"
                                   "^com\\.google\\.Chrome\\.canary$"]
                     :Finder     [ "^com\\.apple\\.finder$"  ]
@@ -328,6 +342,7 @@
                     :iCal       [ "^com\\.apple\\.iCal"]
                     :inna       [ "com.colliderli.iina"]
                     :iTerm2     [ "^com\\.googlecode\\.iterm2"]
+                    :Logseq     [ "com\\.electron\\.logseq"]
                     :Obsidian   [ "md.obsidian"]
                     :Preview    [ "^com\\.apple\\.Preview"  ]
                     :Pycharm    [ "com\\.jetbrains\\.pycharm"]
@@ -336,6 +351,7 @@
                     :Spotify    [ "^com\\.google\\.Chrome\\.app\\.Default-pjibgclleladliembfgfagdaldikeohf"]
                     :Typora     [ "^abnerworks\\.Typora$"]
                     :Things     [ "com.culturedcode.ThingsMac"]
+                    :Vivaldi    [ "^com\\.vivaldi\\.Vivaldi"]
                     :VSCode     [ "^com\\.microsoft\\.VSCode$"]
                     :WPS        [ "com\\.kingsoft\\.wpsoffice"]
                     :Terminals  [ "^com\\.apple\\.Terminal$"
