@@ -8,7 +8,7 @@ case $_myos in
         alias ls='ls --group-directories-first'
         alias supdate='sudo apt-get update; sudo apt-get upgrade';;
     Darwin)
-        alias vim='mvim'
+        # alias vim='mvim'
         alias ls='lsd --group-dirs first';;
     *) ;;
 esac
@@ -17,7 +17,7 @@ esac
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='vim'
 fi
 
 # ---------
@@ -75,9 +75,12 @@ alias ..="cd .."
 alias ...="cd ..; cd .."
 alias la="ls -A"
 alias ll="ls -lah"
+alias l.="ls -d .*"
 #alias du="du -ach | sort -h"
 alias duu="dust -r"
 alias psg="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias psc="ps aux | sort -nr -k 3 | head -5"
+alias psm="ps aux | sort -nr -k 4 | head -5"
 alias mkdir="mkdir -pv"
 alias ip="ifconfig | grep 'inet ';curl https://ipinfo.io; echo"
 alias how='function hdi(){ howdoi $* -c -n 3; }; hdi'
