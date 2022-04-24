@@ -2,12 +2,32 @@
 	name = Konfido
 	email = konfido.du@outlook.com
 [core]
-	excludesfile = /Users/dhh/.gitignore_global
+	excludesfile = /Users/dhh/.gitignore
+    ignorecase = false
+    pager = delta
+    quotepath = false
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    line-numbers = true
+    side-by-side = true
+[diff]
+    colorMoved = default
+    guitool = vscode 
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\" 
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+    conflictstyle = diff3
+    guitool = vscode
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
 [commit]
 	template = /Users/dhh/.stCommitMsg
+

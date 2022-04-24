@@ -1,5 +1,6 @@
 .DS_Store
 Thumb.db
+.gitignore
 
 *.bak
 *.tem
@@ -10,3 +11,6 @@ Thumb.db
 */bin/
 */gen/
 */out/
+
+# Python
+*.pyc
