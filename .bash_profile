@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+. "$HOME/.fig/shell/bash_profile.pre.bash"
 ### Get os name via uname ###
 _myos="$(uname)"
 
@@ -9,7 +11,9 @@ case $_myos in
         alias supdate='sudo apt-get update; sudo apt-get upgrade';;
     Darwin)
         # alias vim='mvim'
-        alias ls='lsd --group-dirs first';;
+        alias ls='lsd --group-dirs first'
+        # alias stat="stat -x -t '%F %T'"
+        alias stat="stat -f 'Type: %HT%SY%n  Size: %z%n  Mode: (%Lp/%Sp)%nAccess: %Sa%nModify: %Sm%nChange: %Sc%n Birth: %SB' -t '%F %T'";;
     *) ;;
 esac
 
@@ -68,6 +72,7 @@ extract() {
 fi
 }
 
+
 # ---------
 #  Aliases
 # ---------
@@ -84,6 +89,7 @@ alias psm="ps aux | sort -nr -k 4 | head -5"
 alias mkdir="mkdir -pv"
 alias ip="ifconfig | grep 'inet ';curl https://ipinfo.io; echo"
 alias how='function hdi(){ howdoi $* -c -n 3; }; hdi'
+alias tree='tree -aCh --du --dirsfirst -L 2'
 
 alias jk="jupyter notebook"
 alias condac="conda activate"
@@ -146,3 +152,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# Fig post block. Keep at the bottom of this file.
+. "$HOME/.fig/shell/bash_profile.post.bash"
