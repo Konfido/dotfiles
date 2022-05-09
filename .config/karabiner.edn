@@ -183,7 +183,7 @@
                       [:d :!OSr             :Obsidian]  ; Toggle right Sidebar
                       [:r :!CTr             :Obsidian]  ; Random note
                       [:e :!CTOr            :Obsidian]  ; Random note from search
-                      [:v :!CTOv            :Obsidian]  ; Vimium-like: jump to link
+                      [:v :!COh             :Obsidian]  ; Highlight
                       [:t :!CTOt            :Obsidian]  ; Vimium-like: jump to text
                       [:1 :!Ttab            :Obsidian]  ; go previous
                       [:2 :!TStab           :Obsidian]  ; go next
@@ -251,6 +251,7 @@
                       :window-tab-mode
                       [:i :!TOi]            ; up
                       [:k :!TOk]            ; down
+                      [:b :!TOk]
                       [:j :!TOj] [:d :!TOj] ; left
                       [:l :!TOl] [:g :!TOl] ; right
                       [:u :!TOu]            ; left up
@@ -290,8 +291,8 @@
                       [:o :!Te]                       ; end of sentence
                       [:z :!Cz]                       ; undo
                       [:d :delete_or_backspace]       ; delete
-                      [:s :!Odelete_or_backspace]     ; delete to the bingining
-                      [:a :!Cdelete_or_backspace]     ; delete whole line
+                      [:s :!Odelete_or_backspace]     ; delete word
+                      [:w :!Cdelete_or_backspace]     ; delete whole line
                       [:left_command :return_or_enter]; enter
 
                       :Vi-Select-2
