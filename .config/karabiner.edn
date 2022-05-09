@@ -151,33 +151,26 @@
                       [:b :!SCb             :Browsers]  ; hide/show bookmark bar
                       [:d :!OSt             :Browsers]  ; Toggle TOC
 
-                      [:b [:!Ck :!Cn]       :VSCode]    ; Peek reference
-                      [:d :!TCp             :VSCode]    ; Toggle panel
-                      [:r :!TCslash         :VSCode]    ; Toggle side panel
-                      [:f :!TCe             :VSCode]    ; Toggle focus on Explorer
-                      [:s :!Cbackslash      :VSCode]    ; Toggle sidebar
-                      [:3 :!Ohyphen         :VSCode]    ; back
-                      [:4 :!Oequal_sign     :VSCode]    ; forward
-                      [:5 :!CTj             :VSCode]    ; left editor
-                      [:6 :!CTk             :VSCode]    ; right editor
-
-                      [:s :!C1              :Pycharm]   ; Toggle File Tree
-                      [:d :!Of12            :Pycharm]   ; Toggle Terminal
-
-                      [:j :down_arrow       :Preview]   ; Down
-                      [:k :up_arrow         :Preview]   ; Up
-                      [:s :!CO1             :Preview]   ; Hide the sidebar
-                      [:v :!TCh             :Preview]   ; Highlight
-
-                      [:s :!CSl             :Typora]    ; Toggle Sidebar
-                      [:u :!OCu             :Typora]    ; Unordered list
-                      [:v :!CSh             :Typora]    ; Highlight
-                      [:x :!Tx              :Typora]    ; Toggle Task Status
+                      [:1 :!TStab           :Finder]
+                      [:2 :!Ttab            :Finder]
+                      [:n :!COT1            :Finder]    ; Sort by name
+                      [:c :!COT4            :Finder]    ; Sort by time.create
+                      [:m :!COT5            :Finder]    ; Sort by time.modify
 
                       [:1 :!TStab           :ForkLift]
                       [:2 :!Ttab            :ForkLift]
                       [:s :!COs             :ForkLift]  ; Toggle Sidebar
                       [:d :!CSp             :ForkLift]  ; Toggle preview
+                      [:n :!CT1             :ForkLift]  ; Sort by name
+                      [:c :!CT3             :ForkLift]  ; Sort by time.create
+                      [:m :!CT4             :ForkLift]  ; Sort by time.modify
+
+                      [:s :!CSOs            :inna]      ; Rotate 0°
+                      [:d :!CSOd            :inna]      ; Rotate 90°
+                      [:f :!CSOf            :inna]      ; Rotate 270°
+
+                      [:d [:t :r]           :Logseq]
+                      [:s [:t :l]           :Logseq]
 
                       [:s :!OSl             :Obsidian]  ; Toggle left Sidebar
                       [:d :!OSr             :Obsidian]  ; Toggle right Sidebar
@@ -190,17 +183,31 @@
                       [:3 :!COopen_bracket  :Obsidian]  ; Backward
                       [:4 :!COclose_bracket :Obsidian]  ; Forward
 
-                      [:s :!CSOs            :inna]      ; Rotate 0°
-                      [:d :!CSOd            :inna]      ; Rotate 90°
-                      [:f :!CSOf            :inna]      ; Rotate 270°
+                      [:j :down_arrow       :Preview]   ; Down
+                      [:k :up_arrow         :Preview]   ; Up
+                      [:s :!CO1             :Preview]   ; Hide the sidebar
+                      [:v :!TCh             :Preview]   ; Highlight
 
-                      [:d [:t :r]           :Logseq]
-                      [:s [:t :l]           :Logseq]
+                      [:s :!C1              :Pycharm]   ; Toggle File Tree
+                      [:d :!Of12            :Pycharm]   ; Toggle Terminal
+
+                      [:s :!CSl             :Typora]    ; Toggle Sidebar
+                      [:u :!OCu             :Typora]    ; Unordered list
+                      [:v :!CSh             :Typora]    ; Highlight
+                      [:x :!Tx              :Typora]    ; Toggle Task Status
+
+                      [:b [:!Ck :!Cn]       :VSCode]    ; Peek reference
+                      [:d :!TCp             :VSCode]    ; Toggle panel
+                      [:r :!TCslash         :VSCode]    ; Toggle side panel
+                      [:f :!TCe             :VSCode]    ; Toggle focus on Explorer
+                      [:s :!Cbackslash      :VSCode]    ; Toggle sidebar
+                      [:3 :!Ohyphen         :VSCode]    ; back
+                      [:4 :!Oequal_sign     :VSCode]    ; forward
+                      [:5 :!CTj             :VSCode]    ; left editor
+                      [:6 :!CTk             :VSCode]    ; right editor
 
                       ; Others
                       [:d :!Cd              :Alfred]    ; Toggle debugging mode
-                      [:1 :!TStab           :Finder]
-                      [:2 :!Ttab            :Finder]
                       [:1 :!TStab           :WPS]       ; show previous tab
                       [:2 :!Ttab            :WPS]       ; show next tab
                       [:d :!SCd             :iTerm2]    ; Split Vertically
