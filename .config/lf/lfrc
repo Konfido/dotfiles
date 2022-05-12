@@ -1,0 +1,5 @@
+set ifs "\n"
+
+set previewer ~/.config/lf/pv.sh
+map i $LESSOPEN='| ~/.config/lf/pv.sh %s' less -R $f
+

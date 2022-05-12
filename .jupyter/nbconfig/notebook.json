@@ -1,0 +1,25 @@
+{
+  "load_extensions": {
+    "varInspector/main": true,
+    "execute_time/ExecuteTime": true,
+    "toc2/main": true,
+    "hinterland/hinterland": false,
+    "codefolding/main": true,
+    "hide_input_all/main": true,
+    "scratchpad/main": true,
+    "collapsible_headings/main": true,
+    "luxwidget/extension": true,
+    "nbextensions_configurator/config_menu/main": true,
+    "autoscroll/main": false,
+    "scroll_down/main": true,
+    "contrib_nbextensions_help_item/main": true,
+    "jupyter-js-widgets/extension": true,
+    "jupyter_tabnine/main": false,
+    "bamboolib/extension": true,
+    "ipyslickgrid/extension": true,
+    "plotlywidget/extension": true
+  },
+  "autosavetime_set_starting_interval": false,
+  "autoscroll_set_on_load": true,
+  "scrollDownIsEnabled": true
+}

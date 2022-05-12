@@ -10,9 +10,6 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Keep env variables in .bash_profile
-source ~/.bash_profile
-
 # Path to oh-my-zsh installation.
 export ZSH="/Users/dhh/.oh-my-zsh"
 
@@ -67,6 +64,8 @@ pastefinish() {
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
+# Keep env variables in .bash_profile
+source ~/.bash_profile
 
 # Fig post block. Keep at the bottom of this file.
 . "$HOME/.fig/shell/zshrc.post.zsh"

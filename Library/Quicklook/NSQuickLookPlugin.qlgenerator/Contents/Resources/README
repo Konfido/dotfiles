@@ -1,0 +1,31 @@
+Created: 170807
+
+fsmonk for File System MONitor Kernel extension
+
+File layout:
+    ┌── README
+    ├── NutstoreAlertBox.png
+    ├── nutstore-alertbox
+    ├── nutstore-fsmonkd
+    ├── fsmonk
+    ├── net.nutstore.agent.fsmonkd.plist
+    ├── net.nutstore.daemon.fsmonk.plist
+    ├── nutstore-fsmonkd.sh
+    └── nutstore-fsmonk.sh
+
+This project intend to implement a mini-filter for
+    Mac file system based on path and its permission
+
+I'm a lazy boy  all the crap are self-explanatory!
+
+Important references:
+    Kernel Programming Guide - Apple Developer
+    ho.ax/posts/2012/02/resolving-kernel-symbols
+    (add more)
+
+TODO:
+    Rewrite this README file
+    Remove dead comment/code
+    Refine coding style and code
+    Performance optimization
+
