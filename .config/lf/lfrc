@@ -1,5 +1,13 @@
+$mkdir -p ~/.trash
 set ifs "\n"
 
+set hidden
 set previewer ~/.config/lf/pv.sh
-map i $LESSOPEN='| ~/.config/lf/pv.sh %s' less -R $f
 
+cmd trash $mv $fx ~/.trash
+
+map gd cd ~/Downloads
+map gh cd ~
+map g, cd ~/.config/lf
+map D trash
+map i $LESSOPEN='| ~/.config/lf/pv.sh %s' less -R $f

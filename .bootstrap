@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Hardcode the bare repo to $HOME/.cfg on every machine (easy to manage)
+git clone --bare <git-repo-url> $HOME/.cfg
+alias dot='/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME'
+
+if dot checkout; then
+    echo "Checked out dotfiles.";
+else
+    echo "Backing up pre-existing dot files to .cfg-backup"
+    mkdir -p .cfg-backup
+    dot checkout 2>&1 | grep -E "\s+\." | awk '{print $1}' | \
+        xargs -I{} mv {} .cfg-backup/{}
+fi
+dot checkout
+# Only show tracked files
+dot config --local status.showUntrackedFiles no
