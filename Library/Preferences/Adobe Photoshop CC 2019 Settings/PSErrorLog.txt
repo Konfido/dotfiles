@@ -1,9 +1,0 @@
-2020:08:05 00:38:18 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed
-2020:08:05 00:38:18 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed
-2020:08:05 00:38:18 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed
-2020:08:05 00:38:18 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed
-2020:08:05 00:38:18 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed
-2020:08:05 00:38:18 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed
-2020:08:05 16:03:27 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed
-2020:08:05 16:03:27 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed
-2020:08:05 16:03:27 : /Users/esbuilder/Jenkins_Comm/PS/PS20/Mac_Release/20190724.r.80/photoshop/main/photoshop/interfaces/UTrackResourceImp.h : 134 : REQUIRE failed

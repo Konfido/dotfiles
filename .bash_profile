@@ -8,7 +8,9 @@ case $_myos in
     Linux)
         # alias apt-get='sudo apt-get'
         #alias ls='ls --group-directories-first'
-        alias supdate='sudo apt-get update; sudo apt-get upgrade';;
+        alias supdate='sudo apt-get update; sudo apt-get upgrade'
+        # brew env:
+        eval "$($HOME/.linuxbrew/bin/brew shellenv)";;
     Darwin)
         # alias vim='mvim'
         # alias ls='lsd --group-dirs first'
@@ -40,7 +42,7 @@ extract() {
         if [ -f "$n" ] ; then
             case "${n%,}" in
                 *.cbt|*.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
-                            tar xvf "$n"       ;;
+                             tar xvf "$n"       ;;
                 *.lzma)      unlzma ./"$n"      ;;
                 *.bz2)       bunzip2 ./"$n"     ;;
                 *.cbr|*.rar) unrar x -ad ./"$n" ;;
@@ -48,11 +50,11 @@ extract() {
                 *.cbz|*.epub|*.zip) unzip ./"$n"       ;;
                 *.z)         uncompress ./"$n"  ;;
                 *.7z|*.apk|*.arj|*.cab|*.cb7|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.pkg|*.rpm|*.udf|*.wim|*.xar)
-                            7z x ./"$n"        ;;
+                             7z x ./"$n"        ;;
                 *.xz)        unxz ./"$n"        ;;
                 *.exe)       cabextract ./"$n"  ;;
                 *.cpio)      cpio -id < ./"$n"  ;;
-                *.cba|*.ace) unace x ./"$n"      ;;
+                *.cba|*.ace) unace x ./"$n"     ;;
                 *.zpaq)      zpaq x ./"$n"      ;;
                 *.arc)       arc e ./"$n"       ;;
                 *.cso)       ciso 0 ./"$n" ./"$n.iso" && \
@@ -71,7 +73,7 @@ extract() {
 }
 iterm2_print_user_vars() { iterm2_set_user_var badge $ITERM2_BADGE; }
 fzfp() { fzf --preview '(highlight -O ansi -l {} || coderay {} || cat {}) 2> /dev/null | head -500'; }
-hdi(){ howdoi $* -c -n ; }
+hdi(){ howdoi $* -c -n 3 ; }
 where() { type -a "$@"; }
 
 
@@ -94,8 +96,11 @@ alias psm="ps aux | sort -nr -k 4 | head -5"
 alias mkdir="mkdir -pv"
 alias how="cht.sh"
 alias ip='echo private: $(ifconfig | grep "broadcast"| cut -d' ' -f2); echo public:; curl https://ipinfo.io; echo'
-alias tree='tree -aCh --du --dirsfirst -L 2'
+alias tree='tree -aC --dirsfirst'
+alias tree2='tree -L 2'
+alias tree3='tree -L 3'
 
+# cli apps
 alias jk="jupyter notebook"
 alias condac="conda activate"
 alias condad="conda deactivate"
@@ -109,8 +114,17 @@ alias gco="git checkout"
 alias glog="git log --oneline --decorate --graph"
 alias glol="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat"
 alias gst="git status --short"
+# list tracked files
+alias gl='ls --group-directories-first --color=auto -d $(git ls-tree $(git branch | grep \* | cut -d " " -f2) --name-only)'
+alias glr='git ls-tree --full-tree HEAD --name-only -r | tree --fromfile | less'
+alias glr2='git ls-tree --full-tree HEAD --name-only -r | tree --fromfile -L 2 | less'
+alias glr3='git ls-tree --full-tree HEAD --name-only -r | tree --fromfile -L 3 | less'
 
-# custom
+alias dot="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
+alias da="dot add"
+alias dst="dot status --short"
+
+# local custom
 alias hw="cd /Users/dhh/Documents/Sync/Blog/;hexo --config _config_wiki.yml"
 alias hws="cd /Users/dhh/Documents/Sync/Blog/;hw clean;hw g --debug;rm db.json;hw s --debug"
 

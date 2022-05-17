@@ -1,18 +1,32 @@
-U2FsdGVkX18EW+5Q6WEOsindKqSwwPTBsm4mqU+pb0A9eFaotT6hHigr3B46u6Ay
-aYj+U6dEh20OxZKtBYdKOmDDnMA7lWhutP09OonkpvYIGmoVENyNwTg39NPDrIcL
-kaN5l5v3d37PHgxWlYezMU6oirUq15B7y+0dezpoEZMqYqQng15PhXsiQ6oYwhNd
-UuXTArDztKmf+3rluzKQeYc0IJ2f2Mmo7q6zbqfTOHkcGKrGIcF8A7yhC8p16VQi
-Ts4vKwtE8IkulHz12dPxemEplVweIcX2RXdMBDOYzGRePwEHptoSR0uGZCKKQJ16
-3Gze+5Hut08Aypk1pVacB2lqqZk7+2TrwroZs5UdetMrl3acWUgwbDOlOGQ91K21
-leab+OnGMviq+Na7SQrq1prcuIrH952rduKWGWBzdn5Bb/aNhZnMc6qPg1+b0kyk
-m/8bFPP9KMgE639XmMJb5rBblXjSZlaDLgYTqmkfm8G04z37vc1QFZMLd3vw1s0g
-3o/7BKprSSN6b3EYD3Z/gwCp1RMz1sIVZvIUak5KbpI24IYuPVaY32UwtVZZqAqK
-lnBK28ImYMQvdKnM2ZDrc7L66lyo7Ze8u6N7ZT704bI5xBwHmbBx51VyYjRTGbsj
-2fI5kIhDhIAhJ410B5tZGgi2IYPSrwaZXnwadOigVC2QaaaTc+h8CHyZ1VNLmMkM
-LVKdzSgx8IRzfcNGIfsCQcH70qiJD/QoNvEZ8dxDjWIerApSt6cAXU1AyuyRm0c0
-mb/uVL/65KdgQCWZsO7a351rYnr0JUQLGaKZKSF0sYsb8qnAzu8ygFqJHMAP54ch
-+kcA1JKss6P+07r5NEPJaplBh+NoopGFPPDct5DZQMwWa/H1y1AMzRVWXMUC8qoE
-iAaOTIUtLV/oIQZHqI2+ul2d3f36gtuxcqOAwJ4tSnzyhPDgCcboAJxgiCoICnC/
-409zzWwU6oi1Ux2cWoA/SMLWKejuMpIVjs8u/in9rOnreZ2mLtRPqIuH72ivlJMm
-EeTeWjCRi1D6scqf2GWOsHwbc+HDxN4jM3Xqux/w7z7ZDHAmFg1mSu8dUqoBTSOl
-sLDDPc0buhsUgWV3Pu1wIA==
+[core]
+	excludesfile = /Users/dhh/.gitignore
+    ignorecase = false
+    pager = delta
+    quotepath = false
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    line-numbers = true
+    side-by-side = true
+[diff]
+    colorMoved = default
+    guitool = vscode
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+    conflictstyle = diff3
+    guitool = vscode
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+[commit]
+	template = /Users/dhh/.stCommitMsg
+
+[include]
+    path = .gitconfig.local
