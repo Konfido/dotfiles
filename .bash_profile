@@ -1,5 +1,3 @@
-# Fig pre block. Keep at the top of this file.
-. "$HOME/.fig/shell/bash_profile.pre.bash"
 ### Get os name via uname ###
 _myos="$(uname)"
 
@@ -80,6 +78,8 @@ where() { type -a "$@"; }
 # ---------
 #  Aliases
 # ---------
+
+
 alias ..="cd .."
 alias ...="cd ..; cd .."
 alias ls="exa"
@@ -95,7 +95,7 @@ alias psc="ps aux | sort -nr -k 3 | head -5"
 alias psm="ps aux | sort -nr -k 4 | head -5"
 alias mkdir="mkdir -pv"
 alias how="cht.sh"
-alias ip='echo private: $(ifconfig | grep "broadcast"| cut -d' ' -f2); echo public:; curl https://ipinfo.io; echo'
+alias ip='echo private: $(ifconfig | grep "broadcast"| cut -d" " -f2); echo public:; curl https://ipinfo.io; echo'
 alias tree='tree -aC --dirsfirst'
 alias tree2='tree -L 2'
 alias tree3='tree -L 3'
@@ -124,17 +124,6 @@ alias dot="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 alias da="dot add"
 alias dst="dot status --short"
 
-# local custom
-alias hw="cd /Users/dhh/Documents/Sync/Blog/;hexo --config _config_wiki.yml"
-alias hws="cd /Users/dhh/Documents/Sync/Blog/;hw clean;hw g --debug;rm db.json;hw s --debug"
-
-# -------------
-#  BindKeys
-# -------------
-
-bindkey '^ ' autosuggest-accept
-# bindkey '^ ' autosuggest-toggle
-
 # -------------
 #  Environment
 # -------------
@@ -142,12 +131,8 @@ bindkey '^ ' autosuggest-accept
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 ## path
-export PATH="/usr/local/opt/ruby/bin:$PATH"
-export JAVA_HOME=$(/usr/libexec/java_home)
 # global npm, for hexo
 export PATH=~/.npm-global/bin:$PATH
-# for latex
-export PATH=/Library/TeX/texbin/:$PATH
 # commands history size
 export HISTSIZE=1000000
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df'
@@ -159,18 +144,15 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/dhh/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$($HOME'/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/dhh/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/dhh/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/dhh/anaconda3/bin:$PATH"
+        export PATH="$HOME/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-# Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/bash_profile.post.bash"
