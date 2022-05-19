@@ -68,4 +68,4 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 # Keep env variables in .bash_profile
 source ~/.bash_profile
 # Local variables
-source ~/.local/.env
+[[ -r ~/.local_env ]] && source ~/.local_env

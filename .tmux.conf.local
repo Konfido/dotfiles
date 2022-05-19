@@ -356,7 +356,3 @@ tmux_conf_copy_to_os_clipboard=false
 #
 # "$@"
 # # /!\ do not remove the previous line
-
-# Fig Tmux Integration: Enabled
-source-file ~/.fig/tmux
-# End of Fig Tmux Integration
