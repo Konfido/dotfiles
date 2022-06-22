@@ -1,8 +1,8 @@
 $mkdir -p ~/.trash
 set ifs "\n"
 
-set hidden
-set previewer ~/.config/lf/pv.sh
+# set hidden
+set previewer ~/.config/lf/preview.sh
 
 cmd trash $mv $fx ~/.trash
 

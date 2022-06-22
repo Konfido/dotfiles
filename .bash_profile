@@ -74,7 +74,6 @@ fzfp() { fzf --preview '(highlight -O ansi -l {} || coderay {} || cat {}) 2> /de
 hdi(){ howdoi $* -c -n 3 ; }
 where() { type -a "$@"; }
 
-
 # ---------
 #  Aliases
 # ---------
