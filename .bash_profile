@@ -148,4 +148,3 @@ export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df'
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 # custom executive bins
 export PATH=~/.local/bin:$PATH
-

@@ -10,4 +10,4 @@ map gd cd ~/Downloads
 map gh cd ~
 map g, cd ~/.config/lf
 map D trash
-map i $LESSOPEN='| ~/.config/lf/pv.sh %s' less -R $f
+map i $LESSOPEN='| ~/.config/lf/preview.sh %s' less -R $f
