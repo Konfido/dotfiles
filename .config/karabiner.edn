@@ -133,7 +133,7 @@
                       [:p :!CTSp]     ; Show picker (Sip)
                       ;; [:w :!Ow  ]     ; resize & move windows (Moom)
                       [:z :!T0  ]     ; Toggle ascii-mode (Squirrel)
-                      [:g :f11  ]                                   ; Show desktop
+                      ;; [:g :f11  ]                                   ; Show desktop
                       [:caps_lock               :!COspacebar]       ; Switch input methods
                       [:grave_accent_and_tilde  :launchpad]         ; launchpad
                       [:escape                  :launchpad  :nj68]
@@ -176,6 +176,7 @@
                       [:d :!OSr             :Obsidian]  ; Toggle right Sidebar
                       [:r :!CTr             :Obsidian]  ; Random note
                       [:e :!CTOr            :Obsidian]  ; Random note from search
+                      [:h :!CTh             :Obsidian]  ; Headings
                       [:v :!COh             :Obsidian]  ; Highlight
                       [:t :!CTOt            :Obsidian]  ; Vimium-like: jump to text
                       [:1 :!Ttab            :Obsidian]  ; go previous
@@ -200,11 +201,15 @@
                       [:d :!TCp             :VSCode]    ; Toggle panel
                       [:r :!TCslash         :VSCode]    ; Toggle side panel
                       [:f :!TCe             :VSCode]    ; Toggle focus on Explorer
+                      [:w :f10              :VSCode]    ; Debug: step-over
+                      [:e :f11              :VSCode]    ; Debug: step-in
+                      [:q :!Sf11            :VSCode]    ; Debug: step-out
                       [:s :!Cbackslash      :VSCode]    ; Toggle sidebar
                       [:3 :!Ohyphen         :VSCode]    ; back
                       [:4 :!Oequal_sign     :VSCode]    ; forward
-                      [:5 :!CTj             :VSCode]    ; left editor
-                      [:6 :!CTk             :VSCode]    ; right editor
+                      [:5 :!CTj             :VSCode]    ; next editor group
+                      [:6 :!CTk             :VSCode]    ; previous editor group
+                      [:g :!CTj             :VSCode]    ; next editor group
 
                       ; Others
                       [:d :!Cd              :Alfred]    ; Toggle debugging mode
@@ -246,8 +251,10 @@
                       ; Universal
                       [:a :!Ta]                     ; ctrl a, start of sentence
                       [:e :!Te]                     ; ctrl e, end of sentence
-                      [:h :!Tleft_arrow]            ; ctrl ←, switch screen
-                      [:l :!Tright_arrow]           ; ctrl →
+                      ;; [:h :!Tleft_arrow]            ; ctrl ←, switch screen
+                      ;; [:l :!Tright_arrow]           ; ctrl →
+                      [:h :!Th]                     ; ctrl h,
+                      [:l :!Tl]                     ; ctrl l,
                       [:k :!Tk]                     ; ctrl k, delete to the end
                       [:w :!Odelete_or_backspace]   ; ctrl w, delete a word
                       [:delete_or_backspace :!Odelete_or_backspace]
@@ -279,10 +286,11 @@
                       [:equal_sign [:!TOequal_sign :!TOequal_sign :!TOequal_sign :!TOequal_sign]]   ; bigger
 
                       ;; navigate to space
-                      [:n :!!n]             ; next space
-                      [:p :!!p]             ; previous space
-                      [:1 :!TO1] [:2 :!TO2] [:3 :!TO3] [:4 :!TO4] [:5 :!TO5] [:6 :!TO6]
+                      [:n :!Tright_arrow]   ; next space
+                      [:p :!Tleft_arrow]    ; previous space
+                      [:1 :!T1] [:2 :!T2] [:3 :!T3] [:4 :!T4] [:5 :!T5] [:6 :!T6]
                       [:t :!!t]             ; Show/Hide iTerm2
+                      [:w :f15]             ; Show Desktop
                       ]}
           { :des "Vi-Mode"
             :rules  [

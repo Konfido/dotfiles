@@ -23,6 +23,8 @@ map <C-e> <End>
 " Copy file_name / abs_path
 nnoremap yf :let @f=expand("%:t")<CR>
 nnoremap yp :let @p=expand("%:p")<CR>
+" Cancel seaching result highlight
+nnoremap <silent> <Esc><Esc> :noh<CR>
 
 
 " Plugins

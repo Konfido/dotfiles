@@ -13,9 +13,18 @@ case $_myos in
         # alias vim='mvim'
         # alias ls='lsd --group-dirs first'
         # alias stat="stat -x -t '%F %T'"
-        alias stat="stat -f 'Type: %HT%SY%n  Size: %z%n  Mode: (%Lp/%Sp)%nAccess: %Sa%nModify: %Sm%nChange: %Sc%n Birth: %SB' -t '%F %T'";;
+        alias stat="stat -f 'Type: %HT%SY%n  Size: %z%n  Mode: (%Lp/%Sp)%nAccess: %Sa%nModify: %Sm%nChange: %Sc%n Birth: %SB' -t '%F %T'"
+        function vsc {
+            if [ -e $1 ]; then open -a Visual\ Studio\ Code $@;
+            else touch $@ && open -a Visual\ Studio\ Code $@; fi }
+        ;;
     *) ;;
 esac
+
+### if running bash
+if [ -n "$BASE_VERSION" ]; then
+    [[ -f $HOME/.bashrc ]] && . $HOME/.bashrc
+fi
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -27,8 +36,9 @@ fi
 # ---------
 # Functions
 # ---------
+help() { "$@" --help 2>&1 | bat --plain -l help; }
 cs() { cd "$@" && ls ; }
-# duu() 	{ du -ach "$@"| sort -h }
+du() { /usr/bin/du -ch -d1 "$@" | sort -hr; }
 extract() {
     if [ -z "$1" ]; then
         # display usage if no parameters given
@@ -88,6 +98,7 @@ alias lt="ll --tree --level=2 --icons"
 alias la="ll -lFhHigUam"
 #alias du="du -ach | sort -h"
 alias duu="dust -r"
+alias dff="duf --only local"
 alias psg="ps aux | grep -v grep | grep -i -e VSZ -e"
 alias psc="ps aux | sort -nr -k 3 | head -5"
 alias psm="ps aux | sort -nr -k 4 | head -5"
@@ -121,6 +132,7 @@ alias glr3='git ls-tree --full-tree HEAD --name-only -r | tree --fromfile -L 3 |
 alias dot="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
 alias da="dot add"
 alias dst="dot status --short"
+alias dlr="dot ls-tree --full-tree HEAD --name-only -r | tree --fromfile -L 2 | less"
 
 # -------------
 #  Environment
@@ -128,14 +140,12 @@ alias dst="dot status --short"
 ## language
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-## path
-# global npm, for hexo
-export PATH=~/.npm-global/bin:$PATH
 # commands history size
 export HISTSIZE=1000000
 # export HISTFILESIZE=2000
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df'
 # use bat as colorizing pager for `man`
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-# in order to make goku
-# export PATH=/usr/local/lib/graalvm/bin:$PATH
+# custom executive bins
+export PATH=~/.local/bin:$PATH
+
