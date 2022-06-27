@@ -1,0 +1,1 @@
+../configs-core/.bash_profile
