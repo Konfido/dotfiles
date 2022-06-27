@@ -23,7 +23,7 @@
                 :Vi-Cursor-V    {:key :v}
                 :Vi-Select-2    {:key :2}
                 :Vi-Arrow-3     {:key :3}
-                :Symbol-Mode    {:key :z}
+                :Insert-Mode-Z  {:key :z}
                 :Search-Semicolon-Mode  {:key :semicolon}
                 :caps_lock-mode {:key :caps_lock}
                 :Spacebar-Mode  {:key :spacebar}
@@ -150,6 +150,7 @@
                       [:s :!TSs             :Browsers]  ; Toggle Octotree
                       [:b :!SCb             :Browsers]  ; hide/show bookmark bar
                       [:d :!OSt             :Browsers]  ; Toggle TOC
+                      [:r :!Or              :Browsers]  ; Activate Clearly Reader
 
                       [:1 :!TStab           :Finder]
                       [:2 :!Ttab            :Finder]
@@ -177,7 +178,8 @@
                       [:r :!CTr             :Obsidian]  ; Random note
                       [:e :!CTOr            :Obsidian]  ; Random note from search
                       [:h :!CTh             :Obsidian]  ; Headings
-                      [:v :!COh             :Obsidian]  ; Highlight
+                      ;; [:v :!COh             :Obsidian]  ; Highlight
+                      [:a :!Ts              :Obsidian]  ; Toggle starring
                       [:t :!CTOt            :Obsidian]  ; Vimium-like: jump to text
                       [:1 :!Ttab            :Obsidian]  ; go previous
                       [:2 :!TStab           :Obsidian]  ; go next
@@ -233,8 +235,8 @@
                       [:j   {:mkey {:vwheel -50}}]
                       [:k   {:mkey {:vwheel 50}}]
                       ]}
-          { :des "Symbol-Mode"
-            :rules  [ :Symbol-Mode
+          { :des "Insert-Mode"
+            :rules  [ :Insert-Mode-Z
                       [:return_or_enter [:end :!Ssemicolon :return_or_enter] :VSCode]
                       ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
                       [:h [:!Sgrave_accent_and_tilde :slash]]           ; ~/  home
@@ -243,6 +245,7 @@
                       ;; [:u :!S6]                     ; ^ (Up)
                       [:v :open_bracket]
                       [:c [:c :r :e :a :t :e :d]]
+                      [:spacebar [:spacebar :spacebar :spacebar :spacebar]]
                       ]}
           { :des "caps_lock-mode [mapped to ctrl]"
             :rules  [ :caps_lock-mode
@@ -288,7 +291,7 @@
                       ;; navigate to space
                       [:n :!Tright_arrow]   ; next space
                       [:p :!Tleft_arrow]    ; previous space
-                      [:1 :!T1] [:2 :!T2] [:3 :!T3] [:4 :!T4] [:5 :!T5] [:6 :!T6]
+                      [:1 :!TO1] [:2 :!TO2] [:3 :!TO3] [:4 :!TO4] [:5 :!TO5] [:6 :!TO6]
                       [:t :!!t]             ; Show/Hide iTerm2
                       [:w :f15]             ; Show Desktop
                       ]}
