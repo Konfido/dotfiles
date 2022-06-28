@@ -4,8 +4,6 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-# TODO: Instant prompt seems cannot handle zplug's console output when it
-# demands an input (n/Y) to decide whether installing a new plug.
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -42,12 +40,7 @@ zplug "softmoth/zsh-vim-mode"
 
 # Install packages that have not been installed yet
 if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    else
-        echo
-    fi
+    zplug install
 fi
 zplug load
 
