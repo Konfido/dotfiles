@@ -68,7 +68,7 @@ map fs :fzf_search
 map gj :fasd_dir
 map gd cd ~/Downloads
 map gh cd ~
-map g, cd ~/.config/lf
+map g, :set hidden; cd ~/.cfg
 map gb :git_branch
 map gs ${{clear; git status; echo "press ENTER"; read ENTER}}
 map gl ${{clear; git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; echo "press ENTER"; read ENTER}}

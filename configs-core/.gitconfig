@@ -1,5 +1,5 @@
 [core]
-	excludesfile = /Users/dhh/.gitignore
+    excludesfile = /Users/dhh/.gitignore
     ignorecase = false
     pager = delta
     quotepath = false
