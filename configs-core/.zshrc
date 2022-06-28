@@ -4,6 +4,8 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+# TODO: Instant prompt seems cannot handle zplug's console output when it
+# demands an input (n/Y) to decide whether installing a new plug.
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -21,19 +23,22 @@ HISTFILE=~/.zsh_history
 # zplug plugins
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug "zdharma/fast-syntax-highlighting"
-zplug "b4b4r07/enhancd", use:init.sh
-
+zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-history-substring-search"
 
 zplug "plugins/extract", from:oh-my-zsh
 zplug "plugins/fasd", from:oh-my-zsh
 zplug "plugins/sudo", from:oh-my-zsh
 zplug "lib/clipboard", from:oh-my-zsh
 zplug "lib/completion", from:oh-my-zsh
+
+# the order matters: https://github.com/softmoth/zsh-vim-mode#installation
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug "z-shell/F-Sy-H"
+zplug "b4b4r07/enhancd", use:init.sh
+zplug "softmoth/zsh-vim-mode"
+
 
 # Install packages that have not been installed yet
 if ! zplug check --verbose; then
