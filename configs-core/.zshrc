@@ -8,42 +8,44 @@ fi
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Time stamp shown in the history command output: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(
-    #autojump
-    autoupdate
-    extract
-    fasd
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-)
-# autojump
-# [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-
 bindkey '^ ' autosuggest-accept
-# bindkey '^ ' autosuggest-toggle
 
-source $ZSH/oh-my-zsh.sh
+export ZPLUG_HOME=$(brew --prefix)/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+# History config
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+
+# zplug plugins
+zplug "romkatv/powerlevel10k", as:theme, depth:1
+
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug "zdharma/fast-syntax-highlighting"
+zplug "b4b4r07/enhancd", use:init.sh
+
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-history-substring-search"
+
+zplug "plugins/extract", from:oh-my-zsh
+zplug "plugins/fasd", from:oh-my-zsh
+zplug "plugins/sudo", from:oh-my-zsh
+zplug "lib/clipboard", from:oh-my-zsh
+zplug "lib/completion", from:oh-my-zsh
+
+# Install packages that have not been installed yet
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    else
+        echo
+    fi
+fi
+zplug load
+
 
 # User configuration
 
