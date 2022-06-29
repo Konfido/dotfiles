@@ -7,6 +7,6 @@ case "$1" in
     *.rar) unrar l "$1";;
     *.tar*) tar tf "$1";;
     *.zip) unzip -l "$1";;
-    *rc) highlight "$1" -O ansi --syntax sh;;
+    *rc|*bash*) highlight "$1" -O ansi --syntax sh;;
     *) highlight -O ansi "$1" --force || true;;
 esac

@@ -39,6 +39,7 @@
     graphColors = bold 160, blink 231 bold 239, bold 166, bold black 214, bold green, bold 24, cyan
 [alias]
     hist = log --graph --full-history --all --pretty=format:'%C(214)%h %Creset%s %C(auto)%d %C(bold blue)<%an> %C(dim white)%cr%Creset'
+    unadd = reset HEAD
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
