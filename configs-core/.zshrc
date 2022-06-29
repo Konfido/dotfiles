@@ -5,20 +5,15 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+source ~/.bash_profile
 
-bindkey '^ ' autosuggest-accept
+# ******************** #
+# ******* zplug ****** #
+# ******************** #
 
 export ZPLUG_HOME=$(brew --prefix)/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
-# History config
-HISTSIZE=10000
-SAVEHIST=10000
-HISTFILE=~/.zsh_history
-
-# zplug plugins
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 
 zplug "zsh-users/zsh-history-substring-search"
@@ -30,6 +25,7 @@ zplug "plugins/fasd", from:oh-my-zsh
 zplug "plugins/sudo", from:oh-my-zsh
 zplug "lib/clipboard", from:oh-my-zsh
 zplug "lib/completion", from:oh-my-zsh
+zplug "lib/history", from:oh-my-zsh
 
 # the order matters: https://github.com/softmoth/zsh-vim-mode#installation
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -44,8 +40,13 @@ if ! zplug check --verbose; then
 fi
 zplug load
 
+# zsh-autosuggestions
+bindkey '^ ' autosuggest-accept
 
-# User configuration
+
+# ******************** #
+# ****** Others ****** #
+# ******************** #
 
 # iTerm2 badge
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -96,9 +97,3 @@ _zlf_handler() {
     zle -R
 }
 zle -N _zlf_handler
-
-
-# Keep env variables in .bash_profile
-source ~/.bash_profile
-# Local variables
-[[ -r ~/.local_env ]] && source ~/.local_env

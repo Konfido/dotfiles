@@ -1,3 +1,7 @@
+# -----------------
+# Diverse scenarios
+# -----------------
+
 ### Get os name via uname ###
 _myos="$(uname)"
 
@@ -80,7 +84,10 @@ extract() {
     fi
 }
 iterm2_print_user_vars() { iterm2_set_user_var badge $ITERM2_BADGE; }
-fzfp() { fzf --preview '(highlight -O ansi -l {} || coderay {} || cat {}) 2> /dev/null | head -500'; }
+fzf() { "$(brew --prefix)/bin/fzf" --preview '(highlight -O ansi -l {} \
+                        || bat -f --style=plain --line-range :500 {} \
+                        || coderay {} \
+                        || cat {}) 2> /dev/null | head -500'; }
 hdi(){ howdoi $* -c -n 3 ; }
 where() { type -a "$@"; }
 
@@ -137,14 +144,19 @@ alias dlr="dot ls-tree --full-tree HEAD --name-only -r | tree --fromfile -L 2 | 
 # -------------
 #  Environment
 # -------------
-## language
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-# commands history size
-export HISTSIZE=1000000
-# export HISTFILESIZE=2000
+export HISTSIZE=100000
+export SAVEHIST=10000
 export HISTIGNORE='pwd:exit:fg:bg:top:clear:history:ls:uptime:df'
-# use bat as colorizing pager for `man`
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# fzf
+export FZF_DEFAULT_COMMAND="fd --hidden --exclude={.git,.idea,.vscode,.sass-cache,node_modules,build}"
+export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
+
 # custom executive bins
 export PATH=~/.local/bin:$PATH
+
+# Local variables
+[[ -r ~/.local_env ]] && source ~/.local_env

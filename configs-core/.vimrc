@@ -16,7 +16,8 @@ set mouse=a         " Enable the use of the mouse.
 set scrolloff=999   " Minimal number of screen lines to keep above and below the cursor.
 set relativenumber  " Show the line number relative to the line with the cursor in front of each line.
 
-map <C-n> :NERDTreeToggle<CR>
+" General setting
+:let mapleader = ","
 map <C-a> <Home>
 map <C-e> <End>
 
@@ -27,20 +28,64 @@ nnoremap yp :let @p=expand("%:p")<CR>
 nnoremap <silent> <Esc><Esc> :noh<CR>
 
 
-" Plugins
+""" Plug-related
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
 call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
 Plug 'tpope/vim-sensible'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'voldikss/vim-floaterm'
+Plug 'matze/vim-move'
+Plug 'inside/vim-search-pulse'
+Plug 'ptzz/lf.vim'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 
 " vim-floaterm
-let g:floaterm_keymap_new       = '<F7>'
-let g:floaterm_keymap_next      = '<F8>'
-let g:floaterm_keymap_kill      = '<F9>'
-let g:floaterm_keymap_toggle    = '<F12>'
+let g:floaterm_keymap_new       = '<leader>c'
+let g:floaterm_keymap_next      = '<leader>n'
+let g:floaterm_keymap_kill      = '<leader>k'
+let g:floaterm_keymap_toggle    = '<leader>t'
+
+" nerdtree
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeHijackNetrw = 0   " use lf instead
+
+" vim-move
+let g:move_key_modifier = 'S'
+let g:move_key_modifier_visualmode = 'S'
+
+" vim-search-pulse
+let g:vim_search_pulse_mode = 'pattern'
+
+" lf.vim    - <leader>f
+let g:lf_replace_netrw = 0      " use lf to open dir
+
+" fzf.vim
+"   [Files]
+nmap <C-g> :Files<CR>
+"   [Buffers]
+let g:fzf_buffers_jump = 1      " Jump to the existing window if possible
+nmap <C-e> :Buffers<CR>
+let g:fzf_action = { 'ctrl-e': 'edit' }
+"   [[B]Commits]  Customize the options used by 'git log':
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+"   [Tags]
+let g:fzf_tags_command = 'ctags -R' " Command to generate tags file
+"   [Commands]  --expect expression for directly executing the command
+let g:fzf_commands_expect = 'alt-enter,ctrl-x'
