@@ -1,4 +1,5 @@
 syntax on
+set encoding=UTF-8
 set number          " Show line numbers.
 set ruler           " Show the line and column number of the cursor position, separated by a comma.
 set ignorecase      " Ignore case in search patterns.
@@ -15,6 +16,7 @@ set incsearch       " While typing a search command, show immediately where the 
 set mouse=a         " Enable the use of the mouse.
 set scrolloff=999   " Minimal number of screen lines to keep above and below the cursor.
 set relativenumber  " Show the line number relative to the line with the cursor in front of each line.
+:set shortmess-=S   " Show matched number
 
 " General setting
 :let mapleader = ","
@@ -26,7 +28,11 @@ nnoremap yf :let @f=expand("%:t")<CR>
 nnoremap yp :let @p=expand("%:p")<CR>
 " Cancel seaching result highlight
 nnoremap <silent> <Esc><Esc> :noh<CR>
-
+" Tab navigation
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
 
 """ Plug-related
 
@@ -44,8 +50,11 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.vim/plugged')
 
 " Declare the list of plugins.
+Plug 'wincent/terminus'
 Plug 'tpope/vim-sensible'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'voldikss/vim-floaterm'
@@ -64,7 +73,13 @@ let g:floaterm_keymap_toggle    = '<leader>t'
 
 " nerdtree
 map <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeHijackNetrw = 0   " use lf instead
+"   Use lf instead to open dirs
+let g:NERDTreeHijackNetrw = 0  
+let g:NERDTreeShowHidden = 1
+"   Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+"   Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " vim-move
 let g:move_key_modifier = 'S'
