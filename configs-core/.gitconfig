@@ -38,7 +38,12 @@
 [log]
     graphColors = bold 160, blink 231 bold 239, bold 166, bold black 214, bold green, bold 24, cyan
 [alias]
-    hist = log --graph --full-history --all --pretty=format:'%C(214)%h %Creset%s %C(auto)%d %C(bold blue)<%an> %C(dim white)%cr%Creset'
+    history = log --graph --full-history --all --pretty=format:'%C(214)%h %Creset%s %C(auto)%d %C(bold blue)<%an> %C(dim white)%cr%Creset'
+    list-files = "!f() { git ls-tree -r --name-only \"${1:-HEAD}\" \
+                        | tree --fromfile -aC --dirsfirst; }; f"
+    list-files-L2 = "!f() { git ls-tree -r --full-tree --name-only \"${1:-HEAD}\" \
+                        | tree --fromfile -aC --dirsfirst -L 2; }; f"
+    list-changes = "!f() { git diff --name-status \"${1:-HEAD}^\" \"${1:-HEAD}\"; }; f"
     unadd = reset HEAD
 [filter "lfs"]
 	required = true

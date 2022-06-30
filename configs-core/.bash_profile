@@ -95,8 +95,8 @@ where() { type -a "$@"; }
 #  Aliases
 # ---------
 
-alias ..="cd .."
-alias ...="cd ..; cd .."
+alias ..="\cd .."
+alias ...="\cd ..; \cd .."
 alias ls="exa"
 alias lh="ls -a"
 alias ll="exa -laFm --git --time-style iso --group-directories-first"
@@ -125,21 +125,18 @@ alias scp='noglob scp'
 
 # git alias
 alias ga="git add"
-alias gc="git commit"
+alias gau="git add -u"
+alias gc="git commit -v -m"
+alias gca="git commit -v --amend --no-edit"
 alias gco="git checkout"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gds="git diff --staged"
 alias glog="git log --oneline --decorate --graph"
+alias gloga="$glog --all"
 alias glol="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat"
 alias gst="git status --short"
-# list tracked files
-alias gl='ls --group-directories-first --color=auto -d $(git ls-tree $(git branch | grep \* | cut -d " " -f2) --name-only)'
-alias glr='git ls-tree --full-tree HEAD --name-only -r | tree --fromfile | less'
-alias glr2='git ls-tree --full-tree HEAD --name-only -r | tree --fromfile -L 2 | less'
-alias glr3='git ls-tree --full-tree HEAD --name-only -r | tree --fromfile -L 3 | less'
 
-alias dot="/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
-alias da="dot add"
-alias dst="dot status --short"
-alias dlr="dot ls-tree --full-tree HEAD --name-only -r | tree --fromfile -L 2 | less"
 
 # -------------
 #  Environment
