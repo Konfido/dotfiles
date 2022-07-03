@@ -3,14 +3,13 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "homebrew/services"
-tap "yqrashawn/goku"
+
 
 brew "aria2"
 brew "automake"
-# brew "bash-completion"
+brew "bash-completion"
 brew "bat"
 brew "cmake"
-brew "coreutils", link: false
 brew "curl"
 brew "docker", link: false
 brew "duf"
@@ -25,17 +24,14 @@ brew "git-delta"
 brew "git-flow"
 brew "glib"
 brew "glow"
-brew "gnu-getopt"
-brew "gnu-sed"
 brew "gnupg"
 brew "gnutls"
-brew "goku"
+brew "highlight"
 brew "httpie"
 brew "hexyl"
 brew "htop"
 brew "jq"
-brew "lf"
-brew "mackup"
+brew "lf", args: ["-s"]
 brew "mas"
 brew "mpv"
 brew "ocrmypdf"
@@ -47,39 +43,9 @@ brew "shellcheck"
 brew "tesseract"
 brew "tesseract-lang"
 brew "tldr"
-brew "tree"
-brew "transcrypt"
+# brew "transcrypt"
 brew "vim"
-brew "watch"
 brew "zplug"
 
-cask "basictex"
-cask "bob"
-cask "corelocationcli"
-cask "docker"
-cask "dozer"
-#cask "fig"
-#cask "font-hack-nerd-font"
-cask "go2shell"
-cask "google-chrome"
-cask "iina"
-cask "iterm2"
-cask "imageoptim"
-cask "keycastr"
-cask "mounty"
-cask "obsidian"
-cask "qlstephen"
-cask "rectangle"
-cask "squirrel"
-cask "stats"
-cask "visual-studio-code"
-cask "zotero"
 
-mas "Scopie", id: 1027457763
-mas "The Unarchiver", id: 425424353
-mas "EasyRes", id: 688211836
-mas "Downlink", id: 1454269192
-mas "Xnip", id: 1221250572
-mas "WPS Office", id: 1443749478
-mas "Edison Mail", id: 1489591003
-mas "Ethernet Status", id: 1186187538
+cask "font-hack-nerd-font"

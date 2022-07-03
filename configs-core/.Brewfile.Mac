@@ -1,0 +1,38 @@
+tap "yqrashawn/goku"
+
+brew "coreutils", link: false
+brew "gnu-getopt"
+brew "gnu-sed"
+brew "goku"
+brew "tree"
+brew "watch"
+
+cask "basictex"
+cask "bob"
+cask "corelocationcli"
+cask "docker"
+cask "dozer"
+cask "go2shell"
+cask "google-chrome"
+cask "iina"
+cask "iterm2"
+cask "imageoptim"
+cask "keycastr"
+cask "mounty"
+cask "obsidian"
+cask "qlstephen"
+cask "rectangle"
+cask "squirrel"
+cask "stats"
+cask "visual-studio-code"
+cask "zotero"
+
+
+mas "Scopie", id: 1027457763
+mas "The Unarchiver", id: 425424353
+mas "EasyRes", id: 688211836
+mas "Downlink", id: 1454269192
+mas "Xnip", id: 1221250572
+mas "WPS Office", id: 1443749478
+mas "Edison Mail", id: 1489591003
+mas "Ethernet Status", id: 1186187538
