@@ -32,7 +32,6 @@ brew "hexyl"
 brew "htop"
 brew "jq"
 brew "lf", args: ["-s"]
-brew "mas"
 brew "mpv"
 brew "ocrmypdf"
 brew "pandoc"

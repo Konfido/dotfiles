@@ -4,6 +4,7 @@ brew "coreutils", link: false
 brew "gnu-getopt"
 brew "gnu-sed"
 brew "goku"
+brew "mas"
 brew "tree"
 brew "watch"
 
