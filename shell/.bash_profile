@@ -18,7 +18,7 @@ case $_myos in
         # alias ls='lsd --group-dirs first'
         # alias stat="stat -x -t '%F %T'"
         alias stat="stat -f 'Type: %HT%SY%n  Size: %z%n  Mode: (%Lp/%Sp)%nAccess: %Sa%nModify: %Sm%nChange: %Sc%n Birth: %SB' -t '%F %T'"
-        function vsc {
+        function vc {
             if [ -e $1 ]; then open -a Visual\ Studio\ Code $@;
             else touch $@ && open -a Visual\ Studio\ Code $@; fi }
         ;;
