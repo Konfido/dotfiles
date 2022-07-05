@@ -1,5 +1,4 @@
 [core]
-    excludesfile = /Users/dhh/.gitignore
     ignorecase = false
     pager = delta
     quotepath = false
@@ -9,6 +8,7 @@
     navigate = true
     line-numbers = true
     side-by-side = true
+
 [diff]
     colorMoved = default
     guitool = vscode
@@ -25,11 +25,6 @@
 	trustExitCode = true
 [mergetool "vscode"]
     cmd = code --wait $MERGED
-[commit]
-	template = /Users/dhh/.stCommitMsg
-
-[include]
-    path = .gitconfig.local
 
 [color "decorate"]
     HEAD = bold blink italic 196
@@ -50,3 +45,6 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+
+[include]
+    path = .gitconfig.local

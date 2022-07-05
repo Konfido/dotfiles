@@ -132,6 +132,10 @@ alias gco="git checkout"
 alias gd="git diff"
 alias gdc="git diff --cached"
 alias gds="git diff --staged"
+glist(){ git ls-tree -r --name-only "${1:-HEAD}" \
+        | tree --fromfile -aC --dirsfirst; }
+glist2(){ git ls-tree -r --name-only "${1:-HEAD}" \
+        | tree --fromfile -aC --dirsfirst -L 2; };
 alias glog="git log --oneline --decorate --graph"
 alias gloga="$glog --all"
 alias glol="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat"
