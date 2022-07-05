@@ -7,6 +7,13 @@ fi
 
 source ~/.bash_profile
 
+# Configure Homebrew's completions in zsh
+if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+    autoload -Uz compinit
+    compinit
+fi
+
 # ******************** #
 # ******* zplug ****** #
 # ******************** #
