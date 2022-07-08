@@ -40,9 +40,10 @@ fi
 # ---------
 # Functions
 # ---------
-help() { "$@" --help 2>&1 | bat --plain -l help; }
+# help() { "$@" --help 2>&1 | bat --plain -l help; }
 cs() { cd "$@" && ls ; }
 du() { /usr/bin/du -ch -d1 "$@" | sort -hr; }
+size() { du -k "$@"; }
 extract() {
     if [ -z "$1" ]; then
         # display usage if no parameters given
@@ -84,7 +85,7 @@ extract() {
     fi
 }
 iterm2_print_user_vars() { iterm2_set_user_var badge $ITERM2_BADGE; }
-fzf() { "$(brew --prefix)/bin/fzf" --preview '(highlight -O ansi -l {} \
+fzf() { "$HOME/.fzf/bin/fzf" --preview '(highlight -O ansi -l {} \
                         || bat -f --style=plain --line-range :500 {} \
                         || coderay {} \
                         || cat {}) 2> /dev/null | head -500'; }
@@ -157,7 +158,7 @@ export FZF_DEFAULT_COMMAND="fd --hidden --exclude={.git,.idea,.vscode,.sass-cach
 export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
 
 # custom executive bins
-export PATH=~/.local/bin:$PATH
+export PATH=~/.local/bin:~/.local/script:$PATH
 
 # Local variables
 [[ -r ~/.local_env ]] && source ~/.local_env

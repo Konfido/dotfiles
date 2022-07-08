@@ -5,7 +5,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-source ~/.bash_profile
+# Source files
+[ -f ~/.bash_profile ] && source ~/.bash_profile
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Configure Homebrew's completions in zsh
 if type brew &>/dev/null; then
@@ -46,6 +48,10 @@ if ! zplug check --verbose; then
     zplug install
 fi
 zplug load
+
+# zsh-history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 # zsh-autosuggestions
 bindkey '^ ' autosuggest-accept

@@ -19,7 +19,7 @@ brew "fasd"
 brew "fd"
 brew "ffmpeg"
 brew "fswatch"
-brew "fzf"
+# brew "fzf", managed by vim-plug
 brew "git"
 brew "git-delta"
 brew "git-flow"
