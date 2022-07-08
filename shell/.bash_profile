@@ -127,7 +127,7 @@ alias scp='noglob scp'
 # git alias
 alias ga="git add"
 alias gau="git add -u"
-alias gc="git commit -v -m"
+alias gc="git commit -v"
 alias gca="git commit -v --amend --no-edit"
 alias gco="git checkout"
 alias gd="git diff"

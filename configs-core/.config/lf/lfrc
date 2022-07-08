@@ -65,6 +65,7 @@ map gb :git_branch
 map gs ${{clear; git status; echo "press ENTER"; read ENTER}}
 map gl ${{clear; git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit; echo "press ENTER"; read ENTER}}
 map i $LESSOPEN='| ~/.config/lf/preview.sh %s' less -R $f
+map o open $fx -a Visual\ Studio\ Code
 
 
 # BEGIN: lf-split
