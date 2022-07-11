@@ -15,7 +15,7 @@
                 }
   :layers     {
                 ;; :Spacebar-Mode  {:key :spacebar}
-                :window-tab-mode {:key :tab :condi [:!Spacebar-Mode]}
+                :Window-Mode-Tab          {:key :tab :condi [:!Spacebar-Mode]}
                 }
   :simlayers  {
                 :Launch-W-Mode  {:key :w}
@@ -23,9 +23,9 @@
                 :Vi-Cursor-V    {:key :v}
                 :Vi-Select-2    {:key :2}
                 :Vi-Arrow-3     {:key :3}
-                :Insert-Mode-Z  {:key :z}
-                :Search-Semicolon-Mode  {:key :semicolon}
-                :caps_lock-mode {:key :caps_lock}
+                :Insert-Mode-Semicolon    {:key :semicolon}
+                :Search-Mode-Alt          {:key :option}
+                :Caps_Lock-mode {:key :caps_lock}
                 :Spacebar-Mode  {:key :spacebar}
                 }
   :simlayer-threshold 200   ; exit simlayer after this
@@ -119,11 +119,11 @@
                       [:p :!!p]                     ; Upload pics using PicGo, Hyper p
                       ; [:spacebar [:2do "showAll"]]  ; Show all tasks (2do)
                       ]}
-          { :des "Search-Semicolon-Mode"
-            :rules  [ :Search-Semicolon-Mode
-                      [:e :!STCe]                     ; translate
-                      [:f :!STCf]                     ; translate selected words in Alfred
-                      [:m :!STCm]                     ; search passwrod
+          { :des "Search-Mode [alt]"
+            :rules  [ :Search-Mode-Alt
+                      ;; [:e :!STCe]                     ; translate
+                      ;; [:f :!STCf]                     ; translate selected words in Alfred
+                      ;; [:m :!STCm]                     ; search passwrod
                       ; [:v :!Ov]                     ; search clipboard history in Alfred
                       ; [:s :!OCs]                    ; search snippet (Snippetslab)
                       ]}
@@ -235,8 +235,8 @@
                       [:j   {:mkey {:vwheel -50}}]
                       [:k   {:mkey {:vwheel 50}}]
                       ]}
-          { :des "Insert-Mode"
-            :rules  [ :Insert-Mode-Z
+          { :des "Insert-Mode [semicolon]"
+            :rules  [ :Insert-Mode-Semicolon
                       [:return_or_enter [:end :!Ssemicolon :return_or_enter] :VSCode]
                       ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
                       [:h [:!Sgrave_accent_and_tilde :slash]]           ; ~/  home
@@ -247,8 +247,8 @@
                       [:c [:c :r :e :a :t :e :d]]
                       [:spacebar [:spacebar :spacebar :spacebar :spacebar]]
                       ]}
-          { :des "caps_lock-mode [mapped to ctrl]"
-            :rules  [ :caps_lock-mode
+          { :des "Caps_Lock-mode [mapped to ctrl]"
+            :rules  [ :Caps_Lock-mode
                       [:r :!Tr :Terminals]          ; ctrl r, search history
                       [:w :!Tw :Terminals]          ; ctrl w, delete the word before cursor
                       ; Universal
@@ -263,9 +263,8 @@
                       [:delete_or_backspace :!Odelete_or_backspace]
                       [:period [:escape :period] :Terminals]
                     ]}
-          { :des "Window-Manage-tab-Mode"
-           :rules   [
-                      :window-tab-mode
+          { :des "Window-Manage-Mode [tab]"
+           :rules   [ :Window-Mode-Tab
                       [:i :!TOi]            ; up
                       [:k :!TOk]            ; down
                       [:b :!TOk]
@@ -399,6 +398,7 @@
                     :macbook-internal [{:vendor_id 1452 :product_id 635 }]
                     :ikbc             [{:vendor_id 1241 :product_id 394 }]
                     :nj68             [{:vendor_id 9639 :product_id 64023}
+                                       {:vendor_id 9639 :product_id 64020}
                                        {:vendor_id 1121 :product_id 16386}]
                     :tmp_keyboard     [{:vendor_id 621  :product_id 2 }]
                     }

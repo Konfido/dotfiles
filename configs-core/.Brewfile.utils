@@ -1,0 +1,9 @@
+brew "aria2"
+brew "docker", link: false
+brew "mpv"
+brew "ocrmypdf"
+brew "pandoc"
+brew "pillow"
+brew "pdf2svg"
+brew "tesseract"
+brew "tesseract-lang"
