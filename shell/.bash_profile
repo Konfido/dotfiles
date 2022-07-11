@@ -161,7 +161,7 @@ export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --preview '(highlight -O 
 export PATH=~/.local/bin:~/.local/script:$PATH
 
 # Local variables
-[[ -r ~/.local_env ]] && source ~/.local_env
+[[ -r ~/.env.local ]] && source ~/.env.local
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

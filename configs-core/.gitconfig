@@ -1,1 +1,53 @@
-../git/.gitconfig
+[core]
+    ignorecase = false
+    pager = delta
+    quotepath = false
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    line-numbers = true
+    side-by-side = true
+
+[diff]
+    colorMoved = default
+    guitool = vscode
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+    conflictstyle = diff3
+    guitool = vscode
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+
+[color "decorate"]
+    HEAD = bold blink italic 196
+    branch = 214
+    tag = bold 222
+[log]
+    graphColors = bold 160, blink 231 bold 239, bold 166, bold black 214, bold green, bold 24, cyan
+[alias]
+    history = log --graph --full-history --all --pretty=format:'%C(214)%h %Creset%s %C(auto)%d %C(bold blue)<%an> %C(dim white)%cr%Creset'
+    list-files = "!f() { git ls-tree -r --name-only \"${1:-HEAD}\" \
+                        | tree --fromfile -aC --dirsfirst; }; f"
+    list-files-L2 = "!f() { git ls-tree -r --full-tree --name-only \"${1:-HEAD}\" \
+                        | tree --fromfile -aC --dirsfirst -L 2; }; f"
+    list-changes = "!f() { git diff --name-status \"${1:-HEAD}^\" \"${1:-HEAD}\"; }; f"
+    un-modify = checkout -- *
+    un-add = reset HEAD
+    un-commit--keep-add-change = reset --soft HEAD^
+    un-commit-add--keep-change = reset --mixed HEAD^
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+[include]
+    path = .gitconfig.local

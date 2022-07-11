@@ -10,6 +10,8 @@ brew bundle install --file=~.Brewfile
 # Hardcode the bare repo to $HOME/.cfg on every machine (easy to manage)
 # --recurse-submodules: .tmux
 git clone --recurse-submodules https://github.com/konfido/dotfiles.git $HOME/.cfg
+# ignore changes of local configs
+git update-index --skip-worktree configs.local/.*
 
 # Restore configs
 cd $HOME/.cfg
