@@ -10,7 +10,7 @@
 # (HTTP and SOCKS5 in one port)
 mixed-port: 7890
 # RESTful API for clash
-external-controller: 127.0.0.1:9090
+external-controller: 127.0.0.1:60345
 allow-lan: false
 mode: rule
 log-level: warning

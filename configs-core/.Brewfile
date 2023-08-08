@@ -37,6 +37,7 @@ brew "ripgrep"
 brew "shellcheck"
 brew "tldr"
 # brew "transcrypt"
+brew "tmux"
 brew "vim"
 brew "zplug"
 

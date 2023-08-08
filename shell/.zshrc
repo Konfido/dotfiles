@@ -38,7 +38,8 @@ zplug "lib/history", from:oh-my-zsh
 
 # the order matters: https://github.com/softmoth/zsh-vim-mode#installation
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-zplug "z-shell/F-Sy-H"
+#zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zdharma/fast-syntax-highlighting"
 zplug "b4b4r07/enhancd", use:init.sh
 zplug "softmoth/zsh-vim-mode"
 
@@ -60,6 +61,8 @@ bindkey '^ ' autosuggest-accept
 # ******************** #
 # ****** Others ****** #
 # ******************** #
+
+HISTORY_IGNORE="(ls|ll|l|la|lf|cd|cd ..|pwd)"
 
 # iTerm2 badge
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -110,3 +113,5 @@ _zlf_handler() {
     zle -R
 }
 zle -N _zlf_handler
+
+eval $(thefuck --alias)

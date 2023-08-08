@@ -91,6 +91,25 @@ fzf() { "$HOME/.fzf/bin/fzf" --preview '(highlight -O ansi -l {} \
                         || cat {}) 2> /dev/null | head -500'; }
 hdi(){ howdoi $* -c -n 3 ; }
 where() { type -a "$@"; }
+proxy_on() {
+    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+    export http_proxy="http://127.0.0.1:7890"
+    export https_proxy=$http_proxy
+    export all_proxy="socks5://127.0.0.1:7891" # or this line
+    echo -e "PROXY ON (7890)."
+}
+pproxy_on(){
+    export https_proxy=http://127.0.0.1:53081 
+    export http_proxy=http://127.0.0.1:53081 
+    export all_proxy=socks5://127.0.0.1:53081
+    echo -e "PROXY ON (53081)."
+}
+proxy_off(){
+    unset http_proxy
+    unset https_proxy
+    unset all_proxy
+    echo -e "PROXY OFF."
+}
 
 # ---------
 #  Aliases
@@ -157,11 +176,6 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export FZF_DEFAULT_COMMAND="fd --hidden --exclude={.git,.idea,.vscode,.sass-cache,node_modules,build}"
 export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
 
-# custom executive bins
-export PATH=~/.local/bin:~/.local/script:$PATH
-
-# Local variables
-[[ -r ~/.env.local ]] && source ~/.env.local
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -178,3 +192,9 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# ---- After Conda ----
+# custom executive bins
+export PATH=~/.local/bin:~/.local/script:$PATH
+# Local variables
+[[ -r ~/.env.local ]] && source ~/.env.local

@@ -18,13 +18,13 @@
                 :Window-Mode-Tab          {:key :tab :condi [:!Spacebar-Mode]}
                 }
   :simlayers  {
-                :Launch-W-Mode  {:key :w}
-                :Hyper-Q-Mode   {:key :q}
-                :Vi-Cursor-V    {:key :v}
-                :Vi-Select-2    {:key :2}
-                :Vi-Arrow-3     {:key :3}
-                :Insert-Mode-Semicolon    {:key :semicolon}
-                :Search-Mode-Alt          {:key :option}
+                :Launch-Mode    {:key :w}
+                :Hyper-Mode     {:key :q}
+                :Vi-Cursor      {:key :v}
+                :Vi-Select      {:key :2}
+                :Vi-Arrow       {:key :3}
+                :Insert-Mode    {:key :semicolon}
+                :Search-Mode    {:key :option}
                 :Caps_Lock-mode {:key :caps_lock}
                 :Spacebar-Mode  {:key :spacebar}
                 }
@@ -40,6 +40,7 @@
                     ;;          :uorder :strict_inverse
                     ;;          :afterup {:set ["vv" 0]} }}
                     ;;   [["vv" 1] :up_arrow] nil {:params {:sim 200}}]
+                    [:!Ccaps_lock :!Cescape]
                     ]}
           { :des "App-Specific customization" ; Execute with the highest priority!
             :rules  [
@@ -76,8 +77,8 @@
                       ; [:!C#Pw [:!Cw ["command-w" 0]] :iTerm2 ["command-w" 1]]
                       ; [:!C#Pw ["command-w" 1] nil {:delayed {:invoked ["command-w" 0] :canceled ["command-w" 0]}} ]
                       ]}
-          { :des "Launch-W-Mode"
-            :rules  [ :Launch-W-Mode
+          { :des "Launch-Mode [W]"
+            :rules  [ :Launch-Mode
                       [:c [:open "/Applications/Visual Studio Code.app"]]     ; Code
                       ;; [:e [:open "/Applications/Pycharm.app"]]          ; Editor
                       ;; [:e [:open "/Applications/Edison Mail.app"]]
@@ -86,6 +87,7 @@
                       ;; [:g [:open "/Applications/Safari.app"]]
                       [:k [:open "/Applications/Karabiner-EventViewer.app"]]
                       ;; [:m [:open "/Applications/Obsidian.app"]]
+                      ;; [:n :!CTn]                                            ; Floating note of Raycast
                       [:r [:open "/Applications/Reeder.app"]]
                       ;; [:t [:open "/Applications/iTerm.app"]]
                       [:t [:open "/Applications/Things3.app"]]
@@ -104,11 +106,13 @@
                       #_[:period [:open "/Applications/Paw.app"]]            ; API tool
                       #_[:b [:open "/Applications/Bee.app"]]                 ; issue tracker
                       ]}
-          { :des "Hyper-Q-Mode"
-            :rules  [ :Hyper-Q-Mode
+          { :des "Hyper-Mode [Q]"
+            :rules  [ :Hyper-Mode
                       ; App-specific            ;
                       [:d :!OSa :Browsers]          ; Toggle "Dark Reader" extension
-                      [:r :!SOc :Browsers]          ; Toggle "Read Mode" (Extension: Clearly)
+                      [:e :!TSe :Browsers]          ; Open "Session Buddy" extension
+                      [:r :!Or  :Browsers]          ; Toggle "Read Mode" (Extension: Clearly)
+                      [:t :!Oa  :Browsers]          ; Toggle "Immersive Translate" extension
                       ; Universal
                       ; [:f :!TSf]                    ; Toggle Traditional Chinese in Sougou
                       [:f :!TS4]                    ; Toggle Traditional Chinese in Squirrel
@@ -118,9 +122,10 @@
                       [:m :!!m]                     ; Hide/Show menubar icons (Dozer)
                       [:p :!!p]                     ; Upload pics using PicGo, Hyper p
                       ; [:spacebar [:2do "showAll"]]  ; Show all tasks (2do)
+                      [:8 :!!8]                     ; Menubar: ChatGPT
                       ]}
           { :des "Search-Mode [alt]"
-            :rules  [ :Search-Mode-Alt
+            :rules  [ :Search-Mode
                       ;; [:e :!STCe]                     ; translate
                       ;; [:f :!STCf]                     ; translate selected words in Alfred
                       ;; [:m :!STCm]                     ; search passwrod
@@ -150,7 +155,8 @@
                       [:s :!TSs             :Browsers]  ; Toggle Octotree
                       [:b :!SCb             :Browsers]  ; hide/show bookmark bar
                       [:d :!OSt             :Browsers]  ; Toggle TOC
-                      [:r :!Or              :Browsers]  ; Activate Clearly Reader
+                      ;; [:r :!Or              :Browsers]  ; Activate Clearly Reader
+                      [:w :!Cm              :Browsers]  ; Minimize
 
                       [:1 :!TStab           :Finder]
                       [:2 :!Ttab            :Finder]
@@ -166,15 +172,16 @@
                       [:c :!CT3             :ForkLift]  ; Sort by time.create
                       [:m :!CT4             :ForkLift]  ; Sort by time.modify
 
-                      [:s :!CSOs            :inna]      ; Rotate 0°
-                      [:d :!CSOd            :inna]      ; Rotate 90°
+                      [:a :!CSOa            :inna]      ; Rotate 0°
+                      [:s :!CSOs            :inna]      ; Rotate 90°
+                      [:d :!CSOd            :inna]      ; Rotate 180°
                       [:f :!CSOf            :inna]      ; Rotate 270°
 
                       [:d [:t :r]           :Logseq]
                       [:s [:t :l]           :Logseq]
 
-                      [:s :!OSl             :Obsidian]  ; Toggle left Sidebar
-                      [:d :!OSr             :Obsidian]  ; Toggle right Sidebar
+                      [:s :!TOSl            :Obsidian]  ; Toggle left Sidebar
+                      [:d :!TOSr            :Obsidian]  ; Toggle right Sidebar
                       [:r :!CTr             :Obsidian]  ; Random note
                       [:e :!CTOr            :Obsidian]  ; Random note from search
                       [:h :!CTh             :Obsidian]  ; Headings
@@ -236,7 +243,7 @@
                       [:k   {:mkey {:vwheel 50}}]
                       ]}
           { :des "Insert-Mode [semicolon]"
-            :rules  [ :Insert-Mode-Semicolon
+            :rules  [ :Insert-Mode
                       [:return_or_enter [:end :!Ssemicolon :return_or_enter] :VSCode]
                       ;[:comma ["period-comma-mode" 1] nil {:alone :comma :afterup ["period-comma-mode" 0]}]
                       [:h [:!Sgrave_accent_and_tilde :slash]]           ; ~/  home
@@ -262,6 +269,7 @@
                       [:w :!Odelete_or_backspace]   ; ctrl w, delete a word
                       [:delete_or_backspace :!Odelete_or_backspace]
                       [:period [:escape :period] :Terminals]
+                      ;; [:return_or_enter :!Treturn_or_enter]]
                     ]}
           { :des "Window-Manage-Mode [tab]"
            :rules   [ :Window-Mode-Tab
@@ -296,7 +304,7 @@
                       ]}
           { :des "Vi-Mode"
             :rules  [
-                      :Vi-Cursor-V
+                      :Vi-Cursor
                       [:i :f20]                       ; avoid mistake
                       [:j :down_arrow]                ; down
                       [:k :up_arrow]                  ; up
@@ -304,15 +312,15 @@
                       [:l :right_arrow]               ; right
                       [:b :!Oleft_arrow]              ; beginning of word
                       [:n :!Oright_arrow]             ; end of word
-                      [:u :!Ta]                       ; beginning of sentence
-                      [:o :!Te]                       ; end of sentence
+                      [:u :!Cleft_arrow]              ; beginning of sentence
+                      [:o :!Cright_arrow]             ; end of sentence
                       [:z :!Cz]                       ; undo
                       [:d :delete_or_backspace]       ; delete
                       [:s :!Odelete_or_backspace]     ; delete word
                       [:w :!Cdelete_or_backspace]     ; delete whole line
                       [:left_command :return_or_enter]; enter
 
-                      :Vi-Select-2
+                      :Vi-Select
                       [:i :f20]                       ; avoid mistake
                       [:j :!Sdown_arrow]              ; down
                       [:k :!Sup_arrow]                ; up
@@ -323,14 +331,14 @@
                       [:u :!CSleft_arrow]             ; beginning of sentence
                       [:o :!CSright_arrow]            ; end of sentence
 
-                      :Vi-Arrow-3
+                      :Vi-Arrow
                       [:h :f20]
                       [:k {:mkey {:y 1500}}]          ; mouse-cursor
                       [:i {:mkey {:y -1500}}]
                       [:j {:mkey {:x -1800}}]
                       [:l {:mkey {:x 1800}}]
-                      [:e {:mkey {:speed 0.5}}]       ; slower
-                      [:r {:mkey {:speed 2.5}}]       ; faster
+                      [:r {:mkey {:speed 0.5}}]       ; slower
+                      [:t {:mkey {:speed 2.5}}]       ; faster
                       [:u :button1]                   ; left click
                       [:o :button2]                   ; right click
                     ]}
