@@ -40,7 +40,7 @@
                     ;;          :uorder :strict_inverse
                     ;;          :afterup {:set ["vv" 0]} }}
                     ;;   [["vv" 1] :up_arrow] nil {:params {:sim 200}}]
-                    [:!Ccaps_lock :!Cescape]
+
                     ]}
           { :des "App-Specific customization" ; Execute with the highest priority!
             :rules  [
@@ -59,7 +59,7 @@
                       ]}
           { :des "Swaping OR Simultaneous"
             :rules  [ ;; Swaping
-                      [:grave_accent_and_tilde [:!COspacebar :grave_accent_and_tilde :!COspacebar] [:cn :!nj68]] ; Pinyin Input
+                      [:grave_accent_and_tilde [:!COspacebar :grave_accent_and_tilde :!COspacebar] [:cn :!nj68]] ; To input the grave accent under Pinyin Input method
                       [:escape                 [:!COspacebar :grave_accent_and_tilde :!COspacebar] [:cn :nj68]]
                       [:grave_accent_and_tilde  :escape :nj68]       ; Swap escape with grave accent
                       [:right_option            :fn     :nj68]
@@ -87,14 +87,15 @@
                       ;; [:g [:open "/Applications/Safari.app"]]
                       [:k [:open "/Applications/Karabiner-EventViewer.app"]]
                       ;; [:m [:open "/Applications/Obsidian.app"]]
-                      ;; [:n :!CTn]                                            ; Floating note of Raycast
+                      [:n :!CTn]                                            ; Raycast: Floating note
                       [:r [:open "/Applications/Reeder.app"]]
                       ;; [:t [:open "/Applications/iTerm.app"]]
                       [:t [:open "/Applications/Things3.app"]]
                       [:v [:open "/Applications/WeChat.app"]]
                       [:y [:open "/Applications/Nutstore.app"]]
 
-                      [:tab [:open "/Applications/Google Chrome.app"]]
+                      ;; [:tab [:open "/Applications/Google Chrome.app"]]
+                      [:tab [:open "/Applications/Arc.app"]]
                       [:caps_lock [:open "/Applications/Firefox.app"]]
                       [:comma [:open "/Applications/System Preferences.app"]]
                       ;; [:semicolon [:open "/Applications/Safari.app"]]
@@ -109,6 +110,7 @@
           { :des "Hyper-Mode [Q]"
             :rules  [ :Hyper-Mode
                       ; App-specific            ;
+                      [:b :!CSe :Browsers]          ; Activate "Raindrp.io" extension
                       [:d :!OSa :Browsers]          ; Toggle "Dark Reader" extension
                       [:e :!TSe :Browsers]          ; Open "Session Buddy" extension
                       [:r :!Or  :Browsers]          ; Toggle "Read Mode" (Extension: Clearly)
@@ -149,13 +151,14 @@
                       [:!Oopen_bracket          :!OSvolume_down]    ; 1/4 volume down
                       [:!Oclose_bracket         :!OSvolume_up]      ; 1/4 volume up
                       [:left_control  [:!CO8 ["zoom-display" 1]]]   ; Zoom
-                      [:comma         [:open "/System/Applications/System Preferences.app"]]
+                      [:comma         [:open "/System/Applications/System Settings.app"]]
+                      ;; [:comma         [:open "/System/Applications/System Preferences.app"]]
 
                       ; App-specific
-                      [:s :!TSs             :Browsers]  ; Toggle Octotree
-                      [:b :!SCb             :Browsers]  ; hide/show bookmark bar
+                      [:s :!TSs             :Browsers]  ; Toggle Sidebar/Octotree
+                      ;; [:b :!CSb             :Browsers]  ; hide/show bookmark bar
+                      [:b :!CSe             :Browsers]       ; Add bookmark (Raindrop)
                       [:d :!OSt             :Browsers]  ; Toggle TOC
-                      ;; [:r :!Or              :Browsers]  ; Activate Clearly Reader
                       [:w :!Cm              :Browsers]  ; Minimize
 
                       [:1 :!TStab           :Finder]
@@ -347,19 +350,21 @@
                       ;; [:left_shift :left_shift :squirrel {:alone :TS2}]
                       ;; [:left_shift :left_shift nil {:alone :!COspacebar}]  ; switch input source
                       [:caps_lock :left_control :zoom-display {:afterup ["zoom-display" 0] :alone :!CO8}]
-                      [:caps_lock :left_control nil {:alone :escape}]       ; escape && jump out of inputting
+                      [:##caps_lock :left_control nil {:alone :escape}]       ; escape && jump out of inputting
                       ;; [:left_command :left_command nil {:alone :!Ow}]       ; Moom
                       ]}
                       ]
   :applications   {
                     :2do        [ "^com\\.guidedways\\.TodoMac" ]
+                    :Arc        [ "^company\\.thebrowser\\.Browser"]
                     :Alfred     [ "com\\.runningwithcrayons\\.Alfred-Preferences"]
-                    :Browsers   [ "^org\\.mozilla\\.firefox$"
+                    :Browsers   [ "^com\\.apple\\.Safari$"
                                   "^com\\.google\\.Chrome$"
                                   "^com\\.google\\.Chrome\\.canary$"
-                                  "^com\\.apple\\.Safari$"
                                   "^com\\.microsoft\\.edgemac"
-                                  "^com\\.vivaldi\\.Vivaldi"]
+                                  "^com\\.vivaldi\\.Vivaldi"
+                                  "^company\\.thebrowser\\.Browser"
+                                  "^org\\.mozilla\\.firefox$"]
                     :Chrome     [ "^com\\.google\\.Chrome$"
                                   "^com\\.google\\.Chrome\\.canary$"]
                     :Finder     [ "^com\\.apple\\.finder$"  ]
@@ -372,6 +377,7 @@
                     :Obsidian   [ "md.obsidian"]
                     :Preview    [ "^com\\.apple\\.Preview"  ]
                     :Pycharm    [ "com\\.jetbrains\\.pycharm"]
+                    :Raycast    [ "com\\.raycast\\.macos" ]
                     :Reminders  [ "com\\.apple\\.reminders"]
                     :Safari     [ "^com\\.apple\\.Safari$"  ]
                     :Spotify    [ "^com\\.google\\.Chrome\\.app\\.Default-pjibgclleladliembfgfagdaldikeohf"]
@@ -403,11 +409,9 @@
                                 :language         "zh-Hans"}
                     }
   :devices        {
-                    :macbook-internal [{:vendor_id 1452 :product_id 635 }]
+                    :macbook_builtin  [{:vendor_id 1452 :product_id 635 }]
                     :ikbc             [{:vendor_id 1241 :product_id 394 }]
-                    :nj68             [{:vendor_id 9639 :product_id 64023}
-                                       {:vendor_id 9639 :product_id 64020}
-                                       {:vendor_id 1121 :product_id 16386}]
+                    :nj68             [{:vendor_id 1121 :product_id 16386}]
                     :tmp_keyboard     [{:vendor_id 621  :product_id 2 }]
                     }
 }

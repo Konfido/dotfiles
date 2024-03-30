@@ -2,6 +2,7 @@
     ignorecase = false
     pager = delta
     quotepath = false
+    excludesfile = ~/.gitignore
 [interactive]
     diffFilter = delta --color-only
 [delta]
